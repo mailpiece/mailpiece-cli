@@ -84,12 +84,12 @@ func TestJourneyShowCountsItsEmails(t *testing.T) {
 }
 
 func TestJourneyEmailDeactivateAnswersNoBody(t *testing.T) {
-	mock, result := mockTest(t)
+	mock, _ := mockTest(t)
 	mock.DeleteResponse = &APIResponse{StatusCode: 204}
 
 	_, err := runCobraWithArgs("journey", "email", "deactivate", "subscriber_confirmed", "e1")
 	assertExitCode(t, err, 0)
-	if data := responseDataMap(t, result); data["deactivated"] != true || data["id"] != "e1" {
+	if data := responseDataMap(t, lastResult); data["deactivated"] != true || data["id"] != "e1" {
 		t.Errorf("expected a deactivation, got %#v", data)
 	}
 }
