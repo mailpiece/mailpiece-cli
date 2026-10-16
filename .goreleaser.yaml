@@ -1,15 +1,25 @@
-project_name: mailpiece
-
 version: 2
 
+project_name: mailpiece
+
+before:
+  hooks:
+    - go mod tidy
+    - rm -rf completions
+    - mkdir completions
+    - sh -c "go run ./cmd/mailpiece completion bash > completions/mailpiece.bash"
+    - sh -c "go run ./cmd/mailpiece completion zsh > completions/mailpiece.zsh"
+    - sh -c "go run ./cmd/mailpiece completion fish > completions/mailpiece.fish"
+
 builds:
-  - main: ./cmd/{{ .ProjectName }}
-    binary: "{{ .ProjectName }}"
+  - id: mailpiece
+    main: ./cmd/mailpiece
+    binary: mailpiece
     env:
       - CGO_ENABLED=0
     goos:
-      - darwin
       - linux
+      - darwin
       - windows
     goarch:
       - amd64
@@ -20,14 +30,18 @@ builds:
     ldflags:
       - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
 
-universal_binaries:
-  - replace: true
-
 archives:
-  - format: tar.gz
+  - id: default
+    ids: [mailpiece]
+    formats: [tar.gz]
     format_overrides:
       - goos: windows
-        format: zip
+        formats: [zip]
+    files:
+      - MIT-LICENSE
+      - README.md
+      - completions/*
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 checksum:
   name_template: checksums.txt
@@ -36,62 +50,45 @@ checksum:
 signs:
   - cmd: cosign
     artifacts: checksum
+    output: true
+    signature: "${artifact}.bundle"
     args:
       - sign-blob
-      - "--yes"
-      - "--output-signature=${signature}"
-      - "${artifact}"
-
-sboms:
-  - artifacts: archive
-
-# macOS notarization: requires Apple Developer credentials.
-# Set GORELEASER_NOTARIZE_MACOS=true and configure notarytool credentials
-# in CI to enable. See: https://goreleaser.com/customization/notarize/
-notarize:
-  macos:
-    - enabled: '{{ isEnvSet "GORELEASER_NOTARIZE_MACOS" }}'
-      sign:
-        certificate: "{{.Env.MACOS_SIGN_P12}}"
-        password: "{{.Env.MACOS_SIGN_PASSWORD}}"
-      notarize:
-        issuer_id: "{{.Env.MACOS_NOTARY_ISSUER_ID}}"
-        key_id: "{{.Env.MACOS_NOTARY_KEY_ID}}"
-        key: "{{.Env.MACOS_NOTARY_KEY}}"
-
-release:
-  draft: false
-  prerelease: auto
-  name_template: "{{ .ProjectName }} v{{ .Version }}"
-  header: |
-    ### Install
-
-    ```
-    brew install mailpiece/tap/{{ .ProjectName }}
-    ```
-
-    Or download a binary from the assets below.
-
-brews:
-  - repository:
-      owner: mailpiece
-      name: homebrew-tap
-      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
-    homepage: "https://github.com/mailpiece/{{ .ProjectName }}-cli"
-    description: "{{ .ProjectName }} CLI"
-    license: MIT
-    skip_upload: auto
-
-scoops:
-  - repository:
-      owner: mailpiece
-      name: scoop-bucket
-    homepage: "https://github.com/mailpiece/{{ .ProjectName }}-cli"
-    description: "{{ .ProjectName }} CLI"
-    license: MIT
-
-# AUR publishing is handled by scripts/publish-aur.sh in CI.
-# See: https://wiki.archlinux.org/title/AUR_submission_guidelines
+      - --yes
+      - --new-bundle-format=true
+      - --bundle=${signature}
+      - ${artifact}
 
 changelog:
   use: github-native
+
+release:
+  prerelease: auto
+  # Keep prerelease tags out of GitHub's latest release, which install.sh reads.
+  make_latest: "{{ if .Prerelease }}false{{ else }}auto{{ end }}"
+
+homebrew_casks:
+  - name: mailpiece
+    ids: [default]
+    # Do not update the tap for prerelease tags.
+    skip_upload: auto
+    repository:
+      owner: mailpiece
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    directory: Casks
+    homepage: "https://github.com/mailpiece/mailpiece-cli"
+    description: "Write, publish and mail a Mailpiece newsletter from the command line"
+    license: "MIT"
+    completions:
+      bash: "completions/mailpiece.bash"
+      zsh: "completions/mailpiece.zsh"
+      fish: "completions/mailpiece.fish"
+    # The binary is not signed or notarized, so macOS would refuse to run it
+    # while it carries the quarantine flag Homebrew sets.
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/mailpiece"]
+          end

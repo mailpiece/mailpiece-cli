@@ -6,6 +6,19 @@ posts and its subscribers.
 ## Install
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/mailpiece/mailpiece-cli/main/scripts/install.sh | bash
+```
+
+The installer downloads the latest release for your platform, checks it against the release's
+checksums and puts `mailpiece` in `~/.local/bin` (or `$MAILPIECE_BIN_DIR`). With Homebrew:
+
+```bash
+brew install --cask mailpiece/tap/mailpiece
+```
+
+From a checkout, for development:
+
+```bash
 make build        # ./bin/mailpiece
 ```
 

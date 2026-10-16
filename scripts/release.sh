@@ -1,107 +1,71 @@
 #!/usr/bin/env bash
-# Usage: scripts/release.sh VERSION [--dry-run]
-#   VERSION: semver without v prefix (e.g. 0.2.0)
+# Usage: scripts/release.sh VERSION   (or VERSION=v0.2.0 make release; DRY_RUN=1 to stop before tagging)
 #
-# Validates, tags, and pushes to trigger the release workflow.
+# Checks main, runs make release-check, then tags and pushes vX.Y.Z, which starts
+# .github/workflows/release.yml.
 
 set -euo pipefail
 
-# --- Colors ---
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BOLD='\033[1m'
-RESET='\033[0m'
+VERSION="${1:-${VERSION:-}}"
+DRY_RUN="${DRY_RUN:-0}"
 
-info()  { echo -e "${GREEN}==>${RESET} ${BOLD}$*${RESET}"; }
-warn()  { echo -e "${YELLOW}WARNING:${RESET} $*"; }
-error() { echo -e "${RED}ERROR:${RESET} $*" >&2; }
-die()   { error "$@"; exit 1; }
-
-# --- Args ---
-VERSION="${1:-}"
-DRY_RUN="${DRY_RUN:-false}"
-if [[ "$*" == *"--dry-run"* ]]; then
-  DRY_RUN=true
-fi
-
-if [[ -z "${VERSION}" ]]; then
-  echo "Usage: scripts/release.sh VERSION [--dry-run]"
-  echo "  VERSION: semver without v prefix (e.g. 0.2.0)"
+if [ -z "$VERSION" ]; then
+  echo "Usage: scripts/release.sh VERSION"
+  echo "       VERSION=v0.2.0 make release"
   exit 1
 fi
 
-# --- Validate version format ---
-if [[ ! "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$ ]]; then
-  die "Invalid version format: ${VERSION} (expected semver, no v prefix)"
+TAG="v${VERSION#v}"
+
+if ! echo "$TAG" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$'; then
+  echo "ERROR: Invalid version '$VERSION' (expected vX.Y.Z or vX.Y.Z-suffix)"
+  exit 1
 fi
 
-TAG="v${VERSION}"
-
-if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "1" ]]; then
-  info "Dry run: no tags will be created or pushed"
-  echo ""
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$CURRENT_BRANCH" != "main" ]; then
+  echo "ERROR: Not on main (currently on $CURRENT_BRANCH)"
+  exit 1
 fi
 
-# --- Verify branch ---
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [[ "${BRANCH}" != "main" ]]; then
-  die "Must be on main branch (currently on ${BRANCH})"
+if [ -n "$(git status --porcelain)" ]; then
+  echo "ERROR: Working tree is not clean"
+  git status --short
+  exit 1
 fi
 
-# --- Verify clean tree ---
-if [[ -n "$(git status --porcelain)" ]]; then
-  die "Working tree is dirty. Commit or stash changes first."
-fi
-
-# --- Verify synced with remote ---
-git fetch origin main --quiet
+git fetch origin main --tags --quiet
 LOCAL=$(git rev-parse HEAD)
 REMOTE=$(git rev-parse origin/main)
-if [[ "${LOCAL}" != "${REMOTE}" ]]; then
-  die "Local main (${LOCAL:0:7}) is not synced with origin/main (${REMOTE:0:7}). Pull or push first."
+if [ "$LOCAL" != "$REMOTE" ]; then
+  echo "ERROR: Local main is not in sync with origin"
+  echo "  Local:  $LOCAL"
+  echo "  Remote: $REMOTE"
+  exit 1
 fi
 
-# --- Verify no replace directives ---
-if grep -q '^[[:space:]]*replace[[:space:]]' go.mod; then
-  die "go.mod contains replace directives. Remove them before releasing."
+if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+  echo "ERROR: Tag $TAG already exists"
+  exit 1
 fi
 
-# --- Run pre-flight checks ---
-info "Running release checks"
+echo "Release preflight for $TAG"
+echo "  Commit: $LOCAL"
+echo ""
+echo "Running release-check..."
 make release-check
 
-# --- Fetch tags to ensure we see remote state ---
-git fetch origin --tags --quiet
-
-# --- Handle tag ---
-if git rev-parse "${TAG}" >/dev/null 2>&1; then
-  EXISTING_SHA=$(git rev-parse "${TAG}^{commit}")
-  if [[ "${EXISTING_SHA}" == "${LOCAL}" ]]; then
-    info "Tag ${TAG} already exists at HEAD"
-  else
-    die "Tag ${TAG} already exists at ${EXISTING_SHA:0:7} (not HEAD). Delete it first or choose a different version."
-  fi
-else
-  info "Creating tag ${TAG}"
-  if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "1" ]]; then
-    echo "  (skipped: dry run)"
-  else
-    git tag -a "${TAG}" -m "Release ${TAG}"
-  fi
+if [ "$DRY_RUN" = "1" ] || [ "$DRY_RUN" = "true" ]; then
+  echo ""
+  echo "DRY RUN complete. No tag created."
+  exit 0
 fi
 
-# --- Push tag ---
-info "Pushing ${TAG} to origin"
-if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "1" ]]; then
-  echo "  (skipped: dry run)"
-else
-  git push origin "${TAG}"
-fi
+echo ""
+echo "Creating tag $TAG..."
+git tag -a "$TAG" -m "Release $TAG"
+git push origin "$TAG"
 
-# --- Done ---
 echo ""
-info "Release ${TAG} triggered"
-echo ""
-echo "  Actions: https://github.com/mailpiece/mailpiece-cli/actions"
-echo "  Release: https://github.com/mailpiece/mailpiece-cli/releases/tag/${TAG}"
+echo "Released $TAG"
+echo "GitHub Actions will build and publish it: https://github.com/mailpiece/mailpiece-cli/actions"
