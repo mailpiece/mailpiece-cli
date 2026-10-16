@@ -233,11 +233,13 @@ var journeyEmailDeactivateCmd = &cobra.Command{
 		if err := requireAuthAndAccount(); err != nil {
 			return err
 		}
-		data, _, err := mailpiece.NewJourneysService(getSDK()).DeactivateEmail(cmd.Context(), args[0], args[1])
-		if err != nil {
+		if _, err := mailpiece.NewJourneysService(getSDK()).DeactivateEmail(cmd.Context(), args[0], args[1]); err != nil {
 			return convertSDKError(err)
 		}
-		printMutation(normalizeAny(data), "", nil)
+		breadcrumbs := []Breadcrumb{
+			breadcrumb("activate", fmt.Sprintf("mailpiece journey email activate %s %s", args[0], args[1]), "Switch the email on"),
+		}
+		printMutation(map[string]any{"deactivated": true, "id": args[1]}, "", breadcrumbs)
 		return nil
 	},
 }

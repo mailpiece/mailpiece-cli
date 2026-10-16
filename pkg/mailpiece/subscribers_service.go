@@ -67,10 +67,11 @@ func (s *SubscribersService) Delete(ctx context.Context, subscriberID string) (*
 	return sendBare(ctx, s.client, "DELETE", nil, "/subscribers/%s.json", subscriberID)
 }
 
-// Deactivate stops mailing a subscriber. The app refuses, with a 403 that says
-// why, one that unsubscribed or bounced.
-func (s *SubscribersService) Deactivate(ctx context.Context, subscriberID string) (*Subscriber, *Response, error) {
-	return send[Subscriber](ctx, s.client, "DELETE", nil, "/subscribers/%s/activation.json", subscriberID)
+// Deactivate stops mailing a subscriber. It answers 204 with no body when
+// stopped or already stopped, and refuses, with a 403 that says why, one that
+// unsubscribed or bounced.
+func (s *SubscribersService) Deactivate(ctx context.Context, subscriberID string) (*Response, error) {
+	return sendBare(ctx, s.client, "DELETE", nil, "/subscribers/%s/activation.json", subscriberID)
 }
 
 // Activate resumes a subscriber an admin stopped. It undoes neither an
@@ -78,4 +79,21 @@ func (s *SubscribersService) Deactivate(ctx context.Context, subscriberID string
 // the person, and 200 when it changed nothing.
 func (s *SubscribersService) Activate(ctx context.Context, subscriberID string) (*Subscriber, *Response, error) {
 	return send[Subscriber](WithIdempotent(ctx), s.client, "POST", nil, "/subscribers/%s/activation.json", subscriberID)
+}
+
+// Bounce marks a subscriber bounced, so it is no longer mailed. Only the person
+// undoes it, by subscribing again. One already bounced is answered the same,
+// 204 either way.
+func (s *SubscribersService) Bounce(ctx context.Context, subscriberID string) (*Response, error) {
+	return sendBare(WithIdempotent(ctx), s.client, "POST", nil, "/subscribers/%s/bounce.json", subscriberID)
+}
+
+// BounceAddress marks bounced the subscriber with an address, as Bounce does.
+// It answers 204 when marked or already bounced, and 404 when no subscriber
+// has the address.
+func (s *SubscribersService) BounceAddress(ctx context.Context, req *BounceAddressRequest) (*Response, error) {
+	if req.EmailAddress == "" {
+		return nil, ErrUsage("A bounce needs an email address")
+	}
+	return sendBare(WithIdempotent(ctx), s.client, "POST", req, "/subscribers/bounces.json")
 }

@@ -56,12 +56,6 @@ type SubscribeFormRequest struct {
 	SubscriptionReturnURL string `json:"subscription_return_url"`
 }
 
-// Bounces is account/bounces/show.json.jbuilder: the address to give the mail server, which posts
-// its bounces there.
-type Bounces struct {
-	WebhookURL string `json:"webhook_url"`
-}
-
 // JoinCode is account/join_codes/show.json.jbuilder: the code a person uses to join the
 // newsletter's team, good while it has been used fewer times than its limit.
 type JoinCode struct {

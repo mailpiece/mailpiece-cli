@@ -77,12 +77,13 @@ func (s *JourneysService) ActivateEmail(ctx context.Context, trigger, emailID st
 	return send[JourneyEmail](WithIdempotent(ctx), s.client, "POST", nil, "/journeys/%s/emails/%s/activation.json", trigger, emailID)
 }
 
-// DeactivateEmail switches an email off: it is a draft again and is mailed to nobody.
-func (s *JourneysService) DeactivateEmail(ctx context.Context, trigger, emailID string) (*JourneyEmail, *Response, error) {
+// DeactivateEmail switches an email off: it is a draft again and is mailed to nobody. The
+// endpoint answers 204 with no body.
+func (s *JourneysService) DeactivateEmail(ctx context.Context, trigger, emailID string) (*Response, error) {
 	if err := checkJourneyTrigger(trigger); err != nil {
-		return nil, nil, err
+		return nil, err
 	}
-	return send[JourneyEmail](ctx, s.client, "DELETE", nil, "/journeys/%s/emails/%s/activation.json", trigger, emailID)
+	return sendBare(ctx, s.client, "DELETE", nil, "/journeys/%s/emails/%s/activation.json", trigger, emailID)
 }
 
 // TestEmail mails one copy of an email to an address, or to the signed-in person's own. The

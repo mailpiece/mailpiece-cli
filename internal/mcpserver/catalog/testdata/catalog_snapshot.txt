@@ -418,6 +418,7 @@ ACTIONS (RO = read-only):
   "method": "DELETE",
   "path": "/journeys/{trigger}/emails/{email_id}/activation",
   "summary": "Switch an email off: it is a draft again and is mailed to nobody",
+  "doc": "The app answers 204 with no body; read the email with get_journey_email to see it.",
   "readonly": false,
   "idempotent": true,
   "destructive": false,
@@ -644,13 +645,12 @@ ACTIONS (RO = read-only):
 }
 ==== TOOL mailpiece_settings ====
 title: Mailpiece Settings
-Mailpiece settings: the newsletter's own configuration, each part a record of its own. Its name, description and language; the handle it answers at; who its mail is from; where its embedded subscription form sends a person back to; where the mail server reports bounces; the code people join its team with; and whether the signed-in admin is emailed about new subscribers. Admins only.
+Mailpiece settings: the newsletter's own configuration, each part a record of its own. Its name, description and language; the handle it answers at; who its mail is from; where its embedded subscription form sends a person back to; the code people join its team with; and whether the signed-in admin is emailed about new subscribers. Admins only.
 
 Gateway tool: call with {"action": "...", "params": {...}}.
 Call {"action": "describe", "params": {"action": "NAME"}} for an action's full parameter schema.
 
 ACTIONS (RO = read-only):
-- get_bounces (RO): Get the webhook address to give the mail server, which reports bounces there
 - get_handle (RO): Get the handle the newsletter answers at beside its number, null while it has none
 - get_join_code (RO): Get the code people join the newsletter's team with, its link, and how often it has been used
 - get_newsletter (RO): Get the newsletter's name, description and language
@@ -670,7 +670,6 @@ ACTIONS (RO = read-only):
   "properties": {
     "action": {
       "enum": [
-        "get_bounces",
         "get_handle",
         "get_join_code",
         "get_newsletter",
@@ -697,16 +696,6 @@ ACTIONS (RO = read-only):
     "action"
   ],
   "type": "object"
-}
----- describe get_bounces ----
-{
-  "action": "get_bounces",
-  "method": "GET",
-  "path": "/account/bounces",
-  "summary": "Get the webhook address to give the mail server, which reports bounces there",
-  "readonly": true,
-  "idempotent": false,
-  "destructive": false
 }
 ---- describe get_handle ----
 {
@@ -1715,18 +1704,20 @@ ACTIONS (RO = read-only):
 }
 ==== TOOL mailpiece_subscribers ====
 title: Mailpiece Subscribers
-Mailpiece subscribers: the people on the newsletter's list. A subscriber's status is one of, read in this order: bounced (the mail provider stopped delivering to the address), deactivated (an admin stopped it), unsubscribed (the person left), confirmed, or unconfirmed (it has not answered its confirmation yet). Only a confirmed subscriber is mailed. Only the person undoes an unsubscribe or a bounce, by subscribing again from the public form and confirming from the link mailed to them: no action here does it for them. Admins only.
+Mailpiece subscribers: the people on the newsletter's list. A subscriber's status is one of, read in this order: bounced (the mail server stopped delivering to the address), deactivated (an admin stopped it), unsubscribed (the person left), confirmed, or unconfirmed (it has not answered its confirmation yet). Only a confirmed subscriber is mailed. Only the person undoes an unsubscribe or a bounce, by subscribing again from the public form and confirming from the link mailed to them: no action here does it for them. Admins only.
 
 Gateway tool: call with {"action": "...", "params": {...}}.
 Call {"action": "describe", "params": {"action": "NAME"}} for an action's full parameter schema.
 
 ACTIONS (RO = read-only):
 - activate_subscriber: Resume a subscriber an admin stopped. It undoes neither an unsubscribe nor a bounce.
+- bounce_subscriber (destructive): Mark a subscriber bounced, so it is no longer mailed; only the person undoes it, by subscribing again. This cannot be undone.
+- bounce_subscriber_address (destructive): Mark bounced the subscriber with an address, so it is no longer mailed; only the person undoes it, by subscribing again. This cannot be undone.
 - create_subscriber: Add one address to the list, already confirmed: no confirmation is mailed. Refused for an address that unsubscribed, bounced or was stopped.
 - deactivate_subscriber: Stop mailing a subscriber, keeping it and its history; activate_subscriber resumes it.
 - delete_subscriber (destructive): Delete a subscriber for good, with its deliveries and journey history. This cannot be undone.
 - get_subscriber (RO, paginated): Show a subscriber with the issues mailed to it, newest first
-- list_bounced_subscribers (RO, paginated): List the subscribers the mail provider stopped delivering to, most recently bounced first
+- list_bounced_subscribers (RO, paginated): List the subscribers the mail server stopped delivering to, most recently bounced first
 - list_deactivated_subscribers (RO, paginated): List the subscribers an admin stopped, most recently stopped first
 - list_subscribers (RO, paginated): List the confirmed subscribers, the people an issue is mailed to, newest first
 - list_unconfirmed_subscribers (RO, paginated): List the subscribers that have not answered their confirmation yet, newest first
@@ -1738,6 +1729,8 @@ ACTIONS (RO = read-only):
     "action": {
       "enum": [
         "activate_subscriber",
+        "bounce_subscriber",
+        "bounce_subscriber_address",
         "create_subscriber",
         "deactivate_subscriber",
         "delete_subscriber",
@@ -1784,6 +1777,52 @@ ACTIONS (RO = read-only):
     }
   ]
 }
+---- describe bounce_subscriber ----
+{
+  "action": "bounce_subscriber",
+  "method": "POST",
+  "path": "/subscribers/{subscriber_id}/bounce",
+  "summary": "Mark a subscriber bounced, so it is no longer mailed; only the person undoes it, by subscribing again. This cannot be undone.",
+  "doc": "For an address the mail server stopped delivering to. Confirm with the person before running it. One already bounced is answered the same, 204 either way. To mark it by its address instead, use bounce_subscriber_address.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true,
+  "params": [
+    {
+      "name": "subscriber_id",
+      "in": "path",
+      "required": true,
+      "description": "The subscriber's ID (from a subscribers list)",
+      "schema": {
+        "description": "The subscriber's ID (from a subscribers list)",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe bounce_subscriber_address ----
+{
+  "action": "bounce_subscriber_address",
+  "method": "POST",
+  "path": "/subscribers/bounces",
+  "summary": "Mark bounced the subscriber with an address, so it is no longer mailed; only the person undoes it, by subscribing again. This cannot be undone.",
+  "doc": "As bounce_subscriber, by address. Confirm with the person before running it. 204 means marked or already bounced; 404 means no subscriber has that address.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true,
+  "body": {
+    "properties": {
+      "email_address": {
+        "description": "The subscriber's email address",
+        "type": "string"
+      }
+    },
+    "required": [
+      "email_address"
+    ],
+    "type": "object"
+  }
+}
 ---- describe create_subscriber ----
 {
   "action": "create_subscriber",
@@ -1814,7 +1853,7 @@ ACTIONS (RO = read-only):
   "method": "DELETE",
   "path": "/subscribers/{subscriber_id}/activation",
   "summary": "Stop mailing a subscriber, keeping it and its history; activate_subscriber resumes it.",
-  "doc": "The admin's own switch. Only a confirmed or unconfirmed subscriber is stopped; one that unsubscribed or bounced is refused with a 403 that says so, since it is not mailed as it is. One already stopped is answered unchanged.",
+  "doc": "The admin's own switch. Only a confirmed or unconfirmed subscriber is stopped; one that unsubscribed or bounced is refused with a 403 that says so, since it is not mailed as it is. The app answers 204 with no body, whether it stopped the subscriber or it was already stopped; read it with get_subscriber to see its status.",
   "readonly": false,
   "idempotent": true,
   "destructive": false,
@@ -1892,7 +1931,7 @@ ACTIONS (RO = read-only):
   "action": "list_bounced_subscribers",
   "method": "GET",
   "path": "/subscribers/bounced",
-  "summary": "List the subscribers the mail provider stopped delivering to, most recently bounced first",
+  "summary": "List the subscribers the mail server stopped delivering to, most recently bounced first",
   "readonly": true,
   "idempotent": false,
   "destructive": false,

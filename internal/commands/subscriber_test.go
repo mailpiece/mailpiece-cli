@@ -207,7 +207,7 @@ func TestSubscriberDelete(t *testing.T) {
 func TestSubscriberActivation(t *testing.T) {
 	t.Run("deactivate stops it and offers to resume", func(t *testing.T) {
 		mock, result := mockTest(t)
-		mock.DeleteResponse = &APIResponse{StatusCode: 200, Data: map[string]any{"id": "s1", "status": "deactivated"}}
+		mock.DeleteResponse = &APIResponse{StatusCode: 204}
 
 		err := subscriberDeactivateCmd.RunE(subscriberDeactivateCmd, []string{"s1"})
 
@@ -215,8 +215,8 @@ func TestSubscriberActivation(t *testing.T) {
 		if got := mock.DeleteCalls[0].Path; got != "/subscribers/s1/activation.json" {
 			t.Errorf("expected the activation's path, got '%s'", got)
 		}
-		if data := responseDataMap(t, result); data["status"] != "deactivated" {
-			t.Errorf("expected the subscriber, got %#v", data)
+		if data := responseDataMap(t, result); data["deactivated"] != true || data["id"] != "s1" {
+			t.Errorf("expected a deactivation, got %#v", data)
 		}
 		if got := registerBreadcrumb(result, "activate"); got != "mailpiece subscriber activate s1" {
 			t.Errorf("expected activate breadcrumb, got %q", got)
@@ -268,5 +268,63 @@ func TestSubscriberActivation(t *testing.T) {
 		if got := registerBreadcrumb(result, "deactivate"); got != "" {
 			t.Errorf("expected no deactivate breadcrumb for a bounced subscriber, got %q", got)
 		}
+	})
+}
+
+func TestSubscriberBounce(t *testing.T) {
+	t.Run("marks a subscriber bounced by its id", func(t *testing.T) {
+		mock, result := mockTest(t)
+		mock.PostResponse = &APIResponse{StatusCode: 204}
+
+		assertExitCode(t, subscriberBounceCmd.RunE(subscriberBounceCmd, []string{"s1"}), 0)
+
+		if got := mock.PostCalls[0].Path; got != "/subscribers/s1/bounce.json" {
+			t.Errorf("expected the bounce's path, got '%s'", got)
+		}
+		if data := responseDataMap(t, result); data["bounced"] != true || data["id"] != "s1" {
+			t.Errorf("expected a bounce, got %#v", data)
+		}
+	})
+
+	t.Run("marks a subscriber bounced by its address", func(t *testing.T) {
+		mock, result := mockTest(t)
+		mock.PostResponse = &APIResponse{StatusCode: 204}
+
+		subscriberBounceEmail = "ana@example.com"
+		err := subscriberBounceCmd.RunE(subscriberBounceCmd, []string{})
+		subscriberBounceEmail = ""
+
+		assertExitCode(t, err, 0)
+		if got := mock.PostCalls[0].Path; got != "/subscribers/bounces.json" {
+			t.Errorf("expected the address bounces' path, got '%s'", got)
+		}
+		if got := postBodyOf(t, mock.PostCalls[0])["email_address"]; got != "ana@example.com" {
+			t.Errorf("expected the address in the body, got %#v", mock.PostCalls[0].Body)
+		}
+		if data := responseDataMap(t, result); data["bounced"] != true || data["email_address"] != "ana@example.com" {
+			t.Errorf("expected a bounce, got %#v", data)
+		}
+	})
+
+	t.Run("an address nobody has is not found", func(t *testing.T) {
+		mock, _ := mockTest(t)
+		mock.PostError = errors.NewNotFoundError("Not found")
+
+		subscriberBounceEmail = "nobody@example.com"
+		err := subscriberBounceCmd.RunE(subscriberBounceCmd, []string{})
+		subscriberBounceEmail = ""
+
+		assertExitCode(t, err, errors.ExitNotFound)
+	})
+
+	t.Run("takes an id or an address, not both or neither", func(t *testing.T) {
+		mockTest(t)
+
+		assertExitCode(t, subscriberBounceCmd.RunE(subscriberBounceCmd, []string{}), errors.ExitUsage)
+
+		subscriberBounceEmail = "ana@example.com"
+		err := subscriberBounceCmd.RunE(subscriberBounceCmd, []string{"s1"})
+		subscriberBounceEmail = ""
+		assertExitCode(t, err, errors.ExitUsage)
 	})
 }

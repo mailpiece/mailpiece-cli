@@ -114,7 +114,7 @@ func TestNewsletterLaneRequests(t *testing.T) {
 		{
 			name: "journey email deactivate", method: "DELETE", uri: "/acme/journeys/subscriber_confirmed/emails/e1/activation.json",
 			call: func(ctx context.Context, ac *AccountClient) error {
-				_, _, err := NewJourneysService(ac).DeactivateEmail(ctx, "subscriber_confirmed", "e1")
+				_, err := NewJourneysService(ac).DeactivateEmail(ctx, "subscriber_confirmed", "e1")
 				return err
 			},
 		},
@@ -199,16 +199,6 @@ func TestNewsletterLaneRequests(t *testing.T) {
 			name: "subscribe form update clears with an empty url", method: "PATCH", uri: "/acme/account/subscribe_form.json", body: `{"subscription_return_url":""}`,
 			call: func(ctx context.Context, ac *AccountClient) error {
 				_, _, err := NewSettingsService(ac).UpdateSubscribeForm(ctx, &SubscribeFormRequest{})
-				return err
-			},
-		},
-		{
-			name: "bounces get", method: "GET", uri: "/acme/account/bounces.json", reply: `{"webhook_url":"https://app.example/acme/mail_delivery/webhook"}`,
-			call: func(ctx context.Context, ac *AccountClient) error {
-				bounces, _, err := NewSettingsService(ac).Bounces(ctx)
-				if err == nil && bounces.WebhookURL == "" {
-					t.Errorf("got %+v", bounces)
-				}
 				return err
 			},
 		},

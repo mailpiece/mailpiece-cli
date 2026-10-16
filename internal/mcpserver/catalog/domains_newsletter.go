@@ -83,6 +83,7 @@ func init() {
 					Action: "deactivate_journey_email", Method: "DELETE", Path: "/journeys/{trigger}/emails/{email_id}/activation",
 					Idempotent: true,
 					Summary:    "Switch an email off: it is a draft again and is mailed to nobody",
+					Doc:        "The app answers 204 with no body; read the email with get_journey_email to see it.",
 					Params:     []Param{trigger, emailID},
 				},
 				{
@@ -131,12 +132,8 @@ func init() {
 			Key:   "settings",
 			Tool:  "mailpiece_settings",
 			Title: "Mailpiece Settings",
-			Blurb: "Mailpiece settings: the newsletter's own configuration, each part a record of its own. Its name, description and language; the handle it answers at; who its mail is from; where its embedded subscription form sends a person back to; where the mail server reports bounces; the code people join its team with; and whether the signed-in admin is emailed about new subscribers. Admins only.",
+			Blurb: "Mailpiece settings: the newsletter's own configuration, each part a record of its own. Its name, description and language; the handle it answers at; who its mail is from; where its embedded subscription form sends a person back to; the code people join its team with; and whether the signed-in admin is emailed about new subscribers. Admins only.",
 			Operations: []*Operation{
-				{
-					Action: "get_bounces", Method: "GET", Path: "/account/bounces", ReadOnly: true,
-					Summary: "Get the webhook address to give the mail server, which reports bounces there",
-				},
 				{
 					Action: "get_handle", Method: "GET", Path: "/account/handle", ReadOnly: true,
 					Summary: "Get the handle the newsletter answers at beside its number, null while it has none",

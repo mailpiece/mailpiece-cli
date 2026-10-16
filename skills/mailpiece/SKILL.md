@@ -122,8 +122,8 @@ when anything here is unclear. **Never invent a credential, a domain or an addre
    ```
 
    It must be encrypted: STARTTLS on 587, or `NEWSLETTER_MAIL_SMTP_TLS=true` on a port such as 465.
-   Tell the person **bounces aren't recorded in Mailpiece with these providers yet**: they check the
-   provider's suppression list and deactivate those subscribers. A changed setting needs the
+   Tell the person **Mailpiece hears of no bounces by itself**: they check their mail provider's
+   suppression list and mark those addresses bounced (`subscriber bounce --email`). A changed setting needs the
    container run again (`docker rm -f mailpiece`, then the same `docker run` with the same keys and
    volume).
 4. **Open it** at `https://app.example.com/signup` (`http://localhost/signup` on a laptop). While no
@@ -166,11 +166,11 @@ when anything here is unclear. **Never invent a credential, a domain or an addre
 | post link | `post link list POST_ID` | - | - | `post link update POST_ID LINK_ID --url URL` |
 | post history | `post history list POST_ID` | `post history show POST_ID REVISION_ID\|latest` | - | - |
 | search | `search QUERY...` | - | - | - |
-| subscriber | `subscriber list [--status STATUS]` | `subscriber show SUBSCRIBER_ID [--page N]` | `subscriber create --email EMAIL` | `subscriber deactivate SUBSCRIBER_ID`, `subscriber activate SUBSCRIBER_ID`, `subscriber delete SUBSCRIBER_ID` |
+| subscriber | `subscriber list [--status STATUS]` | `subscriber show SUBSCRIBER_ID [--page N]` | `subscriber create --email EMAIL` | `subscriber deactivate SUBSCRIBER_ID`, `subscriber activate SUBSCRIBER_ID`, `subscriber bounce SUBSCRIBER_ID\|--email EMAIL`, `subscriber delete SUBSCRIBER_ID` |
 | snippet | `snippet list` | `snippet show SNIPPET_ID` | `snippet create --name NAME --content TEXT` | `snippet update SNIPPET_ID`, `snippet delete SNIPPET_ID` |
 | journey | `journey list` | `journey show TRIGGER` | - | - |
 | journey email | `journey show TRIGGER` | `journey email show TRIGGER EMAIL_ID` | `journey email create TRIGGER --subject S --body TEXT` | `journey email update\|delete\|activate\|deactivate\|test TRIGGER EMAIL_ID` |
-| settings | - | `settings newsletter\|handle\|sending\|subscribe-form\|bounces\|join-code\|notifications show` | - | `settings newsletter\|handle\|sending\|subscribe-form\|join-code\|notifications update`, `settings join-code reset` |
+| settings | - | `settings newsletter\|handle\|sending\|subscribe-form\|join-code\|notifications show` | - | `settings newsletter\|handle\|sending\|subscribe-form\|join-code\|notifications update`, `settings join-code reset` |
 | user | - | `user show USER_ID` | - | `user update USER_ID --name NAME` |
 | identity | - | `identity` | - | - |
 | token | `token list` | - | `token create` | `token delete TOKEN_ID` |
@@ -507,7 +507,7 @@ earlier. For any other post the app drops it without a word.
 
 The people on the newsletter's list. Admins only.
 
-A subscriber's `status` is one of, read in this order: `bounced` (the mail provider stopped
+A subscriber's `status` is one of, read in this order: `bounced` (the mail server stopped
 delivering to the address), `deactivated` (an admin stopped it), `unsubscribed` (the person left),
 `confirmed`, `unconfirmed` (it has not answered its confirmation yet). Only a `confirmed` subscriber
 is mailed.
@@ -522,6 +522,8 @@ mailpiece search ana@example.com                   # Find a subscriber by email,
 mailpiece subscriber create --email ana@example.com
 mailpiece subscriber deactivate SUBSCRIBER_ID      # Stop mailing it, keep it and its history
 mailpiece subscriber activate SUBSCRIBER_ID        # Resume one an admin stopped
+mailpiece subscriber bounce SUBSCRIBER_ID          # The mail server stopped delivering to it
+mailpiece subscriber bounce --email ana@example.com
 mailpiece subscriber delete SUBSCRIBER_ID          # For good
 ```
 
@@ -546,7 +548,11 @@ state, each with its `id`. No list is filtered by address.
 3. **`deactivate` and `activate` are the admin's own switch** and reverse neither an unsubscribe nor
    a bounce. `deactivate` is refused (403, with the reason) for a subscriber that unsubscribed or
    bounced. `activate` on one that was not stopped changes nothing, and its `summary` says so.
-4. **`delete` is for good and cannot be undone**: the subscriber goes with its deliveries and its
+4. **`bounce` cannot be undone by an admin**: the subscriber is no longer mailed until the person
+   subscribes again. Use it only for an address the mail server stopped delivering to, and confirm
+   with the person first. One already bounced changes nothing; with `--email`, an address no
+   subscriber has is not found (404).
+5. **`delete` is for good and cannot be undone**: the subscriber goes with its deliveries and its
    journey history, and nothing then remembers that the address unsubscribed or bounced, so it
    could be added again as new. Confirm with the person before running it, and never use it to get
    an unsubscribed or bounced address back onto the list unless they ask for exactly that. To stop
@@ -619,7 +625,6 @@ update changes only the flags passed.
 | `settings handle` | handle: the word the newsletter answers at beside its number | `--handle` (empty clears it) |
 | `settings sending` | from name, from address, reply-to | `--from-name`, `--from-address`, `--reply-to-address` |
 | `settings subscribe-form` | where the embedded form sends a person back to | `--return-url` (empty clears it) |
-| `settings bounces` | the webhook address to give the mail server | (read only) |
 | `settings join-code` | the code and link people join the team with, its use count and limit | `--usage-limit`; `reset` |
 | `settings notifications` | whether you are emailed when someone confirms a subscription | `--new-subscriber=true\|false` |
 
@@ -675,10 +680,10 @@ the writes, paired with a write token. `--domains posts,subscribers` narrows the
 |------|---------|
 | `mailpiece_posts` | `list_posts`, `list_published_posts`, `list_sent_posts`, `get_post`, `create_post`, `update_post`, `delete_post`, `publish_post`, `unpublish_post`, `schedule_post`, `unschedule_post`, `deliver_post`, `test_post`, `relist_post`, `unlist_post`, `list_post_links`, `update_post_link`, `list_post_revisions`, `get_post_revision` |
 | `mailpiece_search` | `search` |
-| `mailpiece_subscribers` | `list_subscribers`, `list_unconfirmed_subscribers`, `list_unsubscribed_subscribers`, `list_bounced_subscribers`, `list_deactivated_subscribers`, `get_subscriber`, `create_subscriber`, `deactivate_subscriber`, `activate_subscriber`, `delete_subscriber` |
+| `mailpiece_subscribers` | `list_subscribers`, `list_unconfirmed_subscribers`, `list_unsubscribed_subscribers`, `list_bounced_subscribers`, `list_deactivated_subscribers`, `get_subscriber`, `create_subscriber`, `deactivate_subscriber`, `activate_subscriber`, `bounce_subscriber`, `bounce_subscriber_address`, `delete_subscriber` |
 | `mailpiece_snippets` | `list_snippets`, `get_snippet`, `create_snippet`, `update_snippet`, `delete_snippet` |
 | `mailpiece_journeys` | `list_journeys`, `get_journey`, `get_journey_email`, `create_journey_email`, `update_journey_email`, `delete_journey_email`, `activate_journey_email`, `deactivate_journey_email`, `test_journey_email` |
-| `mailpiece_settings` | `get_newsletter`, `get_handle`, `get_sending`, `get_subscribe_form`, `get_bounces`, `get_join_code`, `get_notifications`, and `update_` each but bounces, `reset_join_code` |
+| `mailpiece_settings` | `get_newsletter`, `get_handle`, `get_sending`, `get_subscribe_form`, `get_join_code`, `get_notifications`, and `update_` each, `reset_join_code` |
 | `mailpiece_users` | `get_user`, `update_user` |
 | `mailpiece_identity` | `get_identity` |
 | `mailpiece_access_tokens` | `create_access_token`, `delete_access_token` (with `--writes` only) |

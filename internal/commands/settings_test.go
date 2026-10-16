@@ -50,8 +50,6 @@ func TestSettingsCommands(t *testing.T) {
 		},
 		{name: "subscribe form update needs the url", args: []string{"settings", "subscribe-form", "update"}, exit: errors.ExitUsage},
 
-		{name: "bounces show", args: []string{"settings", "bounces", "show"}, method: "GET", path: "/account/bounces.json"},
-
 		{name: "join code show", args: []string{"settings", "join-code", "show"}, method: "GET", path: "/account/join_code.json"},
 		{
 			name: "join code update", args: []string{"settings", "join-code", "update", "--usage-limit", "25"},

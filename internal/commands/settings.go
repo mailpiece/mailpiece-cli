@@ -16,8 +16,8 @@ var settingsCmd = &cobra.Command{
 	Annotations: map[string]string{"group": "admin"},
 	Short:       "Manage the newsletter's settings",
 	Long: "Commands for the newsletter's own settings, one subcommand per part: its name and language, the address it\n" +
-		"answers at, who its mail is from, its subscription form, where the mail server reports bounces, the code\n" +
-		"people join its team with, and what you are emailed about. Admins only.",
+		"answers at, who its mail is from, its subscription form, the code people\n" +
+		"join its team with, and what you are emailed about. Admins only.",
 	Example: "$ mailpiece settings newsletter show\n$ mailpiece settings newsletter update --name \"Acme News\" --locale es\n$ mailpiece settings sending update --from-name Acme --from-address news@acme.example\n$ mailpiece settings join-code show\n$ mailpiece settings notifications update --new-subscriber=false",
 }
 
@@ -163,16 +163,6 @@ var settingsSubscribeFormUpdateCmd = settingsUpdate("Set where the embedded subs
 		return s.UpdateSubscribeForm(ctx, &mailpiece.SubscribeFormRequest{SubscriptionReturnURL: settingsSubscribeFormReturnURL})
 	})
 
-var settingsBouncesCmd = &cobra.Command{
-	Use:   "bounces",
-	Short: "Where the mail server reports bounces",
-}
-
-var settingsBouncesShowCmd = settingsShow("Show the webhook address to give the mail server",
-	func(ctx context.Context, s *mailpiece.SettingsService) (*mailpiece.Bounces, *mailpiece.Response, error) {
-		return s.Bounces(ctx)
-	})
-
 var settingsJoinCodeCmd = &cobra.Command{
 	Use:   "join-code",
 	Short: "The code people join the newsletter's team with",
@@ -281,13 +271,11 @@ func init() {
 	settingsSubscribeFormUpdateCmd.Flags().StringVar(&settingsSubscribeFormReturnURL, "return-url", "", "Address to send a person back to (required; empty clears it)")
 	settingsSubscribeFormCmd.AddCommand(settingsSubscribeFormShowCmd, settingsSubscribeFormUpdateCmd)
 
-	settingsBouncesCmd.AddCommand(settingsBouncesShowCmd)
-
 	settingsJoinCodeUpdateCmd.Flags().Int64Var(&settingsJoinCodeUsageLimit, "usage-limit", 0, "Times the code can be used (required)")
 	settingsJoinCodeCmd.AddCommand(settingsJoinCodeShowCmd, settingsJoinCodeUpdateCmd, settingsJoinCodeResetCmd)
 
 	settingsNotificationsUpdateCmd.Flags().BoolVar(&settingsNotificationsNewSubscriber, "new-subscriber", false, "Email you when someone confirms a subscription: true or false (required)")
 	settingsNotificationsCmd.AddCommand(settingsNotificationsShowCmd, settingsNotificationsUpdateCmd)
 
-	settingsCmd.AddCommand(settingsNewsletterCmd, settingsHandleCmd, settingsSendingCmd, settingsSubscribeFormCmd, settingsBouncesCmd, settingsJoinCodeCmd, settingsNotificationsCmd)
+	settingsCmd.AddCommand(settingsNewsletterCmd, settingsHandleCmd, settingsSendingCmd, settingsSubscribeFormCmd, settingsJoinCodeCmd, settingsNotificationsCmd)
 }

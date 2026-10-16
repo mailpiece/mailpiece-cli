@@ -18,7 +18,6 @@ ARG mailpiece journey help 00 [command]
 ARG mailpiece post help 00 [command]
 ARG mailpiece post history help 00 [command]
 ARG mailpiece post link help 00 [command]
-ARG mailpiece settings bounces help 00 [command]
 ARG mailpiece settings handle help 00 [command]
 ARG mailpiece settings help 00 [command]
 ARG mailpiece settings join-code help 00 [command]
@@ -31,6 +30,7 @@ ARG mailpiece show 00 <url>
 ARG mailpiece signup help 00 [command]
 ARG mailpiece skill help 00 [command]
 ARG mailpiece snippet help 00 [command]
+ARG mailpiece subscriber bounce 00 [SUBSCRIBER_ID]
 ARG mailpiece subscriber help 00 [command]
 ARG mailpiece token help 00 [command]
 ARG mailpiece user help 00 [command]
@@ -119,10 +119,6 @@ CMD mailpiece post update
 CMD mailpiece post view
 CMD mailpiece search
 CMD mailpiece settings
-CMD mailpiece settings bounces
-CMD mailpiece settings bounces help
-CMD mailpiece settings bounces show
-CMD mailpiece settings bounces view
 CMD mailpiece settings handle
 CMD mailpiece settings handle help
 CMD mailpiece settings handle show
@@ -179,6 +175,7 @@ CMD mailpiece snippet update
 CMD mailpiece snippet view
 CMD mailpiece subscriber
 CMD mailpiece subscriber activate
+CMD mailpiece subscriber bounce
 CMD mailpiece subscriber create
 CMD mailpiece subscriber deactivate
 CMD mailpiece subscriber delete
@@ -1522,66 +1519,6 @@ FLAG mailpiece settings --quiet type=bool
 FLAG mailpiece settings --styled type=bool
 FLAG mailpiece settings --token type=string
 FLAG mailpiece settings --verbose type=count
-FLAG mailpiece settings bounces --account type=string
-FLAG mailpiece settings bounces --agent type=bool
-FLAG mailpiece settings bounces --api-url type=string
-FLAG mailpiece settings bounces --count type=bool
-FLAG mailpiece settings bounces --help type=bool
-FLAG mailpiece settings bounces --ids-only type=bool
-FLAG mailpiece settings bounces --jq type=string
-FLAG mailpiece settings bounces --json type=bool
-FLAG mailpiece settings bounces --limit type=int
-FLAG mailpiece settings bounces --markdown type=bool
-FLAG mailpiece settings bounces --profile type=string
-FLAG mailpiece settings bounces --quiet type=bool
-FLAG mailpiece settings bounces --styled type=bool
-FLAG mailpiece settings bounces --token type=string
-FLAG mailpiece settings bounces --verbose type=count
-FLAG mailpiece settings bounces help --account type=string
-FLAG mailpiece settings bounces help --agent type=bool
-FLAG mailpiece settings bounces help --api-url type=string
-FLAG mailpiece settings bounces help --count type=bool
-FLAG mailpiece settings bounces help --help type=bool
-FLAG mailpiece settings bounces help --ids-only type=bool
-FLAG mailpiece settings bounces help --jq type=string
-FLAG mailpiece settings bounces help --json type=bool
-FLAG mailpiece settings bounces help --limit type=int
-FLAG mailpiece settings bounces help --markdown type=bool
-FLAG mailpiece settings bounces help --profile type=string
-FLAG mailpiece settings bounces help --quiet type=bool
-FLAG mailpiece settings bounces help --styled type=bool
-FLAG mailpiece settings bounces help --token type=string
-FLAG mailpiece settings bounces help --verbose type=count
-FLAG mailpiece settings bounces show --account type=string
-FLAG mailpiece settings bounces show --agent type=bool
-FLAG mailpiece settings bounces show --api-url type=string
-FLAG mailpiece settings bounces show --count type=bool
-FLAG mailpiece settings bounces show --help type=bool
-FLAG mailpiece settings bounces show --ids-only type=bool
-FLAG mailpiece settings bounces show --jq type=string
-FLAG mailpiece settings bounces show --json type=bool
-FLAG mailpiece settings bounces show --limit type=int
-FLAG mailpiece settings bounces show --markdown type=bool
-FLAG mailpiece settings bounces show --profile type=string
-FLAG mailpiece settings bounces show --quiet type=bool
-FLAG mailpiece settings bounces show --styled type=bool
-FLAG mailpiece settings bounces show --token type=string
-FLAG mailpiece settings bounces show --verbose type=count
-FLAG mailpiece settings bounces view --account type=string
-FLAG mailpiece settings bounces view --agent type=bool
-FLAG mailpiece settings bounces view --api-url type=string
-FLAG mailpiece settings bounces view --count type=bool
-FLAG mailpiece settings bounces view --help type=bool
-FLAG mailpiece settings bounces view --ids-only type=bool
-FLAG mailpiece settings bounces view --jq type=string
-FLAG mailpiece settings bounces view --json type=bool
-FLAG mailpiece settings bounces view --limit type=int
-FLAG mailpiece settings bounces view --markdown type=bool
-FLAG mailpiece settings bounces view --profile type=string
-FLAG mailpiece settings bounces view --quiet type=bool
-FLAG mailpiece settings bounces view --styled type=bool
-FLAG mailpiece settings bounces view --token type=string
-FLAG mailpiece settings bounces view --verbose type=count
 FLAG mailpiece settings handle --account type=string
 FLAG mailpiece settings handle --agent type=bool
 FLAG mailpiece settings handle --api-url type=string
@@ -2445,6 +2382,22 @@ FLAG mailpiece subscriber activate --quiet type=bool
 FLAG mailpiece subscriber activate --styled type=bool
 FLAG mailpiece subscriber activate --token type=string
 FLAG mailpiece subscriber activate --verbose type=count
+FLAG mailpiece subscriber bounce --account type=string
+FLAG mailpiece subscriber bounce --agent type=bool
+FLAG mailpiece subscriber bounce --api-url type=string
+FLAG mailpiece subscriber bounce --count type=bool
+FLAG mailpiece subscriber bounce --email type=string
+FLAG mailpiece subscriber bounce --help type=bool
+FLAG mailpiece subscriber bounce --ids-only type=bool
+FLAG mailpiece subscriber bounce --jq type=string
+FLAG mailpiece subscriber bounce --json type=bool
+FLAG mailpiece subscriber bounce --limit type=int
+FLAG mailpiece subscriber bounce --markdown type=bool
+FLAG mailpiece subscriber bounce --profile type=string
+FLAG mailpiece subscriber bounce --quiet type=bool
+FLAG mailpiece subscriber bounce --styled type=bool
+FLAG mailpiece subscriber bounce --token type=string
+FLAG mailpiece subscriber bounce --verbose type=count
 FLAG mailpiece subscriber create --account type=string
 FLAG mailpiece subscriber create --agent type=bool
 FLAG mailpiece subscriber create --api-url type=string
@@ -2885,10 +2838,6 @@ SUB mailpiece post update
 SUB mailpiece post view
 SUB mailpiece search
 SUB mailpiece settings
-SUB mailpiece settings bounces
-SUB mailpiece settings bounces help
-SUB mailpiece settings bounces show
-SUB mailpiece settings bounces view
 SUB mailpiece settings handle
 SUB mailpiece settings handle help
 SUB mailpiece settings handle show
@@ -2945,6 +2894,7 @@ SUB mailpiece snippet update
 SUB mailpiece snippet view
 SUB mailpiece subscriber
 SUB mailpiece subscriber activate
+SUB mailpiece subscriber bounce
 SUB mailpiece subscriber create
 SUB mailpiece subscriber deactivate
 SUB mailpiece subscriber delete

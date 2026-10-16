@@ -49,12 +49,22 @@ func TestSubscribersService(t *testing.T) {
 			}},
 		{name: "deactivate", method: "DELETE", uri: "/acme/subscribers/s1/activation.json",
 			call: func(ctx context.Context, ac *AccountClient) error {
-				_, _, err := NewSubscribersService(ac).Deactivate(ctx, "s1")
+				_, err := NewSubscribersService(ac).Deactivate(ctx, "s1")
 				return err
 			}},
 		{name: "activate", method: "POST", uri: "/acme/subscribers/s1/activation.json",
 			call: func(ctx context.Context, ac *AccountClient) error {
 				_, _, err := NewSubscribersService(ac).Activate(ctx, "s1")
+				return err
+			}},
+		{name: "bounce", method: "POST", uri: "/acme/subscribers/s1/bounce.json",
+			call: func(ctx context.Context, ac *AccountClient) error {
+				_, err := NewSubscribersService(ac).Bounce(ctx, "s1")
+				return err
+			}},
+		{name: "bounce an address", method: "POST", uri: "/acme/subscribers/bounces.json", body: `{"email_address":"ana@example.com"}`,
+			call: func(ctx context.Context, ac *AccountClient) error {
+				_, err := NewSubscribersService(ac).BounceAddress(ctx, &BounceAddressRequest{EmailAddress: "ana@example.com"})
 				return err
 			}},
 	})
@@ -70,6 +80,11 @@ func TestSubscribersServiceRefusals(t *testing.T) {
 		{name: "no address", want: "needs an email address",
 			call: func(ctx context.Context, ac *AccountClient) error {
 				_, _, err := NewSubscribersService(ac).Create(ctx, &CreateSubscriberRequest{})
+				return err
+			}},
+		{name: "a bounce with no address", want: "needs an email address",
+			call: func(ctx context.Context, ac *AccountClient) error {
+				_, err := NewSubscribersService(ac).BounceAddress(ctx, &BounceAddressRequest{})
 				return err
 			}},
 	})

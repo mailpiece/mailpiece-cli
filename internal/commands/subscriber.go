@@ -19,7 +19,7 @@ var subscriberCmd = &cobra.Command{
 	Annotations: map[string]string{"group": "core"},
 	Short:       "Manage the newsletter's subscribers",
 	Long: "Commands for the people on the newsletter's list. Admins only.\n\n" +
-		"A subscriber is in one state, read in this order: bounced (the mail provider stopped\n" +
+		"A subscriber is in one state, read in this order: bounced (the mail server stopped\n" +
 		"delivering to the address), deactivated (an admin stopped it), unsubscribed (the person\n" +
 		"left), confirmed, or unconfirmed (it has not answered its confirmation yet). Only a\n" +
 		"confirmed subscriber is mailed.\n\n" +
@@ -29,7 +29,8 @@ var subscriberCmd = &cobra.Command{
 		"$ mailpiece subscriber list --status bounced\n" +
 		"$ mailpiece subscriber show SUBSCRIBER_ID\n" +
 		"$ mailpiece subscriber create --email ana@example.com\n" +
-		"$ mailpiece subscriber deactivate SUBSCRIBER_ID",
+		"$ mailpiece subscriber deactivate SUBSCRIBER_ID\n" +
+		"$ mailpiece subscriber bounce --email ana@example.com",
 }
 
 var subscriberColumns = render.Columns{
@@ -181,11 +182,14 @@ var subscriberDeactivateCmd = &cobra.Command{
 		if err := requireAuthAndAccount(); err != nil {
 			return err
 		}
-		data, _, err := mailpiece.NewSubscribersService(getSDK()).Deactivate(cmd.Context(), args[0])
-		if err != nil {
+		if _, err := mailpiece.NewSubscribersService(getSDK()).Deactivate(cmd.Context(), args[0]); err != nil {
 			return convertSDKError(err)
 		}
-		printMutation(normalizeAny(data), "", subscriberBreadcrumbs(data))
+		breadcrumbs := []Breadcrumb{
+			breadcrumb("show", "mailpiece subscriber show "+args[0], "View the subscriber and its deliveries"),
+			breadcrumb("activate", "mailpiece subscriber activate "+args[0], "Resume it"),
+		}
+		printMutation(map[string]any{"deactivated": true, "id": args[0]}, "", breadcrumbs)
 		return nil
 	},
 }
@@ -212,6 +216,51 @@ var subscriberActivateCmd = &cobra.Command{
 			summary = "Resumed; it is " + data.Status + " again"
 		}
 		printMutation(normalizeAny(data), summary, subscriberBreadcrumbs(data))
+		return nil
+	},
+}
+
+var subscriberBounceEmail string
+
+var subscriberBounceCmd = &cobra.Command{
+	Use:   "bounce [SUBSCRIBER_ID]",
+	Short: "Mark a subscriber bounced, by its id or its address",
+	Long: "Marks a subscriber bounced: the mail server stopped delivering to the address, so it is\n" +
+		"not mailed again. Give the subscriber's id, or its address with --email. Marking one\n" +
+		"already bounced changes nothing.\n\n" +
+		"This changes the record and cannot be undone: only the person undoes a bounce, by\n" +
+		"subscribing again from the public form and confirming from the link mailed to them. An\n" +
+		"agent must confirm with you before running it.\n" +
+		"With --email, an address no subscriber has is not found (404).",
+	Example: "$ mailpiece subscriber bounce SUBSCRIBER_ID\n" +
+		"$ mailpiece subscriber bounce --email ana@example.com",
+	Args: cobra.MaximumNArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		email := strings.TrimSpace(subscriberBounceEmail)
+		if (len(args) == 1) == (email != "") {
+			return errors.NewInvalidArgsError("give a SUBSCRIBER_ID or --email, not both")
+		}
+		if err := requireAuthAndAccount(); err != nil {
+			return err
+		}
+		subscribers := mailpiece.NewSubscribersService(getSDK())
+		if email != "" {
+			if _, err := subscribers.BounceAddress(cmd.Context(), &mailpiece.BounceAddressRequest{EmailAddress: email}); err != nil {
+				return convertSDKError(err)
+			}
+			breadcrumbs := []Breadcrumb{
+				breadcrumb("list", "mailpiece subscriber list --status bounced", "List the bounced subscribers"),
+			}
+			printMutation(map[string]any{"bounced": true, "email_address": email}, "", breadcrumbs)
+			return nil
+		}
+		if _, err := subscribers.Bounce(cmd.Context(), args[0]); err != nil {
+			return convertSDKError(err)
+		}
+		breadcrumbs := []Breadcrumb{
+			breadcrumb("show", "mailpiece subscriber show "+args[0], "View the subscriber and its deliveries"),
+		}
+		printMutation(map[string]any{"bounced": true, "id": args[0]}, "", breadcrumbs)
 		return nil
 	},
 }
@@ -249,4 +298,7 @@ func init() {
 	subscriberCmd.AddCommand(subscriberDeleteCmd)
 	subscriberCmd.AddCommand(subscriberDeactivateCmd)
 	subscriberCmd.AddCommand(subscriberActivateCmd)
+
+	subscriberBounceCmd.Flags().StringVar(&subscriberBounceEmail, "email", "", "Address of the subscriber to mark bounced")
+	subscriberCmd.AddCommand(subscriberBounceCmd)
 }

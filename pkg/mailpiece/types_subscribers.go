@@ -59,3 +59,8 @@ type SubscriberSourcePost struct {
 type CreateSubscriberRequest struct {
 	Email string `json:"email"`
 }
+
+// BounceAddressRequest is the body of POST /subscribers/bounces.json.
+type BounceAddressRequest struct {
+	EmailAddress string `json:"email_address"`
+}

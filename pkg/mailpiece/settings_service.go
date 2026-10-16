@@ -64,11 +64,6 @@ func (s *SettingsService) UpdateSubscribeForm(ctx context.Context, req *Subscrib
 	return send[SubscribeForm](ctx, s.client, "PATCH", req, "/account/subscribe_form.json")
 }
 
-// Bounces returns the webhook address to give the mail server.
-func (s *SettingsService) Bounces(ctx context.Context) (*Bounces, *Response, error) {
-	return fetch[Bounces](ctx, s.client, "/account/bounces.json")
-}
-
 // JoinCode returns the newsletter's current join code.
 func (s *SettingsService) JoinCode(ctx context.Context) (*JoinCode, *Response, error) {
 	return fetch[JoinCode](ctx, s.client, "/account/join_code.json")

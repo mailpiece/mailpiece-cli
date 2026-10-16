@@ -53,7 +53,7 @@ Run bare, piped or with `--agent`, `mailpiece` prints a quickstart JSON; in a te
 | Command      | Subcommands                                                                                                                                      | Description                                                        |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | `post`       | `list`, `show`, `create`, `update`, `delete`, `publish`, `unpublish`, `schedule`, `unschedule`, `deliver`, `test`, `relist`, `unlist`, `link`, `history` | Write a post and release it to the web and to the list             |
-| `subscriber` | `list`, `show`, `create`, `deactivate`, `activate`, `delete`                                                                                     | The people on the newsletter's list                                |
+| `subscriber` | `list`, `show`, `create`, `deactivate`, `activate`, `bounce`, `delete`                                                                           | The people on the newsletter's list                                |
 | `snippet`    | `list`, `show`, `create`, `update`, `delete`                                                                                                     | Named pieces of text pasted into posts                             |
 | `journey`    | `list`, `show`, `email show`, `email create`, `email update`, `email delete`, `email activate`, `email deactivate`, `email test`                 | The mail a newsletter sends by itself, by trigger                  |
 | `search`     |                                                                                                                                                  | The posts and subscribers a query matches                          |
@@ -76,7 +76,7 @@ cat new.md | mailpiece post update POST_ID      # replaces the body when nothing
 
 | Command    | Subcommands                                                              | Description                                               |
 | ---------- | ------------------------------------------------------------------------ | --------------------------------------------------------- |
-| `settings` | `newsletter`, `handle`, `sending`, `subscribe-form`, `bounces`, `join-code`, `notifications` | The newsletter's settings, each part with `show` and `update` |
+| `settings` | `newsletter`, `handle`, `sending`, `subscribe-form`, `join-code`, `notifications` | The newsletter's settings, each part with `show` and `update` |
 | `auth`     | `login`, `email`, `status`, `list`, `switch`, `logout`                   | Sign in and out, and pick a profile                       |
 | `token`    | `list`, `create`, `delete`                                               | Your personal access tokens                               |
 | `identity` | `show`                                                                   | Your identity and the accounts you can reach              |
