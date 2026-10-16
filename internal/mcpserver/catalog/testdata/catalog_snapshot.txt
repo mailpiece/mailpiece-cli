@@ -1,0 +1,1999 @@
+==== TOOL mailpiece_identity ====
+title: Mailpiece Identity
+Who you are on Mailpiece, a newsletter app where one account is one newsletter: the accounts (newsletters) your token can reach and your user and role in each. Call this first to learn which newsletter you are working in.
+
+Gateway tool: call with {"action": "...", "params": {...}}.
+Call {"action": "describe", "params": {"action": "NAME"}} for an action's full parameter schema.
+
+ACTIONS (RO = read-only):
+- get_identity (RO): List the accounts the token can reach, with your user in each
+---- input schema ----
+{
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "get_identity",
+        "describe"
+      ],
+      "type": "string"
+    },
+    "params": {
+      "description": "Parameters for the action. Call describe for the action's schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "action"
+  ],
+  "type": "object"
+}
+---- describe get_identity ----
+{
+  "action": "get_identity",
+  "method": "GET",
+  "path": "/my/identity",
+  "summary": "List the accounts the token can reach, with your user in each",
+  "doc": "Each account carries a slug naming it in API paths: always its number. A handle also answers in a path but changes, so configuration keeps the number. The other tools run against the account the server is configured for; this action shows every account the token can reach.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "unscoped": true
+}
+==== TOOL mailpiece_access_tokens ====
+title: Mailpiece Access Tokens
+Mailpiece access tokens: the signed-in person's personal access tokens, which let a program such as this one act as them. A token is read or write; read allows looking only.
+
+Gateway tool: call with {"action": "...", "params": {...}}.
+Call {"action": "describe", "params": {"action": "NAME"}} for an action's full parameter schema.
+
+ACTIONS (RO = read-only):
+- create_access_token: Create an access token for the signed-in person. The token is in the response once and never again.
+- delete_access_token (destructive): Delete one of the signed-in person's access tokens; whatever uses it stops working. This cannot be undone.
+---- input schema ----
+{
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "create_access_token",
+        "delete_access_token",
+        "describe"
+      ],
+      "type": "string"
+    },
+    "params": {
+      "description": "Parameters for the action. Call describe for the action's schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "action"
+  ],
+  "type": "object"
+}
+---- describe create_access_token ----
+{
+  "action": "create_access_token",
+  "method": "POST",
+  "path": "/my/access_tokens",
+  "summary": "Create an access token for the signed-in person. The token is in the response once and never again.",
+  "readonly": false,
+  "idempotent": false,
+  "destructive": false,
+  "body": {
+    "properties": {
+      "description": {
+        "description": "What the token is for",
+        "type": "string"
+      },
+      "permission": {
+        "description": "read (looking only) or write",
+        "enum": [
+          "read",
+          "write"
+        ],
+        "type": "string"
+      }
+    },
+    "required": [
+      "description",
+      "permission"
+    ],
+    "type": "object"
+  },
+  "body_key": "access_token",
+  "unscoped": true
+}
+---- describe delete_access_token ----
+{
+  "action": "delete_access_token",
+  "method": "DELETE",
+  "path": "/my/access_tokens/{access_token_id}",
+  "summary": "Delete one of the signed-in person's access tokens; whatever uses it stops working. This cannot be undone.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true,
+  "params": [
+    {
+      "name": "access_token_id",
+      "in": "path",
+      "required": true,
+      "description": "The access token's ID (from its create)",
+      "schema": {
+        "description": "The access token's ID (from its create)",
+        "type": "string"
+      }
+    }
+  ],
+  "unscoped": true
+}
+==== TOOL mailpiece_snippets ====
+title: Mailpiece Snippets
+Mailpiece snippets: named pieces of rich text a newsletter keeps and pastes into its posts. A snippet is pasted as ordinary text, so changing or deleting one never changes a post already written. Admins only.
+
+Gateway tool: call with {"action": "...", "params": {...}}.
+Call {"action": "describe", "params": {"action": "NAME"}} for an action's full parameter schema.
+
+ACTIONS (RO = read-only):
+- create_snippet: Add a snippet
+- delete_snippet (destructive): Delete a snippet for good. This cannot be undone.
+- get_snippet (RO): Get a snippet
+- list_snippets (RO): List every snippet, by name, each with its content
+- update_snippet: Change a snippet's name or content; only what is passed changes
+---- input schema ----
+{
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "create_snippet",
+        "delete_snippet",
+        "get_snippet",
+        "list_snippets",
+        "update_snippet",
+        "describe"
+      ],
+      "type": "string"
+    },
+    "params": {
+      "description": "Parameters for the action. Call describe for the action's schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "action"
+  ],
+  "type": "object"
+}
+---- describe create_snippet ----
+{
+  "action": "create_snippet",
+  "method": "POST",
+  "path": "/snippets",
+  "summary": "Add a snippet",
+  "readonly": false,
+  "idempotent": false,
+  "destructive": false,
+  "body": {
+    "properties": {
+      "content": {
+        "description": "Content, as HTML",
+        "type": "string"
+      },
+      "name": {
+        "description": "Snippet name",
+        "type": "string"
+      }
+    },
+    "required": [
+      "name"
+    ],
+    "type": "object"
+  }
+}
+---- describe delete_snippet ----
+{
+  "action": "delete_snippet",
+  "method": "DELETE",
+  "path": "/snippets/{snippet_id}",
+  "summary": "Delete a snippet for good. This cannot be undone.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true,
+  "params": [
+    {
+      "name": "snippet_id",
+      "in": "path",
+      "required": true,
+      "description": "The snippet's ID",
+      "schema": {
+        "description": "The snippet's ID",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe get_snippet ----
+{
+  "action": "get_snippet",
+  "method": "GET",
+  "path": "/snippets/{snippet_id}",
+  "summary": "Get a snippet",
+  "doc": "content is the text alone and content_html what was written.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "params": [
+    {
+      "name": "snippet_id",
+      "in": "path",
+      "required": true,
+      "description": "The snippet's ID",
+      "schema": {
+        "description": "The snippet's ID",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe list_snippets ----
+{
+  "action": "list_snippets",
+  "method": "GET",
+  "path": "/snippets",
+  "summary": "List every snippet, by name, each with its content",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false
+}
+---- describe update_snippet ----
+{
+  "action": "update_snippet",
+  "method": "PATCH",
+  "path": "/snippets/{snippet_id}",
+  "summary": "Change a snippet's name or content; only what is passed changes",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "snippet_id",
+      "in": "path",
+      "required": true,
+      "description": "The snippet's ID",
+      "schema": {
+        "description": "The snippet's ID",
+        "type": "string"
+      }
+    }
+  ],
+  "body": {
+    "properties": {
+      "content": {
+        "description": "Content, as HTML",
+        "type": "string"
+      },
+      "name": {
+        "description": "Snippet name",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}
+==== TOOL mailpiece_journeys ====
+title: Mailpiece Journeys
+Mailpiece journeys: the emails a newsletter mails by itself to a person after they confirm their subscription (subscriber_confirmed, each email after its own delay) or after they unsubscribe (subscriber_unsubscribed, one email, at once). A journey is known by its trigger and always exists. An email is a draft until activated. Admins only.
+
+Gateway tool: call with {"action": "...", "params": {...}}.
+Call {"action": "describe", "params": {"action": "NAME"}} for an action's full parameter schema.
+
+ACTIONS (RO = read-only):
+- activate_journey_email (destructive): Switch an email on: from then on it is mailed by itself to real people as they reach it, until it is switched off; mail that has gone out stays sent. This cannot be undone.
+- create_journey_email: Add an email to a journey, as a draft mailed to nobody until activated
+- deactivate_journey_email: Switch an email off: it is a draft again and is mailed to nobody
+- delete_journey_email (destructive): Delete an email of a journey for good, active or not. This cannot be undone.
+- get_journey (RO): Get a journey with its emails in full
+- get_journey_email (RO): Get one email of a journey in full, active or not
+- list_journeys (RO): List every journey, each with its emails in full
+- test_journey_email (destructive): Mail one test copy of an email, active or not, to an address or to the signed-in person's own. It is real mail. This cannot be undone.
+- update_journey_email: Change an email of a journey; only what is passed changes
+---- input schema ----
+{
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "activate_journey_email",
+        "create_journey_email",
+        "deactivate_journey_email",
+        "delete_journey_email",
+        "get_journey",
+        "get_journey_email",
+        "list_journeys",
+        "test_journey_email",
+        "update_journey_email",
+        "describe"
+      ],
+      "type": "string"
+    },
+    "params": {
+      "description": "Parameters for the action. Call describe for the action's schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "action"
+  ],
+  "type": "object"
+}
+---- describe activate_journey_email ----
+{
+  "action": "activate_journey_email",
+  "method": "POST",
+  "path": "/journeys/{trigger}/emails/{email_id}/activation",
+  "summary": "Switch an email on: from then on it is mailed by itself to real people as they reach it, until it is switched off; mail that has gone out stays sent. This cannot be undone.",
+  "doc": "An email with no subject or no body is refused with 422. Activating an active email changes nothing. Confirm with the person before calling it.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true,
+  "params": [
+    {
+      "name": "trigger",
+      "in": "path",
+      "required": true,
+      "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+      "schema": {
+        "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+        "type": "string"
+      }
+    },
+    {
+      "name": "email_id",
+      "in": "path",
+      "required": true,
+      "description": "The email's ID (from its journey)",
+      "schema": {
+        "description": "The email's ID (from its journey)",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe create_journey_email ----
+{
+  "action": "create_journey_email",
+  "method": "POST",
+  "path": "/journeys/{trigger}/emails",
+  "summary": "Add an email to a journey, as a draft mailed to nobody until activated",
+  "doc": "The subscriber_unsubscribed journey holds one email: a second is refused with 403.",
+  "readonly": false,
+  "idempotent": false,
+  "destructive": false,
+  "params": [
+    {
+      "name": "trigger",
+      "in": "path",
+      "required": true,
+      "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+      "schema": {
+        "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+        "type": "string"
+      }
+    }
+  ],
+  "body": {
+    "properties": {
+      "body": {
+        "description": "Body, as HTML",
+        "type": "string"
+      },
+      "delay_days": {
+        "description": "Days to wait after the trigger before mailing it; subscriber_confirmed only, dropped by the other journey",
+        "type": "integer"
+      },
+      "send_hour": {
+        "description": "Hour of the day to mail it at, 0 to 23; subscriber_confirmed only, dropped by the other journey",
+        "type": "integer"
+      },
+      "subject": {
+        "description": "Subject",
+        "type": "string"
+      },
+      "summary": {
+        "description": "The writer's own line about the email, shown by an inbox beside the subject",
+        "type": "string"
+      }
+    },
+    "required": [
+      "subject"
+    ],
+    "type": "object"
+  }
+}
+---- describe deactivate_journey_email ----
+{
+  "action": "deactivate_journey_email",
+  "method": "DELETE",
+  "path": "/journeys/{trigger}/emails/{email_id}/activation",
+  "summary": "Switch an email off: it is a draft again and is mailed to nobody",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "trigger",
+      "in": "path",
+      "required": true,
+      "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+      "schema": {
+        "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+        "type": "string"
+      }
+    },
+    {
+      "name": "email_id",
+      "in": "path",
+      "required": true,
+      "description": "The email's ID (from its journey)",
+      "schema": {
+        "description": "The email's ID (from its journey)",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe delete_journey_email ----
+{
+  "action": "delete_journey_email",
+  "method": "DELETE",
+  "path": "/journeys/{trigger}/emails/{email_id}",
+  "summary": "Delete an email of a journey for good, active or not. This cannot be undone.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true,
+  "params": [
+    {
+      "name": "trigger",
+      "in": "path",
+      "required": true,
+      "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+      "schema": {
+        "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+        "type": "string"
+      }
+    },
+    {
+      "name": "email_id",
+      "in": "path",
+      "required": true,
+      "description": "The email's ID (from its journey)",
+      "schema": {
+        "description": "The email's ID (from its journey)",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe get_journey ----
+{
+  "action": "get_journey",
+  "method": "GET",
+  "path": "/journeys/{trigger}",
+  "summary": "Get a journey with its emails in full",
+  "doc": "Each email carries body (the text alone), body_html (what was written), delay_days, send_hour, time_zone and active.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "params": [
+    {
+      "name": "trigger",
+      "in": "path",
+      "required": true,
+      "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+      "schema": {
+        "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe get_journey_email ----
+{
+  "action": "get_journey_email",
+  "method": "GET",
+  "path": "/journeys/{trigger}/emails/{email_id}",
+  "summary": "Get one email of a journey in full, active or not",
+  "doc": "It carries body (the text alone), body_html (what was written), delay_days, send_hour, time_zone and active.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "params": [
+    {
+      "name": "trigger",
+      "in": "path",
+      "required": true,
+      "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+      "schema": {
+        "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+        "type": "string"
+      }
+    },
+    {
+      "name": "email_id",
+      "in": "path",
+      "required": true,
+      "description": "The email's ID (from its journey)",
+      "schema": {
+        "description": "The email's ID (from its journey)",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe list_journeys ----
+{
+  "action": "list_journeys",
+  "method": "GET",
+  "path": "/journeys",
+  "summary": "List every journey, each with its emails in full",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false
+}
+---- describe test_journey_email ----
+{
+  "action": "test_journey_email",
+  "method": "POST",
+  "path": "/journeys/{trigger}/emails/{email_id}/test_delivery",
+  "summary": "Mail one test copy of an email, active or not, to an address or to the signed-in person's own. It is real mail. This cannot be undone.",
+  "doc": "Refused with 422 while the newsletter has no sender or the email has no subject or body, and with 429 after 10 in 3 minutes.",
+  "readonly": false,
+  "idempotent": false,
+  "destructive": true,
+  "params": [
+    {
+      "name": "trigger",
+      "in": "path",
+      "required": true,
+      "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+      "schema": {
+        "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+        "type": "string"
+      }
+    },
+    {
+      "name": "email_id",
+      "in": "path",
+      "required": true,
+      "description": "The email's ID (from its journey)",
+      "schema": {
+        "description": "The email's ID (from its journey)",
+        "type": "string"
+      }
+    }
+  ],
+  "body": {
+    "properties": {
+      "email_address": {
+        "description": "Address to mail the test to; the signed-in person's own when left out",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}
+---- describe update_journey_email ----
+{
+  "action": "update_journey_email",
+  "method": "PATCH",
+  "path": "/journeys/{trigger}/emails/{email_id}",
+  "summary": "Change an email of a journey; only what is passed changes",
+  "doc": "Pass at least one field. An active email is changed for everyone it has yet to reach, and cannot lose its subject or its body.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "trigger",
+      "in": "path",
+      "required": true,
+      "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+      "schema": {
+        "description": "The journey's trigger: subscriber_confirmed or subscriber_unsubscribed",
+        "type": "string"
+      }
+    },
+    {
+      "name": "email_id",
+      "in": "path",
+      "required": true,
+      "description": "The email's ID (from its journey)",
+      "schema": {
+        "description": "The email's ID (from its journey)",
+        "type": "string"
+      }
+    }
+  ],
+  "body": {
+    "properties": {
+      "body": {
+        "description": "Body, as HTML",
+        "type": "string"
+      },
+      "delay_days": {
+        "description": "Days to wait after the trigger before mailing it; subscriber_confirmed only, dropped by the other journey",
+        "type": "integer"
+      },
+      "send_hour": {
+        "description": "Hour of the day to mail it at, 0 to 23; subscriber_confirmed only, dropped by the other journey",
+        "type": "integer"
+      },
+      "subject": {
+        "description": "Subject",
+        "type": "string"
+      },
+      "summary": {
+        "description": "The writer's own line about the email, shown by an inbox beside the subject",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}
+==== TOOL mailpiece_settings ====
+title: Mailpiece Settings
+Mailpiece settings: the newsletter's own configuration, each part a record of its own. Its name, description and language; the handle it answers at; who its mail is from; where its embedded subscription form sends a person back to; where the mail server reports bounces; the code people join its team with; and whether the signed-in admin is emailed about new subscribers. Admins only.
+
+Gateway tool: call with {"action": "...", "params": {...}}.
+Call {"action": "describe", "params": {"action": "NAME"}} for an action's full parameter schema.
+
+ACTIONS (RO = read-only):
+- get_bounces (RO): Get the webhook address to give the mail server, which reports bounces there
+- get_handle (RO): Get the handle the newsletter answers at beside its number, null while it has none
+- get_join_code (RO): Get the code people join the newsletter's team with, its link, and how often it has been used
+- get_newsletter (RO): Get the newsletter's name, description and language
+- get_notifications (RO): Get whether the signed-in admin is emailed when someone confirms a subscription
+- get_sending (RO): Get who the newsletter's mail is from: from name, from address and reply-to
+- get_subscribe_form (RO): Get where the embedded subscription form sends a person back to
+- reset_join_code (destructive): Retire the join code and issue a new one, used no times; the old code and every link carrying it stop working. This cannot be undone.
+- update_handle (destructive): Change the newsletter's handle, or clear it so the newsletter answers at its number alone. Every link already mailed with the old handle stops working. This cannot be undone.
+- update_join_code: Change how many times the join code can be used
+- update_newsletter: Change the newsletter's name, description or language; only what is passed changes
+- update_notifications: Set whether the signed-in admin is emailed when someone confirms a subscription
+- update_sending: Change who the newsletter's mail is from; only what is passed changes
+- update_subscribe_form: Set where the embedded subscription form sends a person back to
+---- input schema ----
+{
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "get_bounces",
+        "get_handle",
+        "get_join_code",
+        "get_newsletter",
+        "get_notifications",
+        "get_sending",
+        "get_subscribe_form",
+        "reset_join_code",
+        "update_handle",
+        "update_join_code",
+        "update_newsletter",
+        "update_notifications",
+        "update_sending",
+        "update_subscribe_form",
+        "describe"
+      ],
+      "type": "string"
+    },
+    "params": {
+      "description": "Parameters for the action. Call describe for the action's schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "action"
+  ],
+  "type": "object"
+}
+---- describe get_bounces ----
+{
+  "action": "get_bounces",
+  "method": "GET",
+  "path": "/account/bounces",
+  "summary": "Get the webhook address to give the mail server, which reports bounces there",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false
+}
+---- describe get_handle ----
+{
+  "action": "get_handle",
+  "method": "GET",
+  "path": "/account/handle",
+  "summary": "Get the handle the newsletter answers at beside its number, null while it has none",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false
+}
+---- describe get_join_code ----
+{
+  "action": "get_join_code",
+  "method": "GET",
+  "path": "/account/join_code",
+  "summary": "Get the code people join the newsletter's team with, its link, and how often it has been used",
+  "doc": "active is false once usage_count has reached usage_limit.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false
+}
+---- describe get_newsletter ----
+{
+  "action": "get_newsletter",
+  "method": "GET",
+  "path": "/account/newsletter",
+  "summary": "Get the newsletter's name, description and language",
+  "doc": "description is the text alone and description_html what was written. avatar_url is there only when the newsletter has an avatar.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false
+}
+---- describe get_notifications ----
+{
+  "action": "get_notifications",
+  "method": "GET",
+  "path": "/notifications/settings",
+  "summary": "Get whether the signed-in admin is emailed when someone confirms a subscription",
+  "doc": "It is the token's own user's setting, on until switched off.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false
+}
+---- describe get_sending ----
+{
+  "action": "get_sending",
+  "method": "GET",
+  "path": "/account/sending",
+  "summary": "Get who the newsletter's mail is from: from name, from address and reply-to",
+  "doc": "A newsletter mails nothing until it has a from name and a from address.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false
+}
+---- describe get_subscribe_form ----
+{
+  "action": "get_subscribe_form",
+  "method": "GET",
+  "path": "/account/subscribe_form",
+  "summary": "Get where the embedded subscription form sends a person back to",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false
+}
+---- describe reset_join_code ----
+{
+  "action": "reset_join_code",
+  "method": "DELETE",
+  "path": "/account/join_code",
+  "summary": "Retire the join code and issue a new one, used no times; the old code and every link carrying it stop working. This cannot be undone.",
+  "readonly": false,
+  "idempotent": false,
+  "destructive": true
+}
+---- describe update_handle ----
+{
+  "action": "update_handle",
+  "method": "PATCH",
+  "path": "/account/handle",
+  "summary": "Change the newsletter's handle, or clear it so the newsletter answers at its number alone. Every link already mailed with the old handle stops working. This cannot be undone.",
+  "doc": "The old handle is free for another newsletter at once. The number keeps working beside the handle. Confirm with the person before calling it.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true,
+  "body": {
+    "properties": {
+      "handle": {
+        "description": "The word the newsletter answers at: 3 to 40 lowercase letters, digits and hyphens, starting with a letter; empty clears it",
+        "type": "string"
+      }
+    },
+    "required": [
+      "handle"
+    ],
+    "type": "object"
+  }
+}
+---- describe update_join_code ----
+{
+  "action": "update_join_code",
+  "method": "PATCH",
+  "path": "/account/join_code",
+  "summary": "Change how many times the join code can be used",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "body": {
+    "properties": {
+      "usage_limit": {
+        "description": "Times the code can be used",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "usage_limit"
+    ],
+    "type": "object"
+  }
+}
+---- describe update_newsletter ----
+{
+  "action": "update_newsletter",
+  "method": "PATCH",
+  "path": "/account/newsletter",
+  "summary": "Change the newsletter's name, description or language; only what is passed changes",
+  "doc": "Pass at least one field. The name and description are public, and the language is the one every page and every email of the newsletter is written in.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "body": {
+    "properties": {
+      "description": {
+        "description": "Description, as HTML",
+        "type": "string"
+      },
+      "locale": {
+        "description": "Language the newsletter is written in",
+        "enum": [
+          "en",
+          "es"
+        ],
+        "type": "string"
+      },
+      "name": {
+        "description": "Newsletter name",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}
+---- describe update_notifications ----
+{
+  "action": "update_notifications",
+  "method": "PATCH",
+  "path": "/notifications/settings",
+  "summary": "Set whether the signed-in admin is emailed when someone confirms a subscription",
+  "doc": "It changes the token's own user's setting and nobody else's.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "body": {
+    "properties": {
+      "new_subscriber_notifications": {
+        "description": "Email the signed-in admin when someone confirms a subscription",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "new_subscriber_notifications"
+    ],
+    "type": "object"
+  }
+}
+---- describe update_sending ----
+{
+  "action": "update_sending",
+  "method": "PATCH",
+  "path": "/account/sending",
+  "summary": "Change who the newsletter's mail is from; only what is passed changes",
+  "doc": "Pass at least one field.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "body": {
+    "properties": {
+      "from_address": {
+        "description": "Address the mail is from",
+        "type": "string"
+      },
+      "from_name": {
+        "description": "Name the mail is from",
+        "type": "string"
+      },
+      "reply_to_address": {
+        "description": "Address replies go to; empty clears it",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}
+---- describe update_subscribe_form ----
+{
+  "action": "update_subscribe_form",
+  "method": "PATCH",
+  "path": "/account/subscribe_form",
+  "summary": "Set where the embedded subscription form sends a person back to",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "body": {
+    "properties": {
+      "subscription_return_url": {
+        "description": "Address to send a person back to; empty clears it",
+        "type": "string"
+      }
+    },
+    "required": [
+      "subscription_return_url"
+    ],
+    "type": "object"
+  }
+}
+==== TOOL mailpiece_users ====
+title: Mailpiece Users
+Mailpiece users: the signed-in person's own user on the newsletter. A user reaches only their own profile: anyone else's is a 404. The identity tool shows your user's ID on each account.
+
+Gateway tool: call with {"action": "...", "params": {...}}.
+Call {"action": "describe", "params": {"action": "NAME"}} for an action's full parameter schema.
+
+ACTIONS (RO = read-only):
+- get_user (RO): Get your own user: name, role, email address
+- update_user: Change your own name
+---- input schema ----
+{
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "get_user",
+        "update_user",
+        "describe"
+      ],
+      "type": "string"
+    },
+    "params": {
+      "description": "Parameters for the action. Call describe for the action's schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "action"
+  ],
+  "type": "object"
+}
+---- describe get_user ----
+{
+  "action": "get_user",
+  "method": "GET",
+  "path": "/users/{user_id}",
+  "summary": "Get your own user: name, role, email address",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "params": [
+    {
+      "name": "user_id",
+      "in": "path",
+      "required": true,
+      "description": "Your user's ID on this account (from the identity tool)",
+      "schema": {
+        "description": "Your user's ID on this account (from the identity tool)",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe update_user ----
+{
+  "action": "update_user",
+  "method": "PATCH",
+  "path": "/users/{user_id}",
+  "summary": "Change your own name",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "user_id",
+      "in": "path",
+      "required": true,
+      "description": "Your user's ID on this account (from the identity tool)",
+      "schema": {
+        "description": "Your user's ID on this account (from the identity tool)",
+        "type": "string"
+      }
+    }
+  ],
+  "body": {
+    "properties": {
+      "name": {
+        "description": "Your name",
+        "type": "string"
+      }
+    },
+    "required": [
+      "name"
+    ],
+    "type": "object"
+  }
+}
+==== TOOL mailpiece_posts ====
+title: Mailpiece Posts
+A newsletter's posts: drafts, their release to the web and to the list of subscribers, and the links and earlier versions a post keeps. Admins only. A post is published once and sent once; a scheduled post is still a draft. Mailing the list cannot be undone: never deliver, or schedule a delivery, unless the person asked for exactly that.
+
+Gateway tool: call with {"action": "...", "params": {...}}.
+Call {"action": "describe", "params": {"action": "NAME"}} for an action's full parameter schema.
+
+ACTIONS (RO = read-only):
+- create_post: Write a draft. Nothing is published or mailed.
+- delete_post (destructive): Delete a post in any state, with its revisions, deliveries and links: the links in an issue already mailed stop answering. This cannot be undone.
+- deliver_post (destructive): Mail a post now to every active subscriber, publishing it first if it is a draft. This cannot be undone.
+- get_post (RO): Get a post in any state
+- get_post_revision (RO): Get one earlier version of a post, with its title and text
+- list_post_links (RO): List the links a post's issue was mailed with
+- list_post_revisions (RO): List a post's earlier versions, oldest first, without their text
+- list_posts (RO): List what is ahead: the drafts, newest first, then the scheduled posts, soonest first
+- list_published_posts (RO, paginated): List the posts published and not mailed, newest first
+- list_sent_posts (RO, paginated): List the posts mailed to the list, newest first
+- publish_post: Give a post its page, mailing nobody
+- relist_post: Show a published post that is on the web in the archive and the feed (visibility listed)
+- schedule_post: Set when a draft is released by itself; scheduling again moves the time. A scheduled delivery mails every active subscriber when it runs, and that mail cannot be taken back; unschedule_post stops it before then.
+- test_post (destructive): Mail a test of a post as it stands to one address. The list is not mailed and the post does not change, but the test is real mail. This cannot be undone.
+- unlist_post: Keep a published post's page and take it out of the archive and the feed (visibility unlisted)
+- unpublish_post: Take a post's page down
+- unschedule_post: Cancel a draft's schedule; it stays a draft
+- update_post: Edit a post, changing only what is sent
+- update_post_link: Correct where a mailed link sends a reader from now on; the email already sent keeps its text
+---- input schema ----
+{
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "create_post",
+        "delete_post",
+        "deliver_post",
+        "get_post",
+        "get_post_revision",
+        "list_post_links",
+        "list_post_revisions",
+        "list_posts",
+        "list_published_posts",
+        "list_sent_posts",
+        "publish_post",
+        "relist_post",
+        "schedule_post",
+        "test_post",
+        "unlist_post",
+        "unpublish_post",
+        "unschedule_post",
+        "update_post",
+        "update_post_link",
+        "describe"
+      ],
+      "type": "string"
+    },
+    "params": {
+      "description": "Parameters for the action. Call describe for the action's schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "action"
+  ],
+  "type": "object"
+}
+---- describe create_post ----
+{
+  "action": "create_post",
+  "method": "POST",
+  "path": "/posts",
+  "summary": "Write a draft. Nothing is published or mailed.",
+  "doc": "Send at least one of title, summary and body.",
+  "readonly": false,
+  "idempotent": false,
+  "destructive": false,
+  "body": {
+    "properties": {
+      "body": {
+        "description": "The post's text as HTML (Markdown is not converted here). A box for one audience is \u003caside data-audience=\"web\"\u003e...\u003c/aside\u003e or \u003caside data-audience=\"email\"\u003e...\u003c/aside\u003e: send it back exactly as body_html has it.",
+        "type": "string"
+      },
+      "summary": {
+        "description": "The writer's own line about the post, shown in place of how it begins",
+        "type": "string"
+      },
+      "title": {
+        "description": "Title, which is also the email's subject",
+        "type": "string"
+      },
+      "visibility": {
+        "description": "listed (the default), unlisted (reached by its link only) or email_only (no page)",
+        "enum": [
+          "listed",
+          "unlisted",
+          "email_only"
+        ],
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "body_key": "post"
+}
+---- describe delete_post ----
+{
+  "action": "delete_post",
+  "method": "DELETE",
+  "path": "/posts/{post_id}",
+  "summary": "Delete a post in any state, with its revisions, deliveries and links: the links in an issue already mailed stop answering. This cannot be undone.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe deliver_post ----
+{
+  "action": "deliver_post",
+  "method": "POST",
+  "path": "/posts/{post_id}/delivery",
+  "summary": "Mail a post now to every active subscriber, publishing it first if it is a draft. This cannot be undone.",
+  "doc": "The app answers 201 only when this call started the mailing, and 200 when it started nothing: a post is sent once, so one already sent is answered as it is and mailed to nobody again, and with nobody active on the list the post is published and stays unsent (sent_at is null). The result here is the post either way, without the status: read sent_at with get_post first to tell a new mailing from a post already sent. 422 while the newsletter has no sender.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe get_post ----
+{
+  "action": "get_post",
+  "method": "GET",
+  "path": "/posts/{post_id}",
+  "summary": "Get a post in any state",
+  "doc": "body is the text as plain text; body_html is the text as it was written, audience boxes included. public_url is there only while the post has a page.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe get_post_revision ----
+{
+  "action": "get_post_revision",
+  "method": "GET",
+  "path": "/posts/{post_id}/history/{revision_id}",
+  "summary": "Get one earlier version of a post, with its title and text",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    },
+    {
+      "name": "revision_id",
+      "in": "path",
+      "required": true,
+      "description": "The revision's ID, or latest for the newest",
+      "schema": {
+        "description": "The revision's ID, or latest for the newest",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe list_post_links ----
+{
+  "action": "list_post_links",
+  "method": "GET",
+  "path": "/posts/{post_id}/links",
+  "summary": "List the links a post's issue was mailed with",
+  "doc": "original_url is what the email has and url where the link sends a reader now. stale says the post's text no longer has the link and it was never corrected. A post never mailed has none.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe list_post_revisions ----
+{
+  "action": "list_post_revisions",
+  "method": "GET",
+  "path": "/posts/{post_id}/history",
+  "summary": "List a post's earlier versions, oldest first, without their text",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe list_posts ----
+{
+  "action": "list_posts",
+  "method": "GET",
+  "path": "/posts",
+  "summary": "List what is ahead: the drafts, newest first, then the scheduled posts, soonest first",
+  "doc": "All of them on one page. Published and sent posts have lists of their own.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false
+}
+---- describe list_published_posts ----
+{
+  "action": "list_published_posts",
+  "method": "GET",
+  "path": "/posts/published",
+  "summary": "List the posts published and not mailed, newest first",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "paginated": true,
+  "params": [
+    {
+      "name": "page",
+      "in": "query",
+      "description": "Page number; responses include next_page when more results exist.",
+      "schema": {
+        "description": "Page number",
+        "type": "integer"
+      }
+    }
+  ]
+}
+---- describe list_sent_posts ----
+{
+  "action": "list_sent_posts",
+  "method": "GET",
+  "path": "/posts/sent",
+  "summary": "List the posts mailed to the list, newest first",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "paginated": true,
+  "params": [
+    {
+      "name": "page",
+      "in": "query",
+      "description": "Page number; responses include next_page when more results exist.",
+      "schema": {
+        "description": "Page number",
+        "type": "integer"
+      }
+    }
+  ]
+}
+---- describe publish_post ----
+{
+  "action": "publish_post",
+  "method": "POST",
+  "path": "/posts/{post_id}/publication",
+  "summary": "Give a post its page, mailing nobody",
+  "doc": "A draft is published now with its own visibility, or the one destination names; with published_at, or day and hour, it is released under that past date instead. An issue mailed by email only is given a page, listed. A post that already has its page is answered as it is. 403 for an email-only draft, which is never published without being sent.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ],
+  "body": {
+    "properties": {
+      "day": {
+        "description": "Day, YYYY-MM-DD, read with hour in the app's time zone, to release a draft under a past date",
+        "type": "string"
+      },
+      "destination": {
+        "description": "Picks the visibility only, since a publication mails nobody: web (listed) or link (unlisted). Default: the post's own visibility",
+        "enum": [
+          "web_and_email",
+          "email",
+          "web",
+          "link"
+        ],
+        "type": "string"
+      },
+      "hour": {
+        "description": "Whole hour of day, 0 to 23 (0 when left out)",
+        "type": "integer"
+      },
+      "published_at": {
+        "description": "Release a draft under this past date, ISO 8601",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}
+---- describe relist_post ----
+{
+  "action": "relist_post",
+  "method": "POST",
+  "path": "/posts/{post_id}/listing",
+  "summary": "Show a published post that is on the web in the archive and the feed (visibility listed)",
+  "doc": "403 for a draft or an email-only post.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe schedule_post ----
+{
+  "action": "schedule_post",
+  "method": "POST",
+  "path": "/posts/{post_id}/schedule",
+  "summary": "Set when a draft is released by itself; scheduling again moves the time. A scheduled delivery mails every active subscriber when it runs, and that mail cannot be taken back; unschedule_post stops it before then.",
+  "doc": "Give the time as scheduled_posting_at, or as day and hour; it must be still to come. Without destination the post keeps its visibility and scheduled_delivery decides whether the list is mailed. A named destination decides both by itself, and the two that mail are offered only while the newsletter has a sender and someone active on its list. 403 for a post that is not a draft or a destination not offered; 422 for a time not ahead or an email-only post that would not be mailed.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ],
+  "body": {
+    "properties": {
+      "day": {
+        "description": "Day, YYYY-MM-DD, read with hour in the app's time zone",
+        "type": "string"
+      },
+      "destination": {
+        "description": "web_and_email (listed, mailed), email (no page, mailed), web (listed) or link (unlisted: reached by its link only)",
+        "enum": [
+          "web_and_email",
+          "email",
+          "web",
+          "link"
+        ],
+        "type": "string"
+      },
+      "hour": {
+        "description": "Whole hour of day, 0 to 23 (0 when left out)",
+        "type": "integer"
+      },
+      "scheduled_delivery": {
+        "description": "Also mail the whole list then. Read only without destination",
+        "type": "boolean"
+      },
+      "scheduled_posting_at": {
+        "description": "When to release it, ISO 8601",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}
+---- describe test_post ----
+{
+  "action": "test_post",
+  "method": "POST",
+  "path": "/posts/{post_id}/test_delivery",
+  "summary": "Mail a test of a post as it stands to one address. The list is not mailed and the post does not change, but the test is real mail. This cannot be undone.",
+  "doc": "422 for an address that is not one or while the newsletter has no sender. At most 10 tests in 3 minutes.",
+  "readonly": false,
+  "idempotent": false,
+  "destructive": true,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ],
+  "body": {
+    "properties": {
+      "email_address": {
+        "description": "Where the test goes (default: the signed-in person's own address)",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}
+---- describe unlist_post ----
+{
+  "action": "unlist_post",
+  "method": "DELETE",
+  "path": "/posts/{post_id}/listing",
+  "summary": "Keep a published post's page and take it out of the archive and the feed (visibility unlisted)",
+  "doc": "403 for a draft or an email-only post.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe unpublish_post ----
+{
+  "action": "unpublish_post",
+  "method": "DELETE",
+  "path": "/posts/{post_id}/publication",
+  "summary": "Take a post's page down",
+  "doc": "A post never mailed is a draft again. An issue already mailed is never a draft and never mailed twice: it stays sent, by email only, and its links stop answering until publish_post gives it a page again.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe unschedule_post ----
+{
+  "action": "unschedule_post",
+  "method": "DELETE",
+  "path": "/posts/{post_id}/schedule",
+  "summary": "Cancel a draft's schedule; it stays a draft",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe update_post ----
+{
+  "action": "update_post",
+  "method": "PATCH",
+  "path": "/posts/{post_id}",
+  "summary": "Edit a post, changing only what is sent",
+  "doc": "A published post can be edited: its page shows the correction, and the email already sent does not change. Send at least one field.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    }
+  ],
+  "body": {
+    "properties": {
+      "body": {
+        "description": "The post's text as HTML (Markdown is not converted here). A box for one audience is \u003caside data-audience=\"web\"\u003e...\u003c/aside\u003e or \u003caside data-audience=\"email\"\u003e...\u003c/aside\u003e: send it back exactly as body_html has it.",
+        "type": "string"
+      },
+      "published_at": {
+        "description": "Corrected date of a published post that is on the web, ISO 8601, now or earlier. Dropped without a word for any other post",
+        "type": "string"
+      },
+      "summary": {
+        "description": "The writer's own line about the post, shown in place of how it begins",
+        "type": "string"
+      },
+      "title": {
+        "description": "Title, which is also the email's subject",
+        "type": "string"
+      },
+      "visibility": {
+        "description": "listed, unlisted (reached by its link only) or email_only (no page)",
+        "enum": [
+          "listed",
+          "unlisted",
+          "email_only"
+        ],
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "body_key": "post"
+}
+---- describe update_post_link ----
+{
+  "action": "update_post_link",
+  "method": "PATCH",
+  "path": "/posts/{post_id}/links/{link_id}",
+  "summary": "Correct where a mailed link sends a reader from now on; the email already sent keeps its text",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "post_id",
+      "in": "path",
+      "required": true,
+      "description": "The post's ID",
+      "schema": {
+        "description": "The post's ID",
+        "type": "string"
+      }
+    },
+    {
+      "name": "link_id",
+      "in": "path",
+      "required": true,
+      "description": "The link's ID (from list_post_links)",
+      "schema": {
+        "description": "The link's ID (from list_post_links)",
+        "type": "string"
+      }
+    }
+  ],
+  "body": {
+    "properties": {
+      "url": {
+        "description": "A web address, http or https",
+        "type": "string"
+      }
+    },
+    "required": [
+      "url"
+    ],
+    "type": "object"
+  },
+  "body_key": "post_link"
+}
+==== TOOL mailpiece_search ====
+title: Mailpiece Search
+Search a newsletter: the posts and the subscribers a query matches. Admins only.
+
+Gateway tool: call with {"action": "...", "params": {...}}.
+Call {"action": "describe", "params": {"action": "NAME"}} for an action's full parameter schema.
+
+ACTIONS (RO = read-only):
+- search (RO, paginated): Find the posts and the subscribers matching a query, newest first
+---- input schema ----
+{
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "search",
+        "describe"
+      ],
+      "type": "string"
+    },
+    "params": {
+      "description": "Parameters for the action. Call describe for the action's schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "action"
+  ],
+  "type": "object"
+}
+---- describe search ----
+{
+  "action": "search",
+  "method": "GET",
+  "path": "/search",
+  "summary": "Find the posts and the subscribers matching a query, newest first",
+  "doc": "Answers {posts, subscribers}. subscribers holds one page of the matches and page pages them; posts is whole and comes again on every page. Without q both are empty.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "paginated": true,
+  "params": [
+    {
+      "name": "q",
+      "in": "query",
+      "required": true,
+      "description": "What to look for",
+      "schema": {
+        "description": "What to look for",
+        "type": "string"
+      }
+    },
+    {
+      "name": "page",
+      "in": "query",
+      "description": "Page number; responses include next_page when more results exist.",
+      "schema": {
+        "description": "Page number",
+        "type": "integer"
+      }
+    }
+  ]
+}
+==== TOOL mailpiece_subscribers ====
+title: Mailpiece Subscribers
+Mailpiece subscribers: the people on the newsletter's list. A subscriber's status is one of, read in this order: bounced (the mail provider stopped delivering to the address), deactivated (an admin stopped it), unsubscribed (the person left), confirmed, or unconfirmed (it has not answered its confirmation yet). Only a confirmed subscriber is mailed. Only the person undoes an unsubscribe or a bounce, by subscribing again from the public form and confirming from the link mailed to them: no action here does it for them. Admins only.
+
+Gateway tool: call with {"action": "...", "params": {...}}.
+Call {"action": "describe", "params": {"action": "NAME"}} for an action's full parameter schema.
+
+ACTIONS (RO = read-only):
+- activate_subscriber: Resume a subscriber an admin stopped. It undoes neither an unsubscribe nor a bounce.
+- create_subscriber: Add one address to the list, already confirmed: no confirmation is mailed. Refused for an address that unsubscribed, bounced or was stopped.
+- deactivate_subscriber: Stop mailing a subscriber, keeping it and its history; activate_subscriber resumes it.
+- delete_subscriber (destructive): Delete a subscriber for good, with its deliveries and journey history. This cannot be undone.
+- get_subscriber (RO, paginated): Show a subscriber with the issues mailed to it, newest first
+- list_bounced_subscribers (RO, paginated): List the subscribers the mail provider stopped delivering to, most recently bounced first
+- list_deactivated_subscribers (RO, paginated): List the subscribers an admin stopped, most recently stopped first
+- list_subscribers (RO, paginated): List the confirmed subscribers, the people an issue is mailed to, newest first
+- list_unconfirmed_subscribers (RO, paginated): List the subscribers that have not answered their confirmation yet, newest first
+- list_unsubscribed_subscribers (RO, paginated): List the subscribers that left, most recently unsubscribed first
+---- input schema ----
+{
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "activate_subscriber",
+        "create_subscriber",
+        "deactivate_subscriber",
+        "delete_subscriber",
+        "get_subscriber",
+        "list_bounced_subscribers",
+        "list_deactivated_subscribers",
+        "list_subscribers",
+        "list_unconfirmed_subscribers",
+        "list_unsubscribed_subscribers",
+        "describe"
+      ],
+      "type": "string"
+    },
+    "params": {
+      "description": "Parameters for the action. Call describe for the action's schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "action"
+  ],
+  "type": "object"
+}
+---- describe activate_subscriber ----
+{
+  "action": "activate_subscriber",
+  "method": "POST",
+  "path": "/subscribers/{subscriber_id}/activation",
+  "summary": "Resume a subscriber an admin stopped. It undoes neither an unsubscribe nor a bounce.",
+  "doc": "Reverses deactivate_subscriber and nothing else: the subscriber goes back to the state it was in, confirmed and mailed again or still unconfirmed. The app answers 201 only when it resumed the person and 200 when it changed nothing. The result here is the subscriber either way, without the status: one that was not stopped comes back unchanged, so read its status with get_subscriber first to tell the two apart.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "subscriber_id",
+      "in": "path",
+      "required": true,
+      "description": "The subscriber's ID (from a subscribers list)",
+      "schema": {
+        "description": "The subscriber's ID (from a subscribers list)",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe create_subscriber ----
+{
+  "action": "create_subscriber",
+  "method": "POST",
+  "path": "/subscribers",
+  "summary": "Add one address to the list, already confirmed: no confirmation is mailed. Refused for an address that unsubscribed, bounced or was stopped.",
+  "doc": "The confirmation's journey does not start, since the person did not confirm it themselves. An address already on the list is answered as it is (200, not 201), and one that had not confirmed yet is confirmed. An address that unsubscribed, bounced or was stopped is never brought back this way: it is refused with a 422, as is one that is not an address, and the error says under email which of the four it was. Only the person undoes an unsubscribe or a bounce; a stopped subscriber is resumed with activate_subscriber.",
+  "readonly": false,
+  "idempotent": false,
+  "destructive": false,
+  "body": {
+    "properties": {
+      "email": {
+        "description": "The email address to add",
+        "type": "string"
+      }
+    },
+    "required": [
+      "email"
+    ],
+    "type": "object"
+  },
+  "body_key": "subscriber"
+}
+---- describe deactivate_subscriber ----
+{
+  "action": "deactivate_subscriber",
+  "method": "DELETE",
+  "path": "/subscribers/{subscriber_id}/activation",
+  "summary": "Stop mailing a subscriber, keeping it and its history; activate_subscriber resumes it.",
+  "doc": "The admin's own switch. Only a confirmed or unconfirmed subscriber is stopped; one that unsubscribed or bounced is refused with a 403 that says so, since it is not mailed as it is. One already stopped is answered unchanged.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "params": [
+    {
+      "name": "subscriber_id",
+      "in": "path",
+      "required": true,
+      "description": "The subscriber's ID (from a subscribers list)",
+      "schema": {
+        "description": "The subscriber's ID (from a subscribers list)",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe delete_subscriber ----
+{
+  "action": "delete_subscriber",
+  "method": "DELETE",
+  "path": "/subscribers/{subscriber_id}",
+  "summary": "Delete a subscriber for good, with its deliveries and journey history. This cannot be undone.",
+  "doc": "Nothing then remembers that the address unsubscribed or bounced, so it can be added again as new: deleting is the one way an admin gets past either. Confirm with the person before running it. To stop mailing someone and keep their history, use deactivate_subscriber.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true,
+  "params": [
+    {
+      "name": "subscriber_id",
+      "in": "path",
+      "required": true,
+      "description": "The subscriber's ID (from a subscribers list)",
+      "schema": {
+        "description": "The subscriber's ID (from a subscribers list)",
+        "type": "string"
+      }
+    }
+  ]
+}
+---- describe get_subscriber ----
+{
+  "action": "get_subscriber",
+  "method": "GET",
+  "path": "/subscribers/{subscriber_id}",
+  "summary": "Show a subscriber with the issues mailed to it, newest first",
+  "doc": "deliveries holds one page of the posts mailed to the subscriber, each with its id, created_at and status: sent, refused, unverified (handed over and never answered, so never sent again) or pending. page pages the deliveries.",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "paginated": true,
+  "params": [
+    {
+      "name": "subscriber_id",
+      "in": "path",
+      "required": true,
+      "description": "The subscriber's ID (from a subscribers list)",
+      "schema": {
+        "description": "The subscriber's ID (from a subscribers list)",
+        "type": "string"
+      }
+    },
+    {
+      "name": "page",
+      "in": "query",
+      "description": "Page number; responses include next_page when more results exist.",
+      "schema": {
+        "description": "Page number",
+        "type": "integer"
+      }
+    }
+  ]
+}
+---- describe list_bounced_subscribers ----
+{
+  "action": "list_bounced_subscribers",
+  "method": "GET",
+  "path": "/subscribers/bounced",
+  "summary": "List the subscribers the mail provider stopped delivering to, most recently bounced first",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "paginated": true,
+  "params": [
+    {
+      "name": "page",
+      "in": "query",
+      "description": "Page number; responses include next_page when more results exist.",
+      "schema": {
+        "description": "Page number",
+        "type": "integer"
+      }
+    }
+  ]
+}
+---- describe list_deactivated_subscribers ----
+{
+  "action": "list_deactivated_subscribers",
+  "method": "GET",
+  "path": "/subscribers/deactivated",
+  "summary": "List the subscribers an admin stopped, most recently stopped first",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "paginated": true,
+  "params": [
+    {
+      "name": "page",
+      "in": "query",
+      "description": "Page number; responses include next_page when more results exist.",
+      "schema": {
+        "description": "Page number",
+        "type": "integer"
+      }
+    }
+  ]
+}
+---- describe list_subscribers ----
+{
+  "action": "list_subscribers",
+  "method": "GET",
+  "path": "/subscribers",
+  "summary": "List the confirmed subscribers, the people an issue is mailed to, newest first",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "paginated": true,
+  "params": [
+    {
+      "name": "page",
+      "in": "query",
+      "description": "Page number; responses include next_page when more results exist.",
+      "schema": {
+        "description": "Page number",
+        "type": "integer"
+      }
+    }
+  ]
+}
+---- describe list_unconfirmed_subscribers ----
+{
+  "action": "list_unconfirmed_subscribers",
+  "method": "GET",
+  "path": "/subscribers/unconfirmed",
+  "summary": "List the subscribers that have not answered their confirmation yet, newest first",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "paginated": true,
+  "params": [
+    {
+      "name": "page",
+      "in": "query",
+      "description": "Page number; responses include next_page when more results exist.",
+      "schema": {
+        "description": "Page number",
+        "type": "integer"
+      }
+    }
+  ]
+}
+---- describe list_unsubscribed_subscribers ----
+{
+  "action": "list_unsubscribed_subscribers",
+  "method": "GET",
+  "path": "/subscribers/unsubscribed",
+  "summary": "List the subscribers that left, most recently unsubscribed first",
+  "readonly": true,
+  "idempotent": false,
+  "destructive": false,
+  "paginated": true,
+  "params": [
+    {
+      "name": "page",
+      "in": "query",
+      "description": "Page number; responses include next_page when more results exist.",
+      "schema": {
+        "description": "Page number",
+        "type": "integer"
+      }
+    }
+  ]
+}

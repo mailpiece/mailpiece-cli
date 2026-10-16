@@ -1,0 +1,32 @@
+# Build artifacts
+bin/
+/mailpiece
+*.exe
+*.test
+
+# Release artifacts
+dist/
+completions/
+
+# Go coverage
+*.out
+coverage.html
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS
+.DS_Store
+
+# Profiling
+profiles/
+default.pgo
+
+# Local config (may hold a token)
+.mailpiece.yaml
+
+# Local test credentials
+.env.test

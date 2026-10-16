@@ -1,0 +1,75 @@
+{
+  "manifest_version": "0.3",
+  "name": "mailpiece",
+  "display_name": "Mailpiece",
+  "version": "0.0.3",
+  "description": "Work with your Mailpiece newsletter: its posts, drafts, scheduled and mailed, with their versions and links, its subscribers and what each was mailed, and its snippets, journeys and settings. Read-only unless you allow changes.",
+  "author": {
+    "name": "Mailpiece"
+  },
+  "server": {
+    "type": "binary",
+    "entry_point": "server/mailpiece",
+    "mcp_config": {
+      "command": "${__dirname}/server/mailpiece",
+      "args": [
+        "mcp"
+      ],
+      "env": {
+        "MAILPIECE_TOKEN": "${user_config.token}",
+        "MAILPIECE_ACCOUNT": "${user_config.account}",
+        "MAILPIECE_API_URL": "${user_config.api_url}",
+        "MAILPIECE_MCP_WRITES": "${user_config.allow_changes}",
+        "MAILPIECE_MCP_DOMAINS": "${user_config.tools}",
+        "MAILPIECE_NO_KEYRING": "1"
+      },
+      "platform_overrides": {
+        "win32": {
+          "command": "${__dirname}/server/mailpiece.exe"
+        }
+      }
+    }
+  },
+  "user_config": {
+    "token": {
+      "type": "string",
+      "title": "Access token",
+      "description": "Create one in Mailpiece under Profile › Personal access tokens. Read permission is enough unless you allow changes below.",
+      "sensitive": true,
+      "required": true
+    },
+    "allow_changes": {
+      "type": "boolean",
+      "title": "Allow changes",
+      "description": "Off: Claude can only read. On: Claude can also write, publish, schedule and mail posts, add, stop and delete subscribers, and change snippets, journeys, settings and your access tokens, as far as your own role allows. Needs a token with write permission.",
+      "default": false,
+      "required": false
+    },
+    "tools": {
+      "type": "string",
+      "title": "Tools",
+      "description": "Leave empty for all. To limit Claude, list the ones to serve, separated by commas, for example: posts,subscribers. The names are posts, search, subscribers, snippets, journeys, settings, users, identity and access_tokens; access_tokens is served only when changes are allowed. A name not on this list stops the extension from starting.",
+      "default": "",
+      "required": false
+    },
+    "account": {
+      "type": "string",
+      "title": "Account",
+      "description": "The number or the handle in your Mailpiece address, for example 834206594. Leave empty if you belong to one account.",
+      "default": "",
+      "required": false
+    },
+    "api_url": {
+      "type": "string",
+      "title": "Mailpiece address",
+      "description": "The address of your Mailpiece install, without the account, for example https://mail.example.com.",
+      "required": true
+    }
+  },
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32"
+    ]
+  }
+}
