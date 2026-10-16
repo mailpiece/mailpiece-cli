@@ -128,11 +128,11 @@ var postCreateCmd = &cobra.Command{
 		"terminal. --attach uploads a file and adds it at the end of the body, as the editor does.",
 	Args: cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		body, bodyGiven, err := richTextFromInput(cmd, "body", postCreateBody, postCreateBodyFile, true, nil)
+		files, err := readAttachments(postCreateAttach)
 		if err != nil {
 			return err
 		}
-		files, err := readAttachments(postCreateAttach)
+		body, bodyGiven, err := richTextFromInput(cmd, "body", postCreateBody, postCreateBodyFile, true, nil)
 		if err != nil {
 			return err
 		}
@@ -184,6 +184,10 @@ var postUpdateCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		implicit := noFlagChanged(cmd, "title", "summary", "visibility", "published-at", "attach")
 		currentBody := func() (string, error) { return postBodyHTML(cmd, args[0]) }
+		files, err := readAttachments(postUpdateAttach)
+		if err != nil {
+			return err
+		}
 		body, bodyGiven, err := richTextFromInput(cmd, "body", postUpdateBody, postUpdateBodyFile, implicit, currentBody)
 		if err != nil {
 			return err
@@ -191,10 +195,6 @@ var postUpdateCmd = &cobra.Command{
 		if implicit && !bodyGiven {
 			return usageWithHint("Nothing to change",
 				"cat issue.md | mailpiece post update "+args[0]+"  or  mailpiece post update "+args[0]+" --body-file issue.md")
-		}
-		files, err := readAttachments(postUpdateAttach)
-		if err != nil {
-			return err
 		}
 		if err = requireAuthAndAccount(); err != nil {
 			return err

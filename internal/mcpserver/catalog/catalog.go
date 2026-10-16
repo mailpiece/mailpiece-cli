@@ -1,7 +1,7 @@
-// Package catalog hand-writes the Mailpiece MCP tool catalog, as fizzy-cli
-// hand-writes Fizzy's: curated domain specs mirroring the JSON the Mailpiece
-// app serves. The rendering contract (tool description, input schema, the
-// describe payload) matches the toolkit's generated rendering.
+// Package catalog hand-writes the Mailpiece MCP tool catalog: curated domain
+// specs mirroring the JSON the Mailpiece app serves. The rendering contract
+// (tool description, input schema, the describe payload) matches the
+// toolkit's generated rendering.
 //
 // Each lane adds its domains in its own domains_<lane>.go, registering them
 // from init() with Register. A write operation takes its request body from

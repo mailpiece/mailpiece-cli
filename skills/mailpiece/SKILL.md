@@ -188,9 +188,9 @@ written.
 
 With no text flag, `post`, `snippet` and `journey email` create and update read the body from piped
 stdin (on a terminal they open `$EDITOR`); an update does so only when no other field is passed.
-`-t` is the title and `-c` the body or content. `--attach FILE` (repeatable) on `post create` and
-`post update` uploads the file and adds it at the end of the body; `post update ID --attach FILE`
-alone appends to the current body. For exact placement, write the `<action-text-attachment sgid=...>`
+`-t` is the title or subject and `-c` the body or content. `--attach FILE` (repeatable) on `post` and
+`journey email` create and update uploads the file and adds it at the end of the body; an update
+given only `--attach FILE` appends to the current body. For exact placement, write the `<action-text-attachment sgid=...>`
 tag yourself.
 
 ```bash

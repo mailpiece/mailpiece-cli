@@ -216,8 +216,9 @@ check-all: check lint tidy-check test-race e2e
 release-check: check lint tidy-check test-race replace-check vuln secrets
 
 # Release (delegates to script)
+# VERSION defaults to git describe, which release.sh refuses, so only a VERSION given by hand is passed.
 release:
-	@scripts/release.sh $(VERSION)
+	@scripts/release.sh $(if $(filter command line environment,$(origin VERSION)),$(VERSION))
 
 # Lint GitHub Actions workflows
 lint-actions:

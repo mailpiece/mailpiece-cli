@@ -51,8 +51,8 @@ Run bare, piped or with `--agent`, `mailpiece` prints a quickstart JSON; in a te
 one address. Text flags (`--body`, `--content`, `--description`) take Markdown or HTML, and each has a
 `-file` twin that reads a file, or stdin with `-`. With no text flag, `post`, `snippet` and
 `journey email` read the body from piped stdin, or open `$EDITOR` in a terminal; `-t` is the title
-and `-c` the body. `--attach FILE` (repeatable) on `post create`/`update` uploads a file and adds it
-at the end of the body.
+or subject and `-c` the body. `--attach FILE` (repeatable) on `post` and `journey email`
+`create`/`update` uploads a file and adds it at the end of the body.
 
 ```bash
 cat issue.md | mailpiece post create -t "Shipping week" --attach chart.png
@@ -135,8 +135,8 @@ make surface-snapshot   # Regenerate SURFACE.txt after changing a command or fla
 make test-unit          # Run unit tests, CLI and SDK (no API required)
 make e2e                # Run owner-only CLI contract e2e suite
 make e2e-run NAME=TestOutputContractListCommands
-make check              # fmt-check, vet, lint, tidy-check, race-test
-make release-check      # check, replace-check, vuln
+make check              # fmt-check, vet, test
+make release-check      # check, lint, tidy-check, test-race, replace-check, vuln, secrets
 ```
 
 E2E requirements, read from `.env.test` (copy `.env.test.example`):
