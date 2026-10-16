@@ -62,9 +62,9 @@ help:
 	@echo ""
 	@echo "  make lint-actions   Lint GitHub Actions workflows"
 	@echo "  make security       lint + vuln + secrets"
-	@echo "  make check          fmt-check + vet + test"
-	@echo "  make check-all      check + lint + tidy-check + test-race + e2e"
-	@echo "  make release-check  check + lint + tidy-check + test-race + replace-check + vuln + secrets"
+	@echo "  make check          fmt-check + vet + lint + lint-actions + tidy-check + test-race (local CI gate)"
+	@echo "  make check-all      check + e2e"
+	@echo "  make release-check  check + replace-check + vuln + secrets"
 	@echo "  make release        Run release preflight and tag (VERSION=0.2.0)"
 	@echo "  make tools          Install dev tools"
 	@echo ""
@@ -206,22 +206,25 @@ replace-check:
 # Security suite
 security: lint vuln secrets
 
-# Local gate, fast and Go-only (fmt, vet, unit tests)
-check: fmt-check vet test
+# Local CI gate: everything the test workflow checks, minus govulncheck.
+# test-race runs the unit tests, so plain test is not repeated here.
+check: fmt-check vet lint lint-actions tidy-check test-race
 
-# Full CI suite: adds lint, tidiness, race detection and e2e
-check-all: check lint tidy-check test-race e2e
+# Everything, including the e2e suite (needs API credentials)
+check-all: check e2e
 
-# Release preflight
-release-check: check lint tidy-check test-race replace-check vuln secrets
+# Release preflight: check plus what only a release needs
+release-check: check replace-check vuln secrets
 
 # Release (delegates to script)
 # VERSION defaults to git describe, which release.sh refuses, so only a VERSION given by hand is passed.
 release:
 	@scripts/release.sh $(if $(filter command line environment,$(origin VERSION)),$(VERSION))
 
-# Lint GitHub Actions workflows
+# Lint GitHub Actions workflows (requires actionlint + zizmor, pinned in .mise.toml)
 lint-actions:
+	@command -v actionlint >/dev/null || (echo "Install actionlint: mise install (or: make tools)" && exit 1)
+	@command -v zizmor >/dev/null || (echo "Install zizmor: mise install (or: make tools)" && exit 1)
 	actionlint
 	zizmor .
 

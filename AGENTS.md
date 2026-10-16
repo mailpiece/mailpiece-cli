@@ -58,11 +58,12 @@ make test-e2e         # Run e2e tests (requires credentials; alias of make e2e)
 make test-run NAME=TestOutputContractListCommands  # Run a specific e2e test
 make surface-snapshot # Regenerate SURFACE.txt
 go test ./internal/mcpserver/catalog -update   # Regenerate the MCP catalog snapshot
-make check            # fmt-check vet test
-make check-all        # check, lint, tidy-check, test-race, e2e
+make check            # Local CI gate: fmt-check vet lint lint-actions tidy-check test-race
+make check-all        # check, e2e
 ```
 
-Requirements: Go 1.26+, API credentials for e2e tests.
+Requirements: Go 1.26+ and the linters pinned in `.mise.toml` (`mise install`), API credentials
+for e2e tests.
 
 Agents write tests and compile them with `go test -run '^$' ./...`; the owner runs them.
 
@@ -100,12 +101,14 @@ E2E environment variables (read from `.env.test`, see `.env.test.example`):
 
 ## Checks
 
-`make check` runs `fmt-check vet test`. There is no `surface-check`
-in that list, but the surface gate still runs: `test` is
-`go test ./internal/... ./pkg/...`, which includes
-`internal/commands.TestSurfaceSnapshot`. `make check-all` adds `lint`, `tidy-check`,
-`test-race` and `e2e`; `make release-check` runs all of those but `e2e`, plus
-`replace-check`, `vuln` and `secrets`.
+`make check` is the local CI gate: `fmt-check vet lint lint-actions tidy-check test-race`,
+which is what the test workflow runs, minus govulncheck. Run it before pushing. There is no
+`surface-check` in that list, but the surface gate still runs: `test-race` is
+`go test -race ./internal/... ./pkg/...`, which includes
+`internal/commands.TestSurfaceSnapshot`. `make test` runs the unit tests alone.
+`make check-all` adds `e2e`; `make release-check` adds `replace-check`, `vuln` and
+`secrets` instead. `lint-actions` needs actionlint, zizmor and shellcheck, pinned in
+`.mise.toml`: `mise install` gets the versions CI uses.
 
 `SURFACE.txt` at the repository root is a golden snapshot of the CLI's *structure*:
 `CMD`, `SUB`, `FLAG` and `ARG` records, and that test compares against it. It does not

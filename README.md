@@ -148,8 +148,9 @@ make surface-snapshot   # Regenerate SURFACE.txt after changing a command or fla
 make test-unit          # Run unit tests, CLI and SDK (no API required)
 make e2e                # Run owner-only CLI contract e2e suite
 make e2e-run NAME=TestOutputContractListCommands
-make check              # fmt-check, vet, test
-make release-check      # check, lint, tidy-check, test-race, replace-check, vuln, secrets
+make check              # Local CI gate: fmt-check, vet, lint, lint-actions, tidy-check, test-race
+make check-all          # check, e2e
+make release-check      # check, replace-check, vuln, secrets
 ```
 
 E2E requirements, read from `.env.test` (copy `.env.test.example`):
