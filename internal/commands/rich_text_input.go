@@ -49,9 +49,9 @@ func richTextFromInput(cmd *cobra.Command, name, value, file string, implicit bo
 	}
 
 	if in := cmd.InOrStdin(); stdinIsPiped(in) {
-		data, err := io.ReadAll(io.LimitReader(in, maxStdinText+1))
-		if err != nil {
-			return "", false, errors.NewInvalidArgsError(fmt.Sprintf("Cannot read --%s from stdin: %v", name, err))
+		data, readErr := io.ReadAll(io.LimitReader(in, maxStdinText+1))
+		if readErr != nil {
+			return "", false, errors.NewInvalidArgsError(fmt.Sprintf("Cannot read --%s from stdin: %v", name, readErr))
 		}
 		if len(data) > maxStdinText {
 			return "", false, errors.NewInvalidArgsError(fmt.Sprintf("stdin for --%s is over %d bytes", name, maxStdinText))
