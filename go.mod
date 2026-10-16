@@ -1,6 +1,6 @@
 module github.com/mailpiece/mailpiece-cli
 
-go 1.26.8
+go 1.26.9
 
 require (
 	github.com/basecamp/cli v0.2.1

@@ -12,7 +12,7 @@ never a standalone MCP server. It is a port of `/rails/vendor/other/auditans-cli
 - Repository root: `/rails/vendor/other/mailpiece-cli` (its own git repository)
 - Go module: `github.com/mailpiece/mailpiece-cli`
 - Binary: `mailpiece`, entry point `cmd/mailpiece/main.go`
-- Go: 1.26.8, pinned in `.mise.toml`
+- Go: 1.26.9, pinned in `.mise.toml`
 - Auth: bearer token (personal access token). No OAuth, no PKCE, no callback server
 
 ## Where it stands
