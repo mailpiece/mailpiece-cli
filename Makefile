@@ -21,6 +21,10 @@ LDFLAGS := -X main.version=$(VERSION) -X main.commit=$(COMMIT) -X main.date=$(DA
 
 DIST := $(CURDIR)/dist
 MCPB_BUILD := CGO_ENABLED=0 go build -ldflags "-s -w $(LDFLAGS)"
+# The extension's version must be semver, and Claude Desktop installs a bundle only when it is
+# newer than the one it has. A release tag gives its number; any other build gives a 0.0.0
+# prerelease stamped with the build's time and commit, so each dev build is newer than the last.
+MCPB_VERSION := $(shell echo '$(VERSION)' | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$$' && echo '$(VERSION)' | sed 's/^v//' || echo "0.0.0-dev.$(shell echo $(DATE) | tr -d 'TZ:-').g$(COMMIT)")
 MAKEFAT := github.com/randall77/makefat@v0.0.0-20260406194835-1b91746796b7
 
 # Test configuration (set these or export as environment variables)
@@ -100,12 +104,12 @@ build: check-toolchain
 	@mkdir -p $(BUILD_DIR)
 	go build -ldflags "$(LDFLAGS)" -o $(BINARY) ./cmd/mailpiece
 
-# Build the desktop extension: the manifest, a universal macOS binary and a
-# Windows one. lipo exists on macOS only; makefat does the same job elsewhere.
+# Build the desktop extension: the manifest with this build's version, a universal macOS
+# binary and a Windows one. lipo exists on macOS only; makefat does the same job elsewhere.
 mcpb: check-toolchain
 	@rm -rf $(DIST)/extension $(DIST)/mailpiece.mcpb
 	@mkdir -p $(DIST)/extension/server
-	cp extension/manifest.json $(DIST)/extension/manifest.json
+	sed 's/"version": "[^"]*"/"version": "$(MCPB_VERSION)"/' extension/manifest.json > $(DIST)/extension/manifest.json
 	GOOS=darwin GOARCH=arm64 $(MCPB_BUILD) -o $(DIST)/mailpiece-darwin-arm64 ./cmd/mailpiece
 	GOOS=darwin GOARCH=amd64 $(MCPB_BUILD) -o $(DIST)/mailpiece-darwin-amd64 ./cmd/mailpiece
 	@if command -v lipo >/dev/null 2>&1; then \
@@ -115,6 +119,7 @@ mcpb: check-toolchain
 	fi
 	GOOS=windows GOARCH=amd64 $(MCPB_BUILD) -o $(DIST)/extension/server/mailpiece.exe ./cmd/mailpiece
 	cd $(DIST)/extension && zip -q -r -X ../mailpiece.mcpb manifest.json server
+	@echo "Built $(DIST)/mailpiece.mcpb, version $(MCPB_VERSION)"
 
 # Run unit tests (no API required, no network)
 test: check-toolchain
