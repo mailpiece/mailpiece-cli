@@ -56,25 +56,19 @@ func devNull(t *testing.T, cmd *cobra.Command) {
 
 func TestRichTextShortFlags(t *testing.T) {
 	for _, tc := range []struct {
-		cmd    *cobra.Command
-		flags  map[string]string
-		absent []string
+		cmd   *cobra.Command
+		flags map[string]string
 	}{
-		{postCreateCmd, map[string]string{"t": "title", "c": "body"}, nil},
-		{postUpdateCmd, map[string]string{"t": "title", "c": "body"}, nil},
-		{snippetCreateCmd, map[string]string{"c": "content"}, nil},
-		{snippetUpdateCmd, map[string]string{"c": "content"}, nil},
-		{journeyEmailCreateCmd, map[string]string{"c": "body"}, []string{"t"}},
-		{journeyEmailUpdateCmd, map[string]string{"c": "body"}, []string{"t"}},
+		{postCreateCmd, map[string]string{"t": "title", "c": "body"}},
+		{postUpdateCmd, map[string]string{"t": "title", "c": "body"}},
+		{snippetCreateCmd, map[string]string{"c": "content"}},
+		{snippetUpdateCmd, map[string]string{"c": "content"}},
+		{journeyEmailCreateCmd, map[string]string{"t": "subject", "c": "body"}},
+		{journeyEmailUpdateCmd, map[string]string{"t": "subject", "c": "body"}},
 	} {
 		for short, long := range tc.flags {
 			if f := tc.cmd.Flags().ShorthandLookup(short); f == nil || f.Name != long {
 				t.Errorf("%s: -%s is not --%s", tc.cmd.CommandPath(), short, long)
-			}
-		}
-		for _, short := range tc.absent {
-			if tc.cmd.Flags().ShorthandLookup(short) != nil {
-				t.Errorf("%s: -%s is taken", tc.cmd.CommandPath(), short)
 			}
 		}
 	}
