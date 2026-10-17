@@ -655,14 +655,18 @@ ACTIONS (RO = read-only):
 - get_join_code (RO): Get the code people join the newsletter's team with, its link, and how often it has been used
 - get_newsletter (RO): Get the newsletter's name, description and language
 - get_notifications (RO): Get whether the signed-in admin is emailed when someone confirms a subscription
-- get_sending (RO): Get who the newsletter's mail is from: from name, from address and reply-to
+- get_sending (RO): Get who the newsletter's mail is from and how it leaves: from name, from address, reply-to and transport
 - get_subscribe_form (RO): Get where the embedded subscription form sends a person back to
+- remove_sending_relay (destructive): Remove the relay and its token; the newsletter sends nothing until a transport is set again. This cannot be undone.
+- remove_sending_smtp (destructive): Remove the SMTP server and its password; the newsletter sends nothing until a transport is set again. This cannot be undone.
 - reset_join_code (destructive): Retire the join code and issue a new one, used no times; the old code and every link carrying it stop working. This cannot be undone.
 - update_handle (destructive): Change the newsletter's handle, or clear it so the newsletter answers at its number alone. Every link already mailed with the old handle stops working. This cannot be undone.
 - update_join_code: Change how many times the join code can be used
 - update_newsletter: Change the newsletter's name, description or language; only what is passed changes
 - update_notifications: Set whether the signed-in admin is emailed when someone confirms a subscription
 - update_sending: Change who the newsletter's mail is from; only what is passed changes
+- update_sending_relay: Send the newsletter's mail through a relay; replaces an SMTP server if one was set
+- update_sending_smtp: Send the newsletter's mail through an SMTP server; replaces a relay if one was set
 - update_subscribe_form: Set where the embedded subscription form sends a person back to
 ---- input schema ----
 {
@@ -676,12 +680,16 @@ ACTIONS (RO = read-only):
         "get_notifications",
         "get_sending",
         "get_subscribe_form",
+        "remove_sending_relay",
+        "remove_sending_smtp",
         "reset_join_code",
         "update_handle",
         "update_join_code",
         "update_newsletter",
         "update_notifications",
         "update_sending",
+        "update_sending_relay",
+        "update_sending_smtp",
         "update_subscribe_form",
         "describe"
       ],
@@ -745,8 +753,8 @@ ACTIONS (RO = read-only):
   "action": "get_sending",
   "method": "GET",
   "path": "/account/sending",
-  "summary": "Get who the newsletter's mail is from: from name, from address and reply-to",
-  "doc": "A newsletter mails nothing until it has a from name and a from address.",
+  "summary": "Get who the newsletter's mail is from and how it leaves: from name, from address, reply-to and transport",
+  "doc": "A newsletter mails nothing until it has a from name, a from address and a transport. transport is null, relay or smtp, with the relay and SMTP settings beside it. The relay token and the SMTP password are never returned.",
   "readonly": true,
   "idempotent": false,
   "destructive": false
@@ -760,6 +768,28 @@ ACTIONS (RO = read-only):
   "readonly": true,
   "idempotent": false,
   "destructive": false
+}
+---- describe remove_sending_relay ----
+{
+  "action": "remove_sending_relay",
+  "method": "DELETE",
+  "path": "/account/sending/relay",
+  "summary": "Remove the relay and its token; the newsletter sends nothing until a transport is set again. This cannot be undone.",
+  "doc": "The stored credentials are deleted with it. The app answers 204 with no body. Confirm with the person before calling it.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true
+}
+---- describe remove_sending_smtp ----
+{
+  "action": "remove_sending_smtp",
+  "method": "DELETE",
+  "path": "/account/sending/smtp",
+  "summary": "Remove the SMTP server and its password; the newsletter sends nothing until a transport is set again. This cannot be undone.",
+  "doc": "The stored credentials are deleted with it. The app answers 204 with no body. Confirm with the person before calling it.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": true
 }
 ---- describe reset_join_code ----
 {
@@ -896,6 +926,69 @@ ACTIONS (RO = read-only):
         "type": "string"
       }
     },
+    "type": "object"
+  }
+}
+---- describe update_sending_relay ----
+{
+  "action": "update_sending_relay",
+  "method": "PATCH",
+  "path": "/account/sending/relay",
+  "summary": "Send the newsletter's mail through a relay; replaces an SMTP server if one was set",
+  "doc": "A newsletter has one transport, relay or SMTP. relay_url is always required. relay_token is needed to set a relay up and refused (422) on one already set: to change it, remove the relay and set it up again. relay_token is write-only, never returned.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "body": {
+    "properties": {
+      "relay_token": {
+        "description": "Relay token; write-only, never returned",
+        "type": "string"
+      },
+      "relay_url": {
+        "description": "Address of the relay",
+        "type": "string"
+      }
+    },
+    "required": [
+      "relay_url"
+    ],
+    "type": "object"
+  }
+}
+---- describe update_sending_smtp ----
+{
+  "action": "update_sending_smtp",
+  "method": "PATCH",
+  "path": "/account/sending/smtp",
+  "summary": "Send the newsletter's mail through an SMTP server; replaces a relay if one was set",
+  "doc": "A newsletter has one transport, relay or SMTP. smtp_address and smtp_port are always required. smtp_username and smtp_password are optional, and setting up with a username needs a password. smtp_password is refused (422) on a server already set: to change it, remove the server and set it up again. smtp_password is write-only, never returned.",
+  "readonly": false,
+  "idempotent": true,
+  "destructive": false,
+  "body": {
+    "properties": {
+      "smtp_address": {
+        "description": "SMTP server address",
+        "type": "string"
+      },
+      "smtp_password": {
+        "description": "SMTP password; write-only, never returned",
+        "type": "string"
+      },
+      "smtp_port": {
+        "description": "SMTP server port",
+        "type": "integer"
+      },
+      "smtp_username": {
+        "description": "SMTP username",
+        "type": "string"
+      }
+    },
+    "required": [
+      "smtp_address",
+      "smtp_port"
+    ],
     "type": "object"
   }
 }

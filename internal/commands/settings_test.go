@@ -37,6 +37,28 @@ func TestSettingsCommands(t *testing.T) {
 			name: "sending update sends only what was passed", args: []string{"settings", "sending", "update", "--from-name", "Acme", "--reply-to-address", ""},
 			method: "PATCH", path: "/account/sending.json", body: map[string]any{"from_name": "Acme", "reply_to_address": ""},
 		},
+		{
+			name: "relay update sends the url and token", args: []string{"settings", "sending", "relay", "update", "--url", "https://relay.example", "--token", "t0ken"},
+			method: "PATCH", path: "/account/sending/relay.json", body: map[string]any{"relay_url": "https://relay.example", "relay_token": "t0ken"},
+		},
+		{
+			name: "relay update sends only the url", args: []string{"settings", "sending", "relay", "update", "--url", "https://relay.example"},
+			method: "PATCH", path: "/account/sending/relay.json", body: map[string]any{"relay_url": "https://relay.example"},
+		},
+		{name: "relay update needs the url", args: []string{"settings", "sending", "relay", "update", "--token", "t0ken"}, exit: errors.ExitUsage},
+		{name: "relay remove", args: []string{"settings", "sending", "relay", "remove"}, method: "DELETE", path: "/account/sending/relay.json"},
+		{
+			name: "smtp update sends the address and port", args: []string{"settings", "sending", "smtp", "update", "--address", "smtp.acme.example", "--port", "587"},
+			method: "PATCH", path: "/account/sending/smtp.json", body: map[string]any{"smtp_address": "smtp.acme.example", "smtp_port": float64(587)},
+		},
+		{
+			name: "smtp update sends the username and password", args: []string{"settings", "sending", "smtp", "update", "--address", "smtp.acme.example", "--port", "587", "--username", "acme", "--password", "pa55"},
+			method: "PATCH", path: "/account/sending/smtp.json",
+			body: map[string]any{"smtp_address": "smtp.acme.example", "smtp_port": float64(587), "smtp_username": "acme", "smtp_password": "pa55"},
+		},
+		{name: "smtp update needs the port", args: []string{"settings", "sending", "smtp", "update", "--address", "smtp.acme.example"}, exit: errors.ExitUsage},
+		{name: "smtp update needs the address", args: []string{"settings", "sending", "smtp", "update", "--port", "587"}, exit: errors.ExitUsage},
+		{name: "smtp remove", args: []string{"settings", "sending", "smtp", "remove"}, method: "DELETE", path: "/account/sending/smtp.json"},
 		{name: "sending update with nothing is refused", args: []string{"settings", "sending", "update"}, exit: errors.ExitUsage},
 
 		{name: "subscribe form show", args: []string{"settings", "subscribe-form", "show"}, method: "GET", path: "/account/subscribe_form.json"},

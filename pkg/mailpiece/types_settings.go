@@ -30,11 +30,18 @@ type HandleRequest struct {
 	Handle string `json:"handle"`
 }
 
-// Sender is account/senders/show.json.jbuilder: who the newsletter's own mail is from.
+// Sender is account/senders/show.json.jbuilder: who the newsletter's own mail is from and how it
+// leaves. Transport is null (nothing is sent), "relay" or "smtp"; the other fields are null when
+// unset. The relay token and the SMTP password are never answered.
 type Sender struct {
 	FromName       *string `json:"from_name"`
 	FromAddress    *string `json:"from_address"`
 	ReplyToAddress *string `json:"reply_to_address"`
+	Transport      *string `json:"transport"`
+	RelayURL       *string `json:"relay_url"`
+	SMTPAddress    *string `json:"smtp_address"`
+	SMTPPort       *int    `json:"smtp_port"`
+	SMTPUsername   *string `json:"smtp_username"`
 }
 
 // SenderRequest is the body of PATCH /account/sending.json, sent flat: the controller wraps it
@@ -43,6 +50,24 @@ type SenderRequest struct {
 	FromName       *string `json:"from_name,omitempty"`
 	FromAddress    *string `json:"from_address,omitempty"`
 	ReplyToAddress *string `json:"reply_to_address,omitempty"`
+}
+
+// RelayRequest is the body of PATCH /account/sending/relay.json, sent flat. The URL is
+// always required; the token is needed to set a relay up and refused on one already set. The token
+// is never answered.
+type RelayRequest struct {
+	RelayURL   *string `json:"relay_url,omitempty"`
+	RelayToken *string `json:"relay_token,omitempty"`
+}
+
+// SMTPRequest is the body of PATCH /account/sending/smtp.json, sent flat. The address and
+// port are always required; the password is needed to set a server up with a username and refused on
+// one already set. The password is never answered.
+type SMTPRequest struct {
+	SMTPAddress  *string `json:"smtp_address,omitempty"`
+	SMTPPort     *int    `json:"smtp_port,omitempty"`
+	SMTPUsername *string `json:"smtp_username,omitempty"`
+	SMTPPassword *string `json:"smtp_password,omitempty"`
 }
 
 // SubscribeForm is account/subscribe_forms/show.json.jbuilder: where the embedded form sends a

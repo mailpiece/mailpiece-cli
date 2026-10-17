@@ -24,6 +24,8 @@ ARG mailpiece settings join-code help 00 [command]
 ARG mailpiece settings newsletter help 00 [command]
 ARG mailpiece settings notifications help 00 [command]
 ARG mailpiece settings sending help 00 [command]
+ARG mailpiece settings sending relay help 00 [command]
+ARG mailpiece settings sending smtp help 00 [command]
 ARG mailpiece settings subscribe-form help 00 [command]
 ARG mailpiece setup help 00 [command]
 ARG mailpiece show 00 <url>
@@ -143,7 +145,15 @@ CMD mailpiece settings notifications update
 CMD mailpiece settings notifications view
 CMD mailpiece settings sending
 CMD mailpiece settings sending help
+CMD mailpiece settings sending relay
+CMD mailpiece settings sending relay help
+CMD mailpiece settings sending relay remove
+CMD mailpiece settings sending relay update
 CMD mailpiece settings sending show
+CMD mailpiece settings sending smtp
+CMD mailpiece settings sending smtp help
+CMD mailpiece settings sending smtp remove
+CMD mailpiece settings sending smtp update
 CMD mailpiece settings sending update
 CMD mailpiece settings sending view
 CMD mailpiece settings subscribe-form
@@ -1886,6 +1896,67 @@ FLAG mailpiece settings sending help --quiet type=bool
 FLAG mailpiece settings sending help --styled type=bool
 FLAG mailpiece settings sending help --token type=string
 FLAG mailpiece settings sending help --verbose type=count
+FLAG mailpiece settings sending relay --account type=string
+FLAG mailpiece settings sending relay --agent type=bool
+FLAG mailpiece settings sending relay --api-url type=string
+FLAG mailpiece settings sending relay --count type=bool
+FLAG mailpiece settings sending relay --help type=bool
+FLAG mailpiece settings sending relay --ids-only type=bool
+FLAG mailpiece settings sending relay --jq type=string
+FLAG mailpiece settings sending relay --json type=bool
+FLAG mailpiece settings sending relay --limit type=int
+FLAG mailpiece settings sending relay --markdown type=bool
+FLAG mailpiece settings sending relay --profile type=string
+FLAG mailpiece settings sending relay --quiet type=bool
+FLAG mailpiece settings sending relay --styled type=bool
+FLAG mailpiece settings sending relay --token type=string
+FLAG mailpiece settings sending relay --verbose type=count
+FLAG mailpiece settings sending relay help --account type=string
+FLAG mailpiece settings sending relay help --agent type=bool
+FLAG mailpiece settings sending relay help --api-url type=string
+FLAG mailpiece settings sending relay help --count type=bool
+FLAG mailpiece settings sending relay help --help type=bool
+FLAG mailpiece settings sending relay help --ids-only type=bool
+FLAG mailpiece settings sending relay help --jq type=string
+FLAG mailpiece settings sending relay help --json type=bool
+FLAG mailpiece settings sending relay help --limit type=int
+FLAG mailpiece settings sending relay help --markdown type=bool
+FLAG mailpiece settings sending relay help --profile type=string
+FLAG mailpiece settings sending relay help --quiet type=bool
+FLAG mailpiece settings sending relay help --styled type=bool
+FLAG mailpiece settings sending relay help --token type=string
+FLAG mailpiece settings sending relay help --verbose type=count
+FLAG mailpiece settings sending relay remove --account type=string
+FLAG mailpiece settings sending relay remove --agent type=bool
+FLAG mailpiece settings sending relay remove --api-url type=string
+FLAG mailpiece settings sending relay remove --count type=bool
+FLAG mailpiece settings sending relay remove --help type=bool
+FLAG mailpiece settings sending relay remove --ids-only type=bool
+FLAG mailpiece settings sending relay remove --jq type=string
+FLAG mailpiece settings sending relay remove --json type=bool
+FLAG mailpiece settings sending relay remove --limit type=int
+FLAG mailpiece settings sending relay remove --markdown type=bool
+FLAG mailpiece settings sending relay remove --profile type=string
+FLAG mailpiece settings sending relay remove --quiet type=bool
+FLAG mailpiece settings sending relay remove --styled type=bool
+FLAG mailpiece settings sending relay remove --token type=string
+FLAG mailpiece settings sending relay remove --verbose type=count
+FLAG mailpiece settings sending relay update --account type=string
+FLAG mailpiece settings sending relay update --agent type=bool
+FLAG mailpiece settings sending relay update --api-url type=string
+FLAG mailpiece settings sending relay update --count type=bool
+FLAG mailpiece settings sending relay update --help type=bool
+FLAG mailpiece settings sending relay update --ids-only type=bool
+FLAG mailpiece settings sending relay update --jq type=string
+FLAG mailpiece settings sending relay update --json type=bool
+FLAG mailpiece settings sending relay update --limit type=int
+FLAG mailpiece settings sending relay update --markdown type=bool
+FLAG mailpiece settings sending relay update --profile type=string
+FLAG mailpiece settings sending relay update --quiet type=bool
+FLAG mailpiece settings sending relay update --styled type=bool
+FLAG mailpiece settings sending relay update --token type=string
+FLAG mailpiece settings sending relay update --url type=string
+FLAG mailpiece settings sending relay update --verbose type=count
 FLAG mailpiece settings sending show --account type=string
 FLAG mailpiece settings sending show --agent type=bool
 FLAG mailpiece settings sending show --api-url type=string
@@ -1901,6 +1972,70 @@ FLAG mailpiece settings sending show --quiet type=bool
 FLAG mailpiece settings sending show --styled type=bool
 FLAG mailpiece settings sending show --token type=string
 FLAG mailpiece settings sending show --verbose type=count
+FLAG mailpiece settings sending smtp --account type=string
+FLAG mailpiece settings sending smtp --agent type=bool
+FLAG mailpiece settings sending smtp --api-url type=string
+FLAG mailpiece settings sending smtp --count type=bool
+FLAG mailpiece settings sending smtp --help type=bool
+FLAG mailpiece settings sending smtp --ids-only type=bool
+FLAG mailpiece settings sending smtp --jq type=string
+FLAG mailpiece settings sending smtp --json type=bool
+FLAG mailpiece settings sending smtp --limit type=int
+FLAG mailpiece settings sending smtp --markdown type=bool
+FLAG mailpiece settings sending smtp --profile type=string
+FLAG mailpiece settings sending smtp --quiet type=bool
+FLAG mailpiece settings sending smtp --styled type=bool
+FLAG mailpiece settings sending smtp --token type=string
+FLAG mailpiece settings sending smtp --verbose type=count
+FLAG mailpiece settings sending smtp help --account type=string
+FLAG mailpiece settings sending smtp help --agent type=bool
+FLAG mailpiece settings sending smtp help --api-url type=string
+FLAG mailpiece settings sending smtp help --count type=bool
+FLAG mailpiece settings sending smtp help --help type=bool
+FLAG mailpiece settings sending smtp help --ids-only type=bool
+FLAG mailpiece settings sending smtp help --jq type=string
+FLAG mailpiece settings sending smtp help --json type=bool
+FLAG mailpiece settings sending smtp help --limit type=int
+FLAG mailpiece settings sending smtp help --markdown type=bool
+FLAG mailpiece settings sending smtp help --profile type=string
+FLAG mailpiece settings sending smtp help --quiet type=bool
+FLAG mailpiece settings sending smtp help --styled type=bool
+FLAG mailpiece settings sending smtp help --token type=string
+FLAG mailpiece settings sending smtp help --verbose type=count
+FLAG mailpiece settings sending smtp remove --account type=string
+FLAG mailpiece settings sending smtp remove --agent type=bool
+FLAG mailpiece settings sending smtp remove --api-url type=string
+FLAG mailpiece settings sending smtp remove --count type=bool
+FLAG mailpiece settings sending smtp remove --help type=bool
+FLAG mailpiece settings sending smtp remove --ids-only type=bool
+FLAG mailpiece settings sending smtp remove --jq type=string
+FLAG mailpiece settings sending smtp remove --json type=bool
+FLAG mailpiece settings sending smtp remove --limit type=int
+FLAG mailpiece settings sending smtp remove --markdown type=bool
+FLAG mailpiece settings sending smtp remove --profile type=string
+FLAG mailpiece settings sending smtp remove --quiet type=bool
+FLAG mailpiece settings sending smtp remove --styled type=bool
+FLAG mailpiece settings sending smtp remove --token type=string
+FLAG mailpiece settings sending smtp remove --verbose type=count
+FLAG mailpiece settings sending smtp update --account type=string
+FLAG mailpiece settings sending smtp update --address type=string
+FLAG mailpiece settings sending smtp update --agent type=bool
+FLAG mailpiece settings sending smtp update --api-url type=string
+FLAG mailpiece settings sending smtp update --count type=bool
+FLAG mailpiece settings sending smtp update --help type=bool
+FLAG mailpiece settings sending smtp update --ids-only type=bool
+FLAG mailpiece settings sending smtp update --jq type=string
+FLAG mailpiece settings sending smtp update --json type=bool
+FLAG mailpiece settings sending smtp update --limit type=int
+FLAG mailpiece settings sending smtp update --markdown type=bool
+FLAG mailpiece settings sending smtp update --password type=string
+FLAG mailpiece settings sending smtp update --port type=int
+FLAG mailpiece settings sending smtp update --profile type=string
+FLAG mailpiece settings sending smtp update --quiet type=bool
+FLAG mailpiece settings sending smtp update --styled type=bool
+FLAG mailpiece settings sending smtp update --token type=string
+FLAG mailpiece settings sending smtp update --username type=string
+FLAG mailpiece settings sending smtp update --verbose type=count
 FLAG mailpiece settings sending update --account type=string
 FLAG mailpiece settings sending update --agent type=bool
 FLAG mailpiece settings sending update --api-url type=string
@@ -2862,7 +2997,15 @@ SUB mailpiece settings notifications update
 SUB mailpiece settings notifications view
 SUB mailpiece settings sending
 SUB mailpiece settings sending help
+SUB mailpiece settings sending relay
+SUB mailpiece settings sending relay help
+SUB mailpiece settings sending relay remove
+SUB mailpiece settings sending relay update
 SUB mailpiece settings sending show
+SUB mailpiece settings sending smtp
+SUB mailpiece settings sending smtp help
+SUB mailpiece settings sending smtp remove
+SUB mailpiece settings sending smtp update
 SUB mailpiece settings sending update
 SUB mailpiece settings sending view
 SUB mailpiece settings subscribe-form

@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "mailpiece",
   "display_name": "Mailpiece",
-  "version": "0.0.3",
+  "version": "0.0.0",
   "description": "Work with your Mailpiece newsletter: its posts, drafts, scheduled and mailed, with their versions and links, its subscribers and what each was mailed, and its snippets, journeys and settings. Read-only unless you allow changes.",
   "author": {
     "name": "Mailpiece"

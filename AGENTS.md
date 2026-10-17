@@ -23,7 +23,7 @@ mailpiece-cli/
 │   ├── mcpserver/       # `mailpiece mcp` MCP server (catalog/ hand-written)
 │   └── render/          # Output rendering (styled, markdown)
 ├── e2e/                 # Go integration tests (harness/, cli_tests/)
-├── extension/           # MCPB desktop extension manifest
+├── extension/           # MCPB desktop extension manifest (make mcpb stamps its version)
 ├── scripts/             # Release script
 ├── skills/              # Embedded agent skill
 └── .claude-plugin/      # Claude Code integration
