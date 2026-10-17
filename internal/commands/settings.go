@@ -120,14 +120,16 @@ var settingsHandleUpdateCmd = settingsUpdate("Change or clear the newsletter's h
 
 var settingsSendingCmd = &cobra.Command{
 	Use:   "sending",
-	Short: "Who the newsletter's mail is from",
+	Short: "Who the newsletter's mail is from and how it leaves",
 }
 
-var settingsSendingShowCmd = settingsShow("Show who the newsletter's mail is from",
+var settingsSendingShowCmd = settingsShow("Show who the newsletter's mail is from and how it leaves",
 	func(ctx context.Context, s *mailpiece.SettingsService) (*mailpiece.Sender, *mailpiece.Response, error) {
 		return s.Sender(ctx)
 	},
-	breadcrumb("update", "mailpiece settings sending update --from-name NAME --from-address ADDRESS", "Change it"),
+	breadcrumb("update", "mailpiece settings sending update --from-name NAME --from-address ADDRESS", "Change who it is from"),
+	breadcrumb("relay", "mailpiece settings sending relay update --url URL --token TOKEN", "Send through a relay"),
+	breadcrumb("smtp", "mailpiece settings sending smtp update --address HOST --port PORT", "Send through an SMTP server"),
 )
 
 var settingsSendingFromName, settingsSendingFromAddress, settingsSendingReplyTo string
@@ -217,6 +219,95 @@ var settingsJoinCodeResetCmd = &cobra.Command{
 	},
 }
 
+var settingsSendingRelayCmd = &cobra.Command{
+	Use:   "relay",
+	Short: "Send the newsletter's mail through a relay",
+}
+
+var settingsSendingRelayURL, settingsSendingRelayToken string
+
+var settingsSendingRelayUpdateCmd = settingsUpdate("Set the relay the newsletter's mail leaves through",
+	"Sets the relay whole: --url and --token are both required every time. A newsletter has one transport, relay or\n"+
+		"SMTP, so this replaces an SMTP server if one was set. The token is never shown back. To change the relay, set\n"+
+		"it again whole, or remove it.",
+	func(ctx context.Context, s *mailpiece.SettingsService, cmd *cobra.Command) (*mailpiece.Sender, *mailpiece.Response, error) {
+		if !cmd.Flags().Changed("url") {
+			return nil, nil, newRequiredFlagError("url")
+		}
+		if !cmd.Flags().Changed("token") {
+			return nil, nil, newRequiredFlagError("token")
+		}
+		return s.UpdateRelay(ctx, &mailpiece.RelayRequest{
+			RelayURL:   changedString(cmd, "url", &settingsSendingRelayURL),
+			RelayToken: changedString(cmd, "token", &settingsSendingRelayToken),
+		})
+	})
+
+var settingsSendingRelayRemoveCmd = &cobra.Command{
+	Use:   "remove",
+	Short: "Remove the relay and its token",
+	Long: "Removes the relay and its token. The newsletter sends nothing until a transport is set again. The stored\n" +
+		"credentials are deleted with it. An agent must confirm with you before running it.",
+	Args: cobra.NoArgs,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if err := requireAuthAndAccount(); err != nil {
+			return err
+		}
+		if _, err := mailpiece.NewSettingsService(getSDK()).RemoveRelay(cmd.Context()); err != nil {
+			return convertSDKError(err)
+		}
+		breadcrumbs := []Breadcrumb{breadcrumb("show", "mailpiece settings sending show", "See the sending settings")}
+		printMutation(map[string]any{"removed": true}, "", breadcrumbs)
+		return nil
+	},
+}
+
+var settingsSendingSMTPCmd = &cobra.Command{
+	Use:   "smtp",
+	Short: "Send the newsletter's mail through an SMTP server",
+}
+
+var settingsSendingSMTPAddress, settingsSendingSMTPUsername, settingsSendingSMTPPassword string
+var settingsSendingSMTPPort int
+
+var settingsSendingSMTPUpdateCmd = settingsUpdate("Set the SMTP server the newsletter's mail leaves through",
+	"Sets the SMTP server whole: --address and --port are required every time, and --password whenever --username is\n"+
+		"given. A newsletter has one transport, relay or SMTP, so this replaces a relay if one was set. The password is\n"+
+		"never shown back. To change the server, set it again whole, or remove it.",
+	func(ctx context.Context, s *mailpiece.SettingsService, cmd *cobra.Command) (*mailpiece.Sender, *mailpiece.Response, error) {
+		if !cmd.Flags().Changed("address") {
+			return nil, nil, newRequiredFlagError("address")
+		}
+		if !cmd.Flags().Changed("port") {
+			return nil, nil, newRequiredFlagError("port")
+		}
+		return s.UpdateSMTP(ctx, &mailpiece.SMTPRequest{
+			SMTPAddress:  changedString(cmd, "address", &settingsSendingSMTPAddress),
+			SMTPPort:     changedInt(cmd, "port", &settingsSendingSMTPPort),
+			SMTPUsername: changedString(cmd, "username", &settingsSendingSMTPUsername),
+			SMTPPassword: changedString(cmd, "password", &settingsSendingSMTPPassword),
+		})
+	})
+
+var settingsSendingSMTPRemoveCmd = &cobra.Command{
+	Use:   "remove",
+	Short: "Remove the SMTP server and its password",
+	Long: "Removes the SMTP server and its password. The newsletter sends nothing until a transport is set again. The\n" +
+		"stored credentials are deleted with it. An agent must confirm with you before running it.",
+	Args: cobra.NoArgs,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if err := requireAuthAndAccount(); err != nil {
+			return err
+		}
+		if _, err := mailpiece.NewSettingsService(getSDK()).RemoveSMTP(cmd.Context()); err != nil {
+			return convertSDKError(err)
+		}
+		breadcrumbs := []Breadcrumb{breadcrumb("show", "mailpiece settings sending show", "See the sending settings")}
+		printMutation(map[string]any{"removed": true}, "", breadcrumbs)
+		return nil
+	},
+}
+
 var settingsNotificationsCmd = &cobra.Command{
 	Use:   "notifications",
 	Short: "What you are emailed about",
@@ -266,7 +357,15 @@ func init() {
 	settingsSendingUpdateCmd.Flags().StringVar(&settingsSendingFromName, "from-name", "", "Name the mail is from")
 	settingsSendingUpdateCmd.Flags().StringVar(&settingsSendingFromAddress, "from-address", "", "Address the mail is from")
 	settingsSendingUpdateCmd.Flags().StringVar(&settingsSendingReplyTo, "reply-to-address", "", "Address replies go to (empty clears it)")
-	settingsSendingCmd.AddCommand(settingsSendingShowCmd, settingsSendingUpdateCmd)
+	settingsSendingRelayUpdateCmd.Flags().StringVar(&settingsSendingRelayURL, "url", "", "Address of the relay (required)")
+	settingsSendingRelayUpdateCmd.Flags().StringVar(&settingsSendingRelayToken, "token", "", "Relay token (required); never shown back")
+	settingsSendingRelayCmd.AddCommand(settingsSendingRelayUpdateCmd, settingsSendingRelayRemoveCmd)
+	settingsSendingSMTPUpdateCmd.Flags().StringVar(&settingsSendingSMTPAddress, "address", "", "SMTP server address (required)")
+	settingsSendingSMTPUpdateCmd.Flags().IntVar(&settingsSendingSMTPPort, "port", 0, "SMTP server port (required)")
+	settingsSendingSMTPUpdateCmd.Flags().StringVar(&settingsSendingSMTPUsername, "username", "", "SMTP username (needs --password)")
+	settingsSendingSMTPUpdateCmd.Flags().StringVar(&settingsSendingSMTPPassword, "password", "", "SMTP password (required with --username); never shown back")
+	settingsSendingSMTPCmd.AddCommand(settingsSendingSMTPUpdateCmd, settingsSendingSMTPRemoveCmd)
+	settingsSendingCmd.AddCommand(settingsSendingShowCmd, settingsSendingUpdateCmd, settingsSendingRelayCmd, settingsSendingSMTPCmd)
 
 	settingsSubscribeFormUpdateCmd.Flags().StringVar(&settingsSubscribeFormReturnURL, "return-url", "", "Address to send a person back to (required; empty clears it)")
 	settingsSubscribeFormCmd.AddCommand(settingsSubscribeFormShowCmd, settingsSubscribeFormUpdateCmd)

@@ -54,6 +54,28 @@ func (s *SettingsService) UpdateSender(ctx context.Context, req *SenderRequest) 
 	return send[Sender](ctx, s.client, "PATCH", req, "/account/sending.json")
 }
 
+// UpdateRelay sets the relay the newsletter's mail leaves through, replacing an SMTP server if one
+// was set, and answers the sending settings. A transport is set whole.
+func (s *SettingsService) UpdateRelay(ctx context.Context, req *RelayRequest) (*Sender, *Response, error) {
+	return send[Sender](ctx, s.client, "PATCH", req, "/account/sending/relay.json")
+}
+
+// RemoveRelay removes the relay and its token. The endpoint answers no JSON body.
+func (s *SettingsService) RemoveRelay(ctx context.Context) (*Response, error) {
+	return sendBare(ctx, s.client, "DELETE", nil, "/account/sending/relay.json")
+}
+
+// UpdateSMTP sets the SMTP server the newsletter's mail leaves through, replacing a relay if one was
+// set, and answers the sending settings. Only what is set is sent.
+func (s *SettingsService) UpdateSMTP(ctx context.Context, req *SMTPRequest) (*Sender, *Response, error) {
+	return send[Sender](ctx, s.client, "PATCH", req, "/account/sending/smtp.json")
+}
+
+// RemoveSMTP removes the SMTP server and its password. The endpoint answers no JSON body.
+func (s *SettingsService) RemoveSMTP(ctx context.Context) (*Response, error) {
+	return sendBare(ctx, s.client, "DELETE", nil, "/account/sending/smtp.json")
+}
+
 // SubscribeForm returns where the embedded subscription form sends a person back to.
 func (s *SettingsService) SubscribeForm(ctx context.Context) (*SubscribeForm, *Response, error) {
 	return fetch[SubscribeForm](ctx, s.client, "/account/subscribe_form.json")

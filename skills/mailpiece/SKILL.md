@@ -623,7 +623,7 @@ update changes only the flags passed.
 |------|-------|--------------|
 | `settings newsletter` | name, description, locale (`en` or `es`) | `--name`, `--description`, `--locale` |
 | `settings handle` | handle: the word the newsletter answers at beside its number | `--handle` (empty clears it) |
-| `settings sending` | from name, from address, reply-to | `--from-name`, `--from-address`, `--reply-to-address` |
+| `settings sending` | who the mail is from, and how it leaves: from name, from address, reply-to, and the transport (`relay` or `smtp`) | `--from-name`, `--from-address`, `--reply-to-address`; `relay update --url --token`, `relay remove`; `smtp update --address --port --username --password`, `smtp remove` |
 | `settings subscribe-form` | where the embedded form sends a person back to | `--return-url` (empty clears it) |
 | `settings join-code` | the code and link people join the team with, its use count and limit | `--usage-limit`; `reset` |
 | `settings notifications` | whether you are emailed when someone confirms a subscription | `--new-subscriber=true\|false` |
@@ -634,6 +634,12 @@ update changes only the flags passed.
 - **The locale is the newsletter's language**: every public page and every email is written in it.
 - **A newsletter mails nothing without a sender.** `settings sending show` with a null `from_name` or
   `from_address` explains a refused test or send.
+- **A newsletter has one transport, relay or SMTP**: setting one replaces the other, and removing it leaves
+  the newsletter sending nothing. `settings sending show` with a null `transport` explains a refused send
+  the way a null `from_address` does.
+- **The relay token and SMTP password are write-only**: `settings sending show` never returns them. Never
+  echo them or put them in a transcript. A transport is set whole (`--url` and `--token`; `--address` and
+  `--port`, with `--password` whenever `--username` is given); to change one, set it again or remove it.
 - **`settings notifications` is your own**: it is the token's user's setting, on until switched off, and
   changes nobody else's.
 - **`settings join-code reset` retires the old code**: every link carrying it stops working. `active` is

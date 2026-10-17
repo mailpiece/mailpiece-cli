@@ -155,12 +155,25 @@ func init() {
 				},
 				{
 					Action: "get_sending", Method: "GET", Path: "/account/sending", ReadOnly: true,
-					Summary: "Get who the newsletter's mail is from: from name, from address and reply-to",
-					Doc:     "A newsletter mails nothing until it has a from name and a from address.",
+					Summary: "Get who the newsletter's mail is from and how it leaves: from name, from address, reply-to and transport",
+					Doc: "A newsletter mails nothing until it has a from name, a from address and a transport. transport is null, relay or smtp, " +
+						"with the relay and SMTP settings beside it. The relay token and the SMTP password are never returned.",
 				},
 				{
 					Action: "get_subscribe_form", Method: "GET", Path: "/account/subscribe_form", ReadOnly: true,
 					Summary: "Get where the embedded subscription form sends a person back to",
+				},
+				{
+					Action: "remove_sending_relay", Method: "DELETE", Path: "/account/sending/relay",
+					Destructive: true, Idempotent: true,
+					Summary: "Remove the relay and its token; the newsletter sends nothing until a transport is set again. " + cannotBeUndone,
+					Doc:     "The stored credentials are deleted with it. The app answers 204 with no body. Confirm with the person before calling it.",
+				},
+				{
+					Action: "remove_sending_smtp", Method: "DELETE", Path: "/account/sending/smtp",
+					Destructive: true, Idempotent: true,
+					Summary: "Remove the SMTP server and its password; the newsletter sends nothing until a transport is set again. " + cannotBeUndone,
+					Doc:     "The stored credentials are deleted with it. The app answers 204 with no body. Confirm with the person before calling it.",
 				},
 				{
 					Action: "reset_join_code", Method: "DELETE", Path: "/account/join_code",
@@ -214,6 +227,28 @@ func init() {
 						"from_address":     str("Address the mail is from"),
 						"reply_to_address": str("Address replies go to; empty clears it"),
 					}),
+				},
+				{
+					Action: "update_sending_relay", Method: "PATCH", Path: "/account/sending/relay",
+					Idempotent: true,
+					Summary:    "Send the newsletter's mail through a relay; replaces an SMTP server if one was set",
+					Doc:        "A newsletter has one transport, relay or SMTP. a transport is set whole: relay_url and relay_token are both required every time, and to change it set it again or remove it. relay_token is write-only, never returned.",
+					Body: object(map[string]any{
+						"relay_url":   str("Address of the relay"),
+						"relay_token": str("Relay token; write-only, never returned"),
+					}, "relay_url", "relay_token"),
+				},
+				{
+					Action: "update_sending_smtp", Method: "PATCH", Path: "/account/sending/smtp",
+					Idempotent: true,
+					Summary:    "Send the newsletter's mail through an SMTP server; replaces a relay if one was set",
+					Doc:        "A newsletter has one transport, relay or SMTP. a transport is set whole: smtp_address and smtp_port are required every time, smtp_username and smtp_password are optional, and smtp_password is required whenever smtp_username is given. To change it set it again or remove it. smtp_password is write-only, never returned.",
+					Body: object(map[string]any{
+						"smtp_address":  str("SMTP server address"),
+						"smtp_port":     integer("SMTP server port"),
+						"smtp_username": str("SMTP username"),
+						"smtp_password": str("SMTP password; write-only, never returned"),
+					}, "smtp_address", "smtp_port"),
 				},
 				{
 					Action: "update_subscribe_form", Method: "PATCH", Path: "/account/subscribe_form",
