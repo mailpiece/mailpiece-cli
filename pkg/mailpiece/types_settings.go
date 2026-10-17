@@ -52,16 +52,17 @@ type SenderRequest struct {
 	ReplyToAddress *string `json:"reply_to_address,omitempty"`
 }
 
-// RelayRequest is the body of PATCH /account/sending/relay.json, sent flat. A transport is set whole:
-// the URL and the token are both required every time. The token is never answered.
+// RelayRequest is the body of PATCH /account/sending/relay.json, sent flat. The URL is
+// always required; the token is needed to set a relay up and refused on one already set. The token
+// is never answered.
 type RelayRequest struct {
 	RelayURL   *string `json:"relay_url,omitempty"`
 	RelayToken *string `json:"relay_token,omitempty"`
 }
 
-// SMTPRequest is the body of PATCH /account/sending/smtp.json, sent flat. A transport is set whole:
-// the address and port are required every time, and the password whenever the username is given.
-// The password is never answered.
+// SMTPRequest is the body of PATCH /account/sending/smtp.json, sent flat. The address and
+// port are always required; the password is needed to set a server up with a username and refused on
+// one already set. The password is never answered.
 type SMTPRequest struct {
 	SMTPAddress  *string `json:"smtp_address,omitempty"`
 	SMTPPort     *int    `json:"smtp_port,omitempty"`

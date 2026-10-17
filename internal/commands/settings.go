@@ -227,15 +227,12 @@ var settingsSendingRelayCmd = &cobra.Command{
 var settingsSendingRelayURL, settingsSendingRelayToken string
 
 var settingsSendingRelayUpdateCmd = settingsUpdate("Set the relay the newsletter's mail leaves through",
-	"Sets the relay whole: --url and --token are both required every time. A newsletter has one transport, relay or\n"+
-		"SMTP, so this replaces an SMTP server if one was set. The token is never shown back. To change the relay, set\n"+
-		"it again whole, or remove it.",
+	"--url is required. Setting a relay up also needs --token; on a relay already set, --url changes the address and\n"+
+		"--token is refused, so to change the token remove the relay and set it up again. A newsletter has one\n"+
+		"transport, relay or SMTP, so setting one up replaces the other. The token is never shown back.",
 	func(ctx context.Context, s *mailpiece.SettingsService, cmd *cobra.Command) (*mailpiece.Sender, *mailpiece.Response, error) {
 		if !cmd.Flags().Changed("url") {
 			return nil, nil, newRequiredFlagError("url")
-		}
-		if !cmd.Flags().Changed("token") {
-			return nil, nil, newRequiredFlagError("token")
 		}
 		return s.UpdateRelay(ctx, &mailpiece.RelayRequest{
 			RelayURL:   changedString(cmd, "url", &settingsSendingRelayURL),
@@ -271,9 +268,10 @@ var settingsSendingSMTPAddress, settingsSendingSMTPUsername, settingsSendingSMTP
 var settingsSendingSMTPPort int
 
 var settingsSendingSMTPUpdateCmd = settingsUpdate("Set the SMTP server the newsletter's mail leaves through",
-	"Sets the SMTP server whole: --address and --port are required every time, and --password whenever --username is\n"+
-		"given. A newsletter has one transport, relay or SMTP, so this replaces a relay if one was set. The password is\n"+
-		"never shown back. To change the server, set it again whole, or remove it.",
+	"--address and --port are required. --username and --password are optional, and setting a server up with a\n"+
+		"username needs a password. On a server already set, the address, port and username change and --password is\n"+
+		"refused, so to change the password remove the server and set it up again. A newsletter has one transport,\n"+
+		"relay or SMTP, so setting one up replaces the other. The password is never shown back.",
 	func(ctx context.Context, s *mailpiece.SettingsService, cmd *cobra.Command) (*mailpiece.Sender, *mailpiece.Response, error) {
 		if !cmd.Flags().Changed("address") {
 			return nil, nil, newRequiredFlagError("address")
@@ -358,12 +356,12 @@ func init() {
 	settingsSendingUpdateCmd.Flags().StringVar(&settingsSendingFromAddress, "from-address", "", "Address the mail is from")
 	settingsSendingUpdateCmd.Flags().StringVar(&settingsSendingReplyTo, "reply-to-address", "", "Address replies go to (empty clears it)")
 	settingsSendingRelayUpdateCmd.Flags().StringVar(&settingsSendingRelayURL, "url", "", "Address of the relay (required)")
-	settingsSendingRelayUpdateCmd.Flags().StringVar(&settingsSendingRelayToken, "token", "", "Relay token (required); never shown back")
+	settingsSendingRelayUpdateCmd.Flags().StringVar(&settingsSendingRelayToken, "token", "", "Relay token, to set a relay up; refused on one already set (remove it first); never shown back")
 	settingsSendingRelayCmd.AddCommand(settingsSendingRelayUpdateCmd, settingsSendingRelayRemoveCmd)
 	settingsSendingSMTPUpdateCmd.Flags().StringVar(&settingsSendingSMTPAddress, "address", "", "SMTP server address (required)")
 	settingsSendingSMTPUpdateCmd.Flags().IntVar(&settingsSendingSMTPPort, "port", 0, "SMTP server port (required)")
-	settingsSendingSMTPUpdateCmd.Flags().StringVar(&settingsSendingSMTPUsername, "username", "", "SMTP username (needs --password)")
-	settingsSendingSMTPUpdateCmd.Flags().StringVar(&settingsSendingSMTPPassword, "password", "", "SMTP password (required with --username); never shown back")
+	settingsSendingSMTPUpdateCmd.Flags().StringVar(&settingsSendingSMTPUsername, "username", "", "SMTP username (setting up needs --password)")
+	settingsSendingSMTPUpdateCmd.Flags().StringVar(&settingsSendingSMTPPassword, "password", "", "SMTP password, to set a server up; refused on one already set (remove it first); never shown back")
 	settingsSendingSMTPCmd.AddCommand(settingsSendingSMTPUpdateCmd, settingsSendingSMTPRemoveCmd)
 	settingsSendingCmd.AddCommand(settingsSendingShowCmd, settingsSendingUpdateCmd, settingsSendingRelayCmd, settingsSendingSMTPCmd)
 

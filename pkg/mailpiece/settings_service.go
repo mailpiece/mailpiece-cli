@@ -55,7 +55,8 @@ func (s *SettingsService) UpdateSender(ctx context.Context, req *SenderRequest) 
 }
 
 // UpdateRelay sets the relay the newsletter's mail leaves through, replacing an SMTP server if one
-// was set, and answers the sending settings. A transport is set whole.
+// was set, and answers the sending settings. On a relay already set only the URL changes and the
+// token is refused.
 func (s *SettingsService) UpdateRelay(ctx context.Context, req *RelayRequest) (*Sender, *Response, error) {
 	return send[Sender](ctx, s.client, "PATCH", req, "/account/sending/relay.json")
 }
@@ -66,7 +67,7 @@ func (s *SettingsService) RemoveRelay(ctx context.Context) (*Response, error) {
 }
 
 // UpdateSMTP sets the SMTP server the newsletter's mail leaves through, replacing a relay if one was
-// set, and answers the sending settings. Only what is set is sent.
+// set, and answers the sending settings. On a server already set the password is refused.
 func (s *SettingsService) UpdateSMTP(ctx context.Context, req *SMTPRequest) (*Sender, *Response, error) {
 	return send[Sender](ctx, s.client, "PATCH", req, "/account/sending/smtp.json")
 }

@@ -638,8 +638,8 @@ update changes only the flags passed.
   the newsletter sending nothing. `settings sending show` with a null `transport` explains a refused send
   the way a null `from_address` does.
 - **The relay token and SMTP password are write-only**: `settings sending show` never returns them. Never
-  echo them or put them in a transcript. A transport is set whole (`--url` and `--token`; `--address` and
-  `--port`, with `--password` whenever `--username` is given); to change one, set it again or remove it.
+  echo them or put them in a transcript. To change the address, update it (`relay update --url`, `smtp update
+  --address --port`); to change the token or password, remove the transport and set it up again.
 - **`settings notifications` is your own**: it is the token's user's setting, on until switched off, and
   changes nobody else's.
 - **`settings join-code reset` retires the old code**: every link carrying it stops working. `active` is

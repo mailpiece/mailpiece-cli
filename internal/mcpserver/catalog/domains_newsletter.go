@@ -232,17 +232,17 @@ func init() {
 					Action: "update_sending_relay", Method: "PATCH", Path: "/account/sending/relay",
 					Idempotent: true,
 					Summary:    "Send the newsletter's mail through a relay; replaces an SMTP server if one was set",
-					Doc:        "A newsletter has one transport, relay or SMTP. a transport is set whole: relay_url and relay_token are both required every time, and to change it set it again or remove it. relay_token is write-only, never returned.",
+					Doc:        "A newsletter has one transport, relay or SMTP. relay_url is always required. relay_token is needed to set a relay up and refused (422) on one already set: to change it, remove the relay and set it up again. relay_token is write-only, never returned.",
 					Body: object(map[string]any{
 						"relay_url":   str("Address of the relay"),
 						"relay_token": str("Relay token; write-only, never returned"),
-					}, "relay_url", "relay_token"),
+					}, "relay_url"),
 				},
 				{
 					Action: "update_sending_smtp", Method: "PATCH", Path: "/account/sending/smtp",
 					Idempotent: true,
 					Summary:    "Send the newsletter's mail through an SMTP server; replaces a relay if one was set",
-					Doc:        "A newsletter has one transport, relay or SMTP. a transport is set whole: smtp_address and smtp_port are required every time, smtp_username and smtp_password are optional, and smtp_password is required whenever smtp_username is given. To change it set it again or remove it. smtp_password is write-only, never returned.",
+					Doc:        "A newsletter has one transport, relay or SMTP. smtp_address and smtp_port are always required. smtp_username and smtp_password are optional, and setting up with a username needs a password. smtp_password is refused (422) on a server already set: to change it, remove the server and set it up again. smtp_password is write-only, never returned.",
 					Body: object(map[string]any{
 						"smtp_address":  str("SMTP server address"),
 						"smtp_port":     integer("SMTP server port"),

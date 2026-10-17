@@ -41,7 +41,10 @@ func TestSettingsCommands(t *testing.T) {
 			name: "relay update sends the url and token", args: []string{"settings", "sending", "relay", "update", "--url", "https://relay.example", "--token", "t0ken"},
 			method: "PATCH", path: "/account/sending/relay.json", body: map[string]any{"relay_url": "https://relay.example", "relay_token": "t0ken"},
 		},
-		{name: "relay update needs the token", args: []string{"settings", "sending", "relay", "update", "--url", "https://relay.example"}, exit: errors.ExitUsage},
+		{
+			name: "relay update sends only the url", args: []string{"settings", "sending", "relay", "update", "--url", "https://relay.example"},
+			method: "PATCH", path: "/account/sending/relay.json", body: map[string]any{"relay_url": "https://relay.example"},
+		},
 		{name: "relay update needs the url", args: []string{"settings", "sending", "relay", "update", "--token", "t0ken"}, exit: errors.ExitUsage},
 		{name: "relay remove", args: []string{"settings", "sending", "relay", "remove"}, method: "DELETE", path: "/account/sending/relay.json"},
 		{
