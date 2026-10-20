@@ -1,0 +1,13 @@
+{
+  "name": "mailpiece",
+  "owner": {
+    "name": "Mailpiece"
+  },
+  "plugins": [
+    {
+      "name": "mailpiece",
+      "source": "./",
+      "description": "Mailpiece integration for Claude Code. Sign in to a newsletter, write, publish, schedule and mail its posts, keep its subscribers, and set up its snippets, journeys and settings."
+    }
+  ]
+}

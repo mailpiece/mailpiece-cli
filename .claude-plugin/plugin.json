@@ -1,0 +1,12 @@
+{
+  "name": "mailpiece",
+  "version": "0.1.0",
+  "description": "Mailpiece integration for Claude Code. Sign in to a newsletter, write, publish, schedule and mail its posts, keep its subscribers, and set up its snippets, journeys and settings.",
+  "author": {
+    "name": "Mailpiece"
+  },
+  "homepage": "https://github.com/mailpiece/mailpiece-cli",
+  "repository": "https://github.com/mailpiece/mailpiece-cli",
+  "license": "MIT",
+  "hooks": "./.claude-plugin/hooks/hooks.json"
+}

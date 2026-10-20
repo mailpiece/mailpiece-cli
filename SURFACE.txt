@@ -1,0 +1,2894 @@
+ARG mailpiece api delete 00 <path>
+ARG mailpiece api get 00 <path>
+ARG mailpiece api help 00 [command]
+ARG mailpiece api post 00 <path>
+ARG mailpiece api put 00 <path>
+ARG mailpiece api rm 00 <path>
+ARG mailpiece auth email help 00 [command]
+ARG mailpiece auth help 00 [command]
+ARG mailpiece auth login 00 [TOKEN]
+ARG mailpiece cmds 00 [filter]
+ARG mailpiece commands 00 [filter]
+ARG mailpiece completion 00 [bash|zsh|fish|powershell]
+ARG mailpiece config help 00 [command]
+ARG mailpiece help 00 [command]
+ARG mailpiece identity help 00 [command]
+ARG mailpiece journey email help 00 [command]
+ARG mailpiece journey help 00 [command]
+ARG mailpiece post help 00 [command]
+ARG mailpiece post history help 00 [command]
+ARG mailpiece post link help 00 [command]
+ARG mailpiece settings handle help 00 [command]
+ARG mailpiece settings help 00 [command]
+ARG mailpiece settings join-code help 00 [command]
+ARG mailpiece settings newsletter help 00 [command]
+ARG mailpiece settings notifications help 00 [command]
+ARG mailpiece settings sending help 00 [command]
+ARG mailpiece settings sending relay help 00 [command]
+ARG mailpiece settings sending smtp help 00 [command]
+ARG mailpiece settings subscribe-form help 00 [command]
+ARG mailpiece setup help 00 [command]
+ARG mailpiece show 00 <url>
+ARG mailpiece signup help 00 [command]
+ARG mailpiece skill help 00 [command]
+ARG mailpiece snippet help 00 [command]
+ARG mailpiece subscriber bounce 00 [SUBSCRIBER_ID]
+ARG mailpiece subscriber help 00 [command]
+ARG mailpiece token help 00 [command]
+ARG mailpiece user help 00 [command]
+ARG mailpiece view 00 <url>
+CMD mailpiece
+CMD mailpiece api
+CMD mailpiece api delete
+CMD mailpiece api get
+CMD mailpiece api help
+CMD mailpiece api post
+CMD mailpiece api put
+CMD mailpiece api rm
+CMD mailpiece auth
+CMD mailpiece auth email
+CMD mailpiece auth email complete
+CMD mailpiece auth email help
+CMD mailpiece auth email start
+CMD mailpiece auth email verify
+CMD mailpiece auth help
+CMD mailpiece auth list
+CMD mailpiece auth login
+CMD mailpiece auth logout
+CMD mailpiece auth ls
+CMD mailpiece auth status
+CMD mailpiece auth switch
+CMD mailpiece cmds
+CMD mailpiece commands
+CMD mailpiece completion
+CMD mailpiece config
+CMD mailpiece config explain
+CMD mailpiece config help
+CMD mailpiece config show
+CMD mailpiece config view
+CMD mailpiece doctor
+CMD mailpiece help
+CMD mailpiece identity
+CMD mailpiece identity help
+CMD mailpiece identity show
+CMD mailpiece identity view
+CMD mailpiece journey
+CMD mailpiece journey email
+CMD mailpiece journey email activate
+CMD mailpiece journey email create
+CMD mailpiece journey email deactivate
+CMD mailpiece journey email delete
+CMD mailpiece journey email help
+CMD mailpiece journey email rm
+CMD mailpiece journey email show
+CMD mailpiece journey email test
+CMD mailpiece journey email update
+CMD mailpiece journey email view
+CMD mailpiece journey help
+CMD mailpiece journey list
+CMD mailpiece journey ls
+CMD mailpiece journey show
+CMD mailpiece journey view
+CMD mailpiece mcp
+CMD mailpiece post
+CMD mailpiece post create
+CMD mailpiece post delete
+CMD mailpiece post deliver
+CMD mailpiece post help
+CMD mailpiece post history
+CMD mailpiece post history help
+CMD mailpiece post history list
+CMD mailpiece post history ls
+CMD mailpiece post history show
+CMD mailpiece post history view
+CMD mailpiece post link
+CMD mailpiece post link help
+CMD mailpiece post link list
+CMD mailpiece post link ls
+CMD mailpiece post link update
+CMD mailpiece post list
+CMD mailpiece post ls
+CMD mailpiece post publish
+CMD mailpiece post relist
+CMD mailpiece post rm
+CMD mailpiece post schedule
+CMD mailpiece post show
+CMD mailpiece post test
+CMD mailpiece post unlist
+CMD mailpiece post unpublish
+CMD mailpiece post unschedule
+CMD mailpiece post update
+CMD mailpiece post view
+CMD mailpiece search
+CMD mailpiece settings
+CMD mailpiece settings handle
+CMD mailpiece settings handle help
+CMD mailpiece settings handle show
+CMD mailpiece settings handle update
+CMD mailpiece settings handle view
+CMD mailpiece settings help
+CMD mailpiece settings join-code
+CMD mailpiece settings join-code help
+CMD mailpiece settings join-code reset
+CMD mailpiece settings join-code show
+CMD mailpiece settings join-code update
+CMD mailpiece settings join-code view
+CMD mailpiece settings newsletter
+CMD mailpiece settings newsletter help
+CMD mailpiece settings newsletter show
+CMD mailpiece settings newsletter update
+CMD mailpiece settings newsletter view
+CMD mailpiece settings notifications
+CMD mailpiece settings notifications help
+CMD mailpiece settings notifications show
+CMD mailpiece settings notifications update
+CMD mailpiece settings notifications view
+CMD mailpiece settings sending
+CMD mailpiece settings sending help
+CMD mailpiece settings sending relay
+CMD mailpiece settings sending relay help
+CMD mailpiece settings sending relay remove
+CMD mailpiece settings sending relay update
+CMD mailpiece settings sending show
+CMD mailpiece settings sending smtp
+CMD mailpiece settings sending smtp help
+CMD mailpiece settings sending smtp remove
+CMD mailpiece settings sending smtp update
+CMD mailpiece settings sending update
+CMD mailpiece settings sending view
+CMD mailpiece settings subscribe-form
+CMD mailpiece settings subscribe-form help
+CMD mailpiece settings subscribe-form show
+CMD mailpiece settings subscribe-form update
+CMD mailpiece settings subscribe-form view
+CMD mailpiece setup
+CMD mailpiece setup claude
+CMD mailpiece setup help
+CMD mailpiece show
+CMD mailpiece signup
+CMD mailpiece signup complete
+CMD mailpiece signup help
+CMD mailpiece signup start
+CMD mailpiece signup verify
+CMD mailpiece skill
+CMD mailpiece skill help
+CMD mailpiece skill install
+CMD mailpiece snippet
+CMD mailpiece snippet create
+CMD mailpiece snippet delete
+CMD mailpiece snippet help
+CMD mailpiece snippet list
+CMD mailpiece snippet ls
+CMD mailpiece snippet rm
+CMD mailpiece snippet show
+CMD mailpiece snippet update
+CMD mailpiece snippet view
+CMD mailpiece subscriber
+CMD mailpiece subscriber activate
+CMD mailpiece subscriber bounce
+CMD mailpiece subscriber create
+CMD mailpiece subscriber deactivate
+CMD mailpiece subscriber delete
+CMD mailpiece subscriber help
+CMD mailpiece subscriber list
+CMD mailpiece subscriber ls
+CMD mailpiece subscriber rm
+CMD mailpiece subscriber show
+CMD mailpiece subscriber view
+CMD mailpiece token
+CMD mailpiece token create
+CMD mailpiece token delete
+CMD mailpiece token help
+CMD mailpiece token list
+CMD mailpiece token ls
+CMD mailpiece token rm
+CMD mailpiece user
+CMD mailpiece user help
+CMD mailpiece user show
+CMD mailpiece user update
+CMD mailpiece user view
+CMD mailpiece version
+CMD mailpiece view
+FLAG mailpiece --agent type=bool
+FLAG mailpiece --api-url type=string
+FLAG mailpiece --count type=bool
+FLAG mailpiece --help type=bool
+FLAG mailpiece --ids-only type=bool
+FLAG mailpiece --jq type=string
+FLAG mailpiece --json type=bool
+FLAG mailpiece --limit type=int
+FLAG mailpiece --markdown type=bool
+FLAG mailpiece --profile type=string
+FLAG mailpiece --quiet type=bool
+FLAG mailpiece --styled type=bool
+FLAG mailpiece --token type=string
+FLAG mailpiece --verbose type=bool
+FLAG mailpiece --version type=bool
+FLAG mailpiece api --agent type=bool
+FLAG mailpiece api --api-url type=string
+FLAG mailpiece api --count type=bool
+FLAG mailpiece api --help type=bool
+FLAG mailpiece api --ids-only type=bool
+FLAG mailpiece api --jq type=string
+FLAG mailpiece api --json type=bool
+FLAG mailpiece api --limit type=int
+FLAG mailpiece api --markdown type=bool
+FLAG mailpiece api --profile type=string
+FLAG mailpiece api --quiet type=bool
+FLAG mailpiece api --styled type=bool
+FLAG mailpiece api --token type=string
+FLAG mailpiece api --verbose type=bool
+FLAG mailpiece api delete --agent type=bool
+FLAG mailpiece api delete --api-url type=string
+FLAG mailpiece api delete --count type=bool
+FLAG mailpiece api delete --help type=bool
+FLAG mailpiece api delete --ids-only type=bool
+FLAG mailpiece api delete --jq type=string
+FLAG mailpiece api delete --json type=bool
+FLAG mailpiece api delete --limit type=int
+FLAG mailpiece api delete --markdown type=bool
+FLAG mailpiece api delete --profile type=string
+FLAG mailpiece api delete --quiet type=bool
+FLAG mailpiece api delete --styled type=bool
+FLAG mailpiece api delete --token type=string
+FLAG mailpiece api delete --verbose type=bool
+FLAG mailpiece api get --agent type=bool
+FLAG mailpiece api get --api-url type=string
+FLAG mailpiece api get --count type=bool
+FLAG mailpiece api get --help type=bool
+FLAG mailpiece api get --ids-only type=bool
+FLAG mailpiece api get --jq type=string
+FLAG mailpiece api get --json type=bool
+FLAG mailpiece api get --limit type=int
+FLAG mailpiece api get --markdown type=bool
+FLAG mailpiece api get --profile type=string
+FLAG mailpiece api get --quiet type=bool
+FLAG mailpiece api get --styled type=bool
+FLAG mailpiece api get --token type=string
+FLAG mailpiece api get --verbose type=bool
+FLAG mailpiece api help --agent type=bool
+FLAG mailpiece api help --api-url type=string
+FLAG mailpiece api help --count type=bool
+FLAG mailpiece api help --help type=bool
+FLAG mailpiece api help --ids-only type=bool
+FLAG mailpiece api help --jq type=string
+FLAG mailpiece api help --json type=bool
+FLAG mailpiece api help --limit type=int
+FLAG mailpiece api help --markdown type=bool
+FLAG mailpiece api help --profile type=string
+FLAG mailpiece api help --quiet type=bool
+FLAG mailpiece api help --styled type=bool
+FLAG mailpiece api help --token type=string
+FLAG mailpiece api help --verbose type=bool
+FLAG mailpiece api post --agent type=bool
+FLAG mailpiece api post --api-url type=string
+FLAG mailpiece api post --count type=bool
+FLAG mailpiece api post --data type=string
+FLAG mailpiece api post --help type=bool
+FLAG mailpiece api post --ids-only type=bool
+FLAG mailpiece api post --jq type=string
+FLAG mailpiece api post --json type=bool
+FLAG mailpiece api post --limit type=int
+FLAG mailpiece api post --markdown type=bool
+FLAG mailpiece api post --profile type=string
+FLAG mailpiece api post --quiet type=bool
+FLAG mailpiece api post --styled type=bool
+FLAG mailpiece api post --token type=string
+FLAG mailpiece api post --verbose type=bool
+FLAG mailpiece api put --agent type=bool
+FLAG mailpiece api put --api-url type=string
+FLAG mailpiece api put --count type=bool
+FLAG mailpiece api put --data type=string
+FLAG mailpiece api put --help type=bool
+FLAG mailpiece api put --ids-only type=bool
+FLAG mailpiece api put --jq type=string
+FLAG mailpiece api put --json type=bool
+FLAG mailpiece api put --limit type=int
+FLAG mailpiece api put --markdown type=bool
+FLAG mailpiece api put --profile type=string
+FLAG mailpiece api put --quiet type=bool
+FLAG mailpiece api put --styled type=bool
+FLAG mailpiece api put --token type=string
+FLAG mailpiece api put --verbose type=bool
+FLAG mailpiece api rm --agent type=bool
+FLAG mailpiece api rm --api-url type=string
+FLAG mailpiece api rm --count type=bool
+FLAG mailpiece api rm --help type=bool
+FLAG mailpiece api rm --ids-only type=bool
+FLAG mailpiece api rm --jq type=string
+FLAG mailpiece api rm --json type=bool
+FLAG mailpiece api rm --limit type=int
+FLAG mailpiece api rm --markdown type=bool
+FLAG mailpiece api rm --profile type=string
+FLAG mailpiece api rm --quiet type=bool
+FLAG mailpiece api rm --styled type=bool
+FLAG mailpiece api rm --token type=string
+FLAG mailpiece api rm --verbose type=bool
+FLAG mailpiece auth --agent type=bool
+FLAG mailpiece auth --api-url type=string
+FLAG mailpiece auth --count type=bool
+FLAG mailpiece auth --help type=bool
+FLAG mailpiece auth --ids-only type=bool
+FLAG mailpiece auth --jq type=string
+FLAG mailpiece auth --json type=bool
+FLAG mailpiece auth --limit type=int
+FLAG mailpiece auth --markdown type=bool
+FLAG mailpiece auth --profile type=string
+FLAG mailpiece auth --quiet type=bool
+FLAG mailpiece auth --styled type=bool
+FLAG mailpiece auth --token type=string
+FLAG mailpiece auth --verbose type=bool
+FLAG mailpiece auth email --agent type=bool
+FLAG mailpiece auth email --api-url type=string
+FLAG mailpiece auth email --count type=bool
+FLAG mailpiece auth email --help type=bool
+FLAG mailpiece auth email --ids-only type=bool
+FLAG mailpiece auth email --jq type=string
+FLAG mailpiece auth email --json type=bool
+FLAG mailpiece auth email --limit type=int
+FLAG mailpiece auth email --markdown type=bool
+FLAG mailpiece auth email --profile type=string
+FLAG mailpiece auth email --quiet type=bool
+FLAG mailpiece auth email --styled type=bool
+FLAG mailpiece auth email --token type=string
+FLAG mailpiece auth email --verbose type=bool
+FLAG mailpiece auth email --write type=bool
+FLAG mailpiece auth email complete --account type=string
+FLAG mailpiece auth email complete --agent type=bool
+FLAG mailpiece auth email complete --api-url type=string
+FLAG mailpiece auth email complete --count type=bool
+FLAG mailpiece auth email complete --help type=bool
+FLAG mailpiece auth email complete --ids-only type=bool
+FLAG mailpiece auth email complete --jq type=string
+FLAG mailpiece auth email complete --json type=bool
+FLAG mailpiece auth email complete --limit type=int
+FLAG mailpiece auth email complete --markdown type=bool
+FLAG mailpiece auth email complete --profile type=string
+FLAG mailpiece auth email complete --quiet type=bool
+FLAG mailpiece auth email complete --styled type=bool
+FLAG mailpiece auth email complete --token type=string
+FLAG mailpiece auth email complete --verbose type=bool
+FLAG mailpiece auth email complete --write type=bool
+FLAG mailpiece auth email help --agent type=bool
+FLAG mailpiece auth email help --api-url type=string
+FLAG mailpiece auth email help --count type=bool
+FLAG mailpiece auth email help --help type=bool
+FLAG mailpiece auth email help --ids-only type=bool
+FLAG mailpiece auth email help --jq type=string
+FLAG mailpiece auth email help --json type=bool
+FLAG mailpiece auth email help --limit type=int
+FLAG mailpiece auth email help --markdown type=bool
+FLAG mailpiece auth email help --profile type=string
+FLAG mailpiece auth email help --quiet type=bool
+FLAG mailpiece auth email help --styled type=bool
+FLAG mailpiece auth email help --token type=string
+FLAG mailpiece auth email help --verbose type=bool
+FLAG mailpiece auth email start --agent type=bool
+FLAG mailpiece auth email start --api-url type=string
+FLAG mailpiece auth email start --count type=bool
+FLAG mailpiece auth email start --email type=string
+FLAG mailpiece auth email start --help type=bool
+FLAG mailpiece auth email start --ids-only type=bool
+FLAG mailpiece auth email start --jq type=string
+FLAG mailpiece auth email start --json type=bool
+FLAG mailpiece auth email start --limit type=int
+FLAG mailpiece auth email start --markdown type=bool
+FLAG mailpiece auth email start --profile type=string
+FLAG mailpiece auth email start --quiet type=bool
+FLAG mailpiece auth email start --styled type=bool
+FLAG mailpiece auth email start --token type=string
+FLAG mailpiece auth email start --verbose type=bool
+FLAG mailpiece auth email verify --agent type=bool
+FLAG mailpiece auth email verify --api-url type=string
+FLAG mailpiece auth email verify --code type=string
+FLAG mailpiece auth email verify --count type=bool
+FLAG mailpiece auth email verify --help type=bool
+FLAG mailpiece auth email verify --ids-only type=bool
+FLAG mailpiece auth email verify --jq type=string
+FLAG mailpiece auth email verify --json type=bool
+FLAG mailpiece auth email verify --limit type=int
+FLAG mailpiece auth email verify --markdown type=bool
+FLAG mailpiece auth email verify --pending-token type=string
+FLAG mailpiece auth email verify --profile type=string
+FLAG mailpiece auth email verify --quiet type=bool
+FLAG mailpiece auth email verify --styled type=bool
+FLAG mailpiece auth email verify --token type=string
+FLAG mailpiece auth email verify --verbose type=bool
+FLAG mailpiece auth help --agent type=bool
+FLAG mailpiece auth help --api-url type=string
+FLAG mailpiece auth help --count type=bool
+FLAG mailpiece auth help --help type=bool
+FLAG mailpiece auth help --ids-only type=bool
+FLAG mailpiece auth help --jq type=string
+FLAG mailpiece auth help --json type=bool
+FLAG mailpiece auth help --limit type=int
+FLAG mailpiece auth help --markdown type=bool
+FLAG mailpiece auth help --profile type=string
+FLAG mailpiece auth help --quiet type=bool
+FLAG mailpiece auth help --styled type=bool
+FLAG mailpiece auth help --token type=string
+FLAG mailpiece auth help --verbose type=bool
+FLAG mailpiece auth list --agent type=bool
+FLAG mailpiece auth list --api-url type=string
+FLAG mailpiece auth list --count type=bool
+FLAG mailpiece auth list --help type=bool
+FLAG mailpiece auth list --ids-only type=bool
+FLAG mailpiece auth list --jq type=string
+FLAG mailpiece auth list --json type=bool
+FLAG mailpiece auth list --limit type=int
+FLAG mailpiece auth list --markdown type=bool
+FLAG mailpiece auth list --profile type=string
+FLAG mailpiece auth list --quiet type=bool
+FLAG mailpiece auth list --styled type=bool
+FLAG mailpiece auth list --token type=string
+FLAG mailpiece auth list --verbose type=bool
+FLAG mailpiece auth login --account type=string
+FLAG mailpiece auth login --agent type=bool
+FLAG mailpiece auth login --api-url type=string
+FLAG mailpiece auth login --count type=bool
+FLAG mailpiece auth login --help type=bool
+FLAG mailpiece auth login --ids-only type=bool
+FLAG mailpiece auth login --jq type=string
+FLAG mailpiece auth login --json type=bool
+FLAG mailpiece auth login --limit type=int
+FLAG mailpiece auth login --markdown type=bool
+FLAG mailpiece auth login --profile type=string
+FLAG mailpiece auth login --quiet type=bool
+FLAG mailpiece auth login --styled type=bool
+FLAG mailpiece auth login --token type=string
+FLAG mailpiece auth login --verbose type=bool
+FLAG mailpiece auth login --with-token type=bool
+FLAG mailpiece auth logout --agent type=bool
+FLAG mailpiece auth logout --all type=bool
+FLAG mailpiece auth logout --api-url type=string
+FLAG mailpiece auth logout --count type=bool
+FLAG mailpiece auth logout --help type=bool
+FLAG mailpiece auth logout --ids-only type=bool
+FLAG mailpiece auth logout --jq type=string
+FLAG mailpiece auth logout --json type=bool
+FLAG mailpiece auth logout --limit type=int
+FLAG mailpiece auth logout --markdown type=bool
+FLAG mailpiece auth logout --profile type=string
+FLAG mailpiece auth logout --quiet type=bool
+FLAG mailpiece auth logout --styled type=bool
+FLAG mailpiece auth logout --token type=string
+FLAG mailpiece auth logout --verbose type=bool
+FLAG mailpiece auth ls --agent type=bool
+FLAG mailpiece auth ls --api-url type=string
+FLAG mailpiece auth ls --count type=bool
+FLAG mailpiece auth ls --help type=bool
+FLAG mailpiece auth ls --ids-only type=bool
+FLAG mailpiece auth ls --jq type=string
+FLAG mailpiece auth ls --json type=bool
+FLAG mailpiece auth ls --limit type=int
+FLAG mailpiece auth ls --markdown type=bool
+FLAG mailpiece auth ls --profile type=string
+FLAG mailpiece auth ls --quiet type=bool
+FLAG mailpiece auth ls --styled type=bool
+FLAG mailpiece auth ls --token type=string
+FLAG mailpiece auth ls --verbose type=bool
+FLAG mailpiece auth status --agent type=bool
+FLAG mailpiece auth status --api-url type=string
+FLAG mailpiece auth status --count type=bool
+FLAG mailpiece auth status --help type=bool
+FLAG mailpiece auth status --ids-only type=bool
+FLAG mailpiece auth status --jq type=string
+FLAG mailpiece auth status --json type=bool
+FLAG mailpiece auth status --limit type=int
+FLAG mailpiece auth status --markdown type=bool
+FLAG mailpiece auth status --profile type=string
+FLAG mailpiece auth status --quiet type=bool
+FLAG mailpiece auth status --styled type=bool
+FLAG mailpiece auth status --token type=string
+FLAG mailpiece auth status --verbose type=bool
+FLAG mailpiece auth switch --agent type=bool
+FLAG mailpiece auth switch --api-url type=string
+FLAG mailpiece auth switch --count type=bool
+FLAG mailpiece auth switch --help type=bool
+FLAG mailpiece auth switch --ids-only type=bool
+FLAG mailpiece auth switch --jq type=string
+FLAG mailpiece auth switch --json type=bool
+FLAG mailpiece auth switch --limit type=int
+FLAG mailpiece auth switch --markdown type=bool
+FLAG mailpiece auth switch --profile type=string
+FLAG mailpiece auth switch --quiet type=bool
+FLAG mailpiece auth switch --styled type=bool
+FLAG mailpiece auth switch --token type=string
+FLAG mailpiece auth switch --verbose type=bool
+FLAG mailpiece cmds --agent type=bool
+FLAG mailpiece cmds --api-url type=string
+FLAG mailpiece cmds --count type=bool
+FLAG mailpiece cmds --help type=bool
+FLAG mailpiece cmds --ids-only type=bool
+FLAG mailpiece cmds --jq type=string
+FLAG mailpiece cmds --json type=bool
+FLAG mailpiece cmds --limit type=int
+FLAG mailpiece cmds --markdown type=bool
+FLAG mailpiece cmds --profile type=string
+FLAG mailpiece cmds --quiet type=bool
+FLAG mailpiece cmds --styled type=bool
+FLAG mailpiece cmds --token type=string
+FLAG mailpiece cmds --verbose type=bool
+FLAG mailpiece commands --agent type=bool
+FLAG mailpiece commands --api-url type=string
+FLAG mailpiece commands --count type=bool
+FLAG mailpiece commands --help type=bool
+FLAG mailpiece commands --ids-only type=bool
+FLAG mailpiece commands --jq type=string
+FLAG mailpiece commands --json type=bool
+FLAG mailpiece commands --limit type=int
+FLAG mailpiece commands --markdown type=bool
+FLAG mailpiece commands --profile type=string
+FLAG mailpiece commands --quiet type=bool
+FLAG mailpiece commands --styled type=bool
+FLAG mailpiece commands --token type=string
+FLAG mailpiece commands --verbose type=bool
+FLAG mailpiece completion --agent type=bool
+FLAG mailpiece completion --api-url type=string
+FLAG mailpiece completion --count type=bool
+FLAG mailpiece completion --help type=bool
+FLAG mailpiece completion --ids-only type=bool
+FLAG mailpiece completion --jq type=string
+FLAG mailpiece completion --json type=bool
+FLAG mailpiece completion --limit type=int
+FLAG mailpiece completion --markdown type=bool
+FLAG mailpiece completion --profile type=string
+FLAG mailpiece completion --quiet type=bool
+FLAG mailpiece completion --styled type=bool
+FLAG mailpiece completion --token type=string
+FLAG mailpiece completion --verbose type=bool
+FLAG mailpiece config --agent type=bool
+FLAG mailpiece config --api-url type=string
+FLAG mailpiece config --count type=bool
+FLAG mailpiece config --help type=bool
+FLAG mailpiece config --ids-only type=bool
+FLAG mailpiece config --jq type=string
+FLAG mailpiece config --json type=bool
+FLAG mailpiece config --limit type=int
+FLAG mailpiece config --markdown type=bool
+FLAG mailpiece config --profile type=string
+FLAG mailpiece config --quiet type=bool
+FLAG mailpiece config --styled type=bool
+FLAG mailpiece config --token type=string
+FLAG mailpiece config --verbose type=bool
+FLAG mailpiece config explain --agent type=bool
+FLAG mailpiece config explain --api-url type=string
+FLAG mailpiece config explain --count type=bool
+FLAG mailpiece config explain --help type=bool
+FLAG mailpiece config explain --ids-only type=bool
+FLAG mailpiece config explain --jq type=string
+FLAG mailpiece config explain --json type=bool
+FLAG mailpiece config explain --limit type=int
+FLAG mailpiece config explain --markdown type=bool
+FLAG mailpiece config explain --profile type=string
+FLAG mailpiece config explain --quiet type=bool
+FLAG mailpiece config explain --styled type=bool
+FLAG mailpiece config explain --token type=string
+FLAG mailpiece config explain --verbose type=bool
+FLAG mailpiece config help --agent type=bool
+FLAG mailpiece config help --api-url type=string
+FLAG mailpiece config help --count type=bool
+FLAG mailpiece config help --help type=bool
+FLAG mailpiece config help --ids-only type=bool
+FLAG mailpiece config help --jq type=string
+FLAG mailpiece config help --json type=bool
+FLAG mailpiece config help --limit type=int
+FLAG mailpiece config help --markdown type=bool
+FLAG mailpiece config help --profile type=string
+FLAG mailpiece config help --quiet type=bool
+FLAG mailpiece config help --styled type=bool
+FLAG mailpiece config help --token type=string
+FLAG mailpiece config help --verbose type=bool
+FLAG mailpiece config show --agent type=bool
+FLAG mailpiece config show --api-url type=string
+FLAG mailpiece config show --count type=bool
+FLAG mailpiece config show --help type=bool
+FLAG mailpiece config show --ids-only type=bool
+FLAG mailpiece config show --jq type=string
+FLAG mailpiece config show --json type=bool
+FLAG mailpiece config show --limit type=int
+FLAG mailpiece config show --markdown type=bool
+FLAG mailpiece config show --profile type=string
+FLAG mailpiece config show --quiet type=bool
+FLAG mailpiece config show --styled type=bool
+FLAG mailpiece config show --token type=string
+FLAG mailpiece config show --verbose type=bool
+FLAG mailpiece config view --agent type=bool
+FLAG mailpiece config view --api-url type=string
+FLAG mailpiece config view --count type=bool
+FLAG mailpiece config view --help type=bool
+FLAG mailpiece config view --ids-only type=bool
+FLAG mailpiece config view --jq type=string
+FLAG mailpiece config view --json type=bool
+FLAG mailpiece config view --limit type=int
+FLAG mailpiece config view --markdown type=bool
+FLAG mailpiece config view --profile type=string
+FLAG mailpiece config view --quiet type=bool
+FLAG mailpiece config view --styled type=bool
+FLAG mailpiece config view --token type=string
+FLAG mailpiece config view --verbose type=bool
+FLAG mailpiece doctor --agent type=bool
+FLAG mailpiece doctor --all-profiles type=bool
+FLAG mailpiece doctor --api-url type=string
+FLAG mailpiece doctor --count type=bool
+FLAG mailpiece doctor --help type=bool
+FLAG mailpiece doctor --ids-only type=bool
+FLAG mailpiece doctor --jq type=string
+FLAG mailpiece doctor --json type=bool
+FLAG mailpiece doctor --limit type=int
+FLAG mailpiece doctor --markdown type=bool
+FLAG mailpiece doctor --profile type=string
+FLAG mailpiece doctor --quiet type=bool
+FLAG mailpiece doctor --styled type=bool
+FLAG mailpiece doctor --token type=string
+FLAG mailpiece doctor --verbose type=bool
+FLAG mailpiece help --agent type=bool
+FLAG mailpiece help --api-url type=string
+FLAG mailpiece help --count type=bool
+FLAG mailpiece help --help type=bool
+FLAG mailpiece help --ids-only type=bool
+FLAG mailpiece help --jq type=string
+FLAG mailpiece help --json type=bool
+FLAG mailpiece help --limit type=int
+FLAG mailpiece help --markdown type=bool
+FLAG mailpiece help --profile type=string
+FLAG mailpiece help --quiet type=bool
+FLAG mailpiece help --styled type=bool
+FLAG mailpiece help --token type=string
+FLAG mailpiece help --verbose type=bool
+FLAG mailpiece identity --agent type=bool
+FLAG mailpiece identity --api-url type=string
+FLAG mailpiece identity --count type=bool
+FLAG mailpiece identity --help type=bool
+FLAG mailpiece identity --ids-only type=bool
+FLAG mailpiece identity --jq type=string
+FLAG mailpiece identity --json type=bool
+FLAG mailpiece identity --limit type=int
+FLAG mailpiece identity --markdown type=bool
+FLAG mailpiece identity --profile type=string
+FLAG mailpiece identity --quiet type=bool
+FLAG mailpiece identity --styled type=bool
+FLAG mailpiece identity --token type=string
+FLAG mailpiece identity --verbose type=bool
+FLAG mailpiece identity help --agent type=bool
+FLAG mailpiece identity help --api-url type=string
+FLAG mailpiece identity help --count type=bool
+FLAG mailpiece identity help --help type=bool
+FLAG mailpiece identity help --ids-only type=bool
+FLAG mailpiece identity help --jq type=string
+FLAG mailpiece identity help --json type=bool
+FLAG mailpiece identity help --limit type=int
+FLAG mailpiece identity help --markdown type=bool
+FLAG mailpiece identity help --profile type=string
+FLAG mailpiece identity help --quiet type=bool
+FLAG mailpiece identity help --styled type=bool
+FLAG mailpiece identity help --token type=string
+FLAG mailpiece identity help --verbose type=bool
+FLAG mailpiece identity show --agent type=bool
+FLAG mailpiece identity show --api-url type=string
+FLAG mailpiece identity show --count type=bool
+FLAG mailpiece identity show --help type=bool
+FLAG mailpiece identity show --ids-only type=bool
+FLAG mailpiece identity show --jq type=string
+FLAG mailpiece identity show --json type=bool
+FLAG mailpiece identity show --limit type=int
+FLAG mailpiece identity show --markdown type=bool
+FLAG mailpiece identity show --profile type=string
+FLAG mailpiece identity show --quiet type=bool
+FLAG mailpiece identity show --styled type=bool
+FLAG mailpiece identity show --token type=string
+FLAG mailpiece identity show --verbose type=bool
+FLAG mailpiece identity view --agent type=bool
+FLAG mailpiece identity view --api-url type=string
+FLAG mailpiece identity view --count type=bool
+FLAG mailpiece identity view --help type=bool
+FLAG mailpiece identity view --ids-only type=bool
+FLAG mailpiece identity view --jq type=string
+FLAG mailpiece identity view --json type=bool
+FLAG mailpiece identity view --limit type=int
+FLAG mailpiece identity view --markdown type=bool
+FLAG mailpiece identity view --profile type=string
+FLAG mailpiece identity view --quiet type=bool
+FLAG mailpiece identity view --styled type=bool
+FLAG mailpiece identity view --token type=string
+FLAG mailpiece identity view --verbose type=bool
+FLAG mailpiece journey --agent type=bool
+FLAG mailpiece journey --api-url type=string
+FLAG mailpiece journey --count type=bool
+FLAG mailpiece journey --help type=bool
+FLAG mailpiece journey --ids-only type=bool
+FLAG mailpiece journey --jq type=string
+FLAG mailpiece journey --json type=bool
+FLAG mailpiece journey --limit type=int
+FLAG mailpiece journey --markdown type=bool
+FLAG mailpiece journey --profile type=string
+FLAG mailpiece journey --quiet type=bool
+FLAG mailpiece journey --styled type=bool
+FLAG mailpiece journey --token type=string
+FLAG mailpiece journey --verbose type=bool
+FLAG mailpiece journey email --agent type=bool
+FLAG mailpiece journey email --api-url type=string
+FLAG mailpiece journey email --count type=bool
+FLAG mailpiece journey email --help type=bool
+FLAG mailpiece journey email --ids-only type=bool
+FLAG mailpiece journey email --jq type=string
+FLAG mailpiece journey email --json type=bool
+FLAG mailpiece journey email --limit type=int
+FLAG mailpiece journey email --markdown type=bool
+FLAG mailpiece journey email --profile type=string
+FLAG mailpiece journey email --quiet type=bool
+FLAG mailpiece journey email --styled type=bool
+FLAG mailpiece journey email --token type=string
+FLAG mailpiece journey email --verbose type=bool
+FLAG mailpiece journey email activate --agent type=bool
+FLAG mailpiece journey email activate --api-url type=string
+FLAG mailpiece journey email activate --count type=bool
+FLAG mailpiece journey email activate --help type=bool
+FLAG mailpiece journey email activate --ids-only type=bool
+FLAG mailpiece journey email activate --jq type=string
+FLAG mailpiece journey email activate --json type=bool
+FLAG mailpiece journey email activate --limit type=int
+FLAG mailpiece journey email activate --markdown type=bool
+FLAG mailpiece journey email activate --profile type=string
+FLAG mailpiece journey email activate --quiet type=bool
+FLAG mailpiece journey email activate --styled type=bool
+FLAG mailpiece journey email activate --token type=string
+FLAG mailpiece journey email activate --verbose type=bool
+FLAG mailpiece journey email create --agent type=bool
+FLAG mailpiece journey email create --api-url type=string
+FLAG mailpiece journey email create --attach type=stringArray
+FLAG mailpiece journey email create --body type=string
+FLAG mailpiece journey email create --body-file type=string
+FLAG mailpiece journey email create --count type=bool
+FLAG mailpiece journey email create --delay-days type=int64
+FLAG mailpiece journey email create --help type=bool
+FLAG mailpiece journey email create --ids-only type=bool
+FLAG mailpiece journey email create --jq type=string
+FLAG mailpiece journey email create --json type=bool
+FLAG mailpiece journey email create --limit type=int
+FLAG mailpiece journey email create --markdown type=bool
+FLAG mailpiece journey email create --profile type=string
+FLAG mailpiece journey email create --quiet type=bool
+FLAG mailpiece journey email create --send-hour type=int64
+FLAG mailpiece journey email create --styled type=bool
+FLAG mailpiece journey email create --subject type=string
+FLAG mailpiece journey email create --summary type=string
+FLAG mailpiece journey email create --token type=string
+FLAG mailpiece journey email create --verbose type=bool
+FLAG mailpiece journey email deactivate --agent type=bool
+FLAG mailpiece journey email deactivate --api-url type=string
+FLAG mailpiece journey email deactivate --count type=bool
+FLAG mailpiece journey email deactivate --help type=bool
+FLAG mailpiece journey email deactivate --ids-only type=bool
+FLAG mailpiece journey email deactivate --jq type=string
+FLAG mailpiece journey email deactivate --json type=bool
+FLAG mailpiece journey email deactivate --limit type=int
+FLAG mailpiece journey email deactivate --markdown type=bool
+FLAG mailpiece journey email deactivate --profile type=string
+FLAG mailpiece journey email deactivate --quiet type=bool
+FLAG mailpiece journey email deactivate --styled type=bool
+FLAG mailpiece journey email deactivate --token type=string
+FLAG mailpiece journey email deactivate --verbose type=bool
+FLAG mailpiece journey email delete --agent type=bool
+FLAG mailpiece journey email delete --api-url type=string
+FLAG mailpiece journey email delete --count type=bool
+FLAG mailpiece journey email delete --help type=bool
+FLAG mailpiece journey email delete --ids-only type=bool
+FLAG mailpiece journey email delete --jq type=string
+FLAG mailpiece journey email delete --json type=bool
+FLAG mailpiece journey email delete --limit type=int
+FLAG mailpiece journey email delete --markdown type=bool
+FLAG mailpiece journey email delete --profile type=string
+FLAG mailpiece journey email delete --quiet type=bool
+FLAG mailpiece journey email delete --styled type=bool
+FLAG mailpiece journey email delete --token type=string
+FLAG mailpiece journey email delete --verbose type=bool
+FLAG mailpiece journey email help --agent type=bool
+FLAG mailpiece journey email help --api-url type=string
+FLAG mailpiece journey email help --count type=bool
+FLAG mailpiece journey email help --help type=bool
+FLAG mailpiece journey email help --ids-only type=bool
+FLAG mailpiece journey email help --jq type=string
+FLAG mailpiece journey email help --json type=bool
+FLAG mailpiece journey email help --limit type=int
+FLAG mailpiece journey email help --markdown type=bool
+FLAG mailpiece journey email help --profile type=string
+FLAG mailpiece journey email help --quiet type=bool
+FLAG mailpiece journey email help --styled type=bool
+FLAG mailpiece journey email help --token type=string
+FLAG mailpiece journey email help --verbose type=bool
+FLAG mailpiece journey email rm --agent type=bool
+FLAG mailpiece journey email rm --api-url type=string
+FLAG mailpiece journey email rm --count type=bool
+FLAG mailpiece journey email rm --help type=bool
+FLAG mailpiece journey email rm --ids-only type=bool
+FLAG mailpiece journey email rm --jq type=string
+FLAG mailpiece journey email rm --json type=bool
+FLAG mailpiece journey email rm --limit type=int
+FLAG mailpiece journey email rm --markdown type=bool
+FLAG mailpiece journey email rm --profile type=string
+FLAG mailpiece journey email rm --quiet type=bool
+FLAG mailpiece journey email rm --styled type=bool
+FLAG mailpiece journey email rm --token type=string
+FLAG mailpiece journey email rm --verbose type=bool
+FLAG mailpiece journey email show --agent type=bool
+FLAG mailpiece journey email show --api-url type=string
+FLAG mailpiece journey email show --count type=bool
+FLAG mailpiece journey email show --help type=bool
+FLAG mailpiece journey email show --ids-only type=bool
+FLAG mailpiece journey email show --jq type=string
+FLAG mailpiece journey email show --json type=bool
+FLAG mailpiece journey email show --limit type=int
+FLAG mailpiece journey email show --markdown type=bool
+FLAG mailpiece journey email show --profile type=string
+FLAG mailpiece journey email show --quiet type=bool
+FLAG mailpiece journey email show --styled type=bool
+FLAG mailpiece journey email show --token type=string
+FLAG mailpiece journey email show --verbose type=bool
+FLAG mailpiece journey email test --agent type=bool
+FLAG mailpiece journey email test --api-url type=string
+FLAG mailpiece journey email test --count type=bool
+FLAG mailpiece journey email test --help type=bool
+FLAG mailpiece journey email test --ids-only type=bool
+FLAG mailpiece journey email test --jq type=string
+FLAG mailpiece journey email test --json type=bool
+FLAG mailpiece journey email test --limit type=int
+FLAG mailpiece journey email test --markdown type=bool
+FLAG mailpiece journey email test --profile type=string
+FLAG mailpiece journey email test --quiet type=bool
+FLAG mailpiece journey email test --styled type=bool
+FLAG mailpiece journey email test --to type=string
+FLAG mailpiece journey email test --token type=string
+FLAG mailpiece journey email test --verbose type=bool
+FLAG mailpiece journey email update --agent type=bool
+FLAG mailpiece journey email update --api-url type=string
+FLAG mailpiece journey email update --attach type=stringArray
+FLAG mailpiece journey email update --body type=string
+FLAG mailpiece journey email update --body-file type=string
+FLAG mailpiece journey email update --count type=bool
+FLAG mailpiece journey email update --delay-days type=int64
+FLAG mailpiece journey email update --help type=bool
+FLAG mailpiece journey email update --ids-only type=bool
+FLAG mailpiece journey email update --jq type=string
+FLAG mailpiece journey email update --json type=bool
+FLAG mailpiece journey email update --limit type=int
+FLAG mailpiece journey email update --markdown type=bool
+FLAG mailpiece journey email update --profile type=string
+FLAG mailpiece journey email update --quiet type=bool
+FLAG mailpiece journey email update --send-hour type=int64
+FLAG mailpiece journey email update --styled type=bool
+FLAG mailpiece journey email update --subject type=string
+FLAG mailpiece journey email update --summary type=string
+FLAG mailpiece journey email update --token type=string
+FLAG mailpiece journey email update --verbose type=bool
+FLAG mailpiece journey email view --agent type=bool
+FLAG mailpiece journey email view --api-url type=string
+FLAG mailpiece journey email view --count type=bool
+FLAG mailpiece journey email view --help type=bool
+FLAG mailpiece journey email view --ids-only type=bool
+FLAG mailpiece journey email view --jq type=string
+FLAG mailpiece journey email view --json type=bool
+FLAG mailpiece journey email view --limit type=int
+FLAG mailpiece journey email view --markdown type=bool
+FLAG mailpiece journey email view --profile type=string
+FLAG mailpiece journey email view --quiet type=bool
+FLAG mailpiece journey email view --styled type=bool
+FLAG mailpiece journey email view --token type=string
+FLAG mailpiece journey email view --verbose type=bool
+FLAG mailpiece journey help --agent type=bool
+FLAG mailpiece journey help --api-url type=string
+FLAG mailpiece journey help --count type=bool
+FLAG mailpiece journey help --help type=bool
+FLAG mailpiece journey help --ids-only type=bool
+FLAG mailpiece journey help --jq type=string
+FLAG mailpiece journey help --json type=bool
+FLAG mailpiece journey help --limit type=int
+FLAG mailpiece journey help --markdown type=bool
+FLAG mailpiece journey help --profile type=string
+FLAG mailpiece journey help --quiet type=bool
+FLAG mailpiece journey help --styled type=bool
+FLAG mailpiece journey help --token type=string
+FLAG mailpiece journey help --verbose type=bool
+FLAG mailpiece journey list --agent type=bool
+FLAG mailpiece journey list --api-url type=string
+FLAG mailpiece journey list --count type=bool
+FLAG mailpiece journey list --help type=bool
+FLAG mailpiece journey list --ids-only type=bool
+FLAG mailpiece journey list --jq type=string
+FLAG mailpiece journey list --json type=bool
+FLAG mailpiece journey list --limit type=int
+FLAG mailpiece journey list --markdown type=bool
+FLAG mailpiece journey list --profile type=string
+FLAG mailpiece journey list --quiet type=bool
+FLAG mailpiece journey list --styled type=bool
+FLAG mailpiece journey list --token type=string
+FLAG mailpiece journey list --verbose type=bool
+FLAG mailpiece journey ls --agent type=bool
+FLAG mailpiece journey ls --api-url type=string
+FLAG mailpiece journey ls --count type=bool
+FLAG mailpiece journey ls --help type=bool
+FLAG mailpiece journey ls --ids-only type=bool
+FLAG mailpiece journey ls --jq type=string
+FLAG mailpiece journey ls --json type=bool
+FLAG mailpiece journey ls --limit type=int
+FLAG mailpiece journey ls --markdown type=bool
+FLAG mailpiece journey ls --profile type=string
+FLAG mailpiece journey ls --quiet type=bool
+FLAG mailpiece journey ls --styled type=bool
+FLAG mailpiece journey ls --token type=string
+FLAG mailpiece journey ls --verbose type=bool
+FLAG mailpiece journey show --agent type=bool
+FLAG mailpiece journey show --api-url type=string
+FLAG mailpiece journey show --count type=bool
+FLAG mailpiece journey show --help type=bool
+FLAG mailpiece journey show --ids-only type=bool
+FLAG mailpiece journey show --jq type=string
+FLAG mailpiece journey show --json type=bool
+FLAG mailpiece journey show --limit type=int
+FLAG mailpiece journey show --markdown type=bool
+FLAG mailpiece journey show --profile type=string
+FLAG mailpiece journey show --quiet type=bool
+FLAG mailpiece journey show --styled type=bool
+FLAG mailpiece journey show --token type=string
+FLAG mailpiece journey show --verbose type=bool
+FLAG mailpiece journey view --agent type=bool
+FLAG mailpiece journey view --api-url type=string
+FLAG mailpiece journey view --count type=bool
+FLAG mailpiece journey view --help type=bool
+FLAG mailpiece journey view --ids-only type=bool
+FLAG mailpiece journey view --jq type=string
+FLAG mailpiece journey view --json type=bool
+FLAG mailpiece journey view --limit type=int
+FLAG mailpiece journey view --markdown type=bool
+FLAG mailpiece journey view --profile type=string
+FLAG mailpiece journey view --quiet type=bool
+FLAG mailpiece journey view --styled type=bool
+FLAG mailpiece journey view --token type=string
+FLAG mailpiece journey view --verbose type=bool
+FLAG mailpiece mcp --agent type=bool
+FLAG mailpiece mcp --api-url type=string
+FLAG mailpiece mcp --count type=bool
+FLAG mailpiece mcp --domains type=stringSlice
+FLAG mailpiece mcp --help type=bool
+FLAG mailpiece mcp --ids-only type=bool
+FLAG mailpiece mcp --jq type=string
+FLAG mailpiece mcp --json type=bool
+FLAG mailpiece mcp --limit type=int
+FLAG mailpiece mcp --markdown type=bool
+FLAG mailpiece mcp --profile type=string
+FLAG mailpiece mcp --quiet type=bool
+FLAG mailpiece mcp --styled type=bool
+FLAG mailpiece mcp --token type=string
+FLAG mailpiece mcp --verbose type=bool
+FLAG mailpiece mcp --writes type=bool
+FLAG mailpiece post --agent type=bool
+FLAG mailpiece post --api-url type=string
+FLAG mailpiece post --count type=bool
+FLAG mailpiece post --help type=bool
+FLAG mailpiece post --ids-only type=bool
+FLAG mailpiece post --jq type=string
+FLAG mailpiece post --json type=bool
+FLAG mailpiece post --limit type=int
+FLAG mailpiece post --markdown type=bool
+FLAG mailpiece post --profile type=string
+FLAG mailpiece post --quiet type=bool
+FLAG mailpiece post --styled type=bool
+FLAG mailpiece post --token type=string
+FLAG mailpiece post --verbose type=bool
+FLAG mailpiece post create --agent type=bool
+FLAG mailpiece post create --api-url type=string
+FLAG mailpiece post create --attach type=stringArray
+FLAG mailpiece post create --body type=string
+FLAG mailpiece post create --body-file type=string
+FLAG mailpiece post create --count type=bool
+FLAG mailpiece post create --help type=bool
+FLAG mailpiece post create --ids-only type=bool
+FLAG mailpiece post create --jq type=string
+FLAG mailpiece post create --json type=bool
+FLAG mailpiece post create --limit type=int
+FLAG mailpiece post create --markdown type=bool
+FLAG mailpiece post create --profile type=string
+FLAG mailpiece post create --quiet type=bool
+FLAG mailpiece post create --styled type=bool
+FLAG mailpiece post create --summary type=string
+FLAG mailpiece post create --title type=string
+FLAG mailpiece post create --token type=string
+FLAG mailpiece post create --verbose type=bool
+FLAG mailpiece post create --visibility type=string
+FLAG mailpiece post delete --agent type=bool
+FLAG mailpiece post delete --api-url type=string
+FLAG mailpiece post delete --count type=bool
+FLAG mailpiece post delete --help type=bool
+FLAG mailpiece post delete --ids-only type=bool
+FLAG mailpiece post delete --jq type=string
+FLAG mailpiece post delete --json type=bool
+FLAG mailpiece post delete --limit type=int
+FLAG mailpiece post delete --markdown type=bool
+FLAG mailpiece post delete --profile type=string
+FLAG mailpiece post delete --quiet type=bool
+FLAG mailpiece post delete --styled type=bool
+FLAG mailpiece post delete --token type=string
+FLAG mailpiece post delete --verbose type=bool
+FLAG mailpiece post deliver --agent type=bool
+FLAG mailpiece post deliver --api-url type=string
+FLAG mailpiece post deliver --count type=bool
+FLAG mailpiece post deliver --help type=bool
+FLAG mailpiece post deliver --ids-only type=bool
+FLAG mailpiece post deliver --jq type=string
+FLAG mailpiece post deliver --json type=bool
+FLAG mailpiece post deliver --limit type=int
+FLAG mailpiece post deliver --markdown type=bool
+FLAG mailpiece post deliver --profile type=string
+FLAG mailpiece post deliver --quiet type=bool
+FLAG mailpiece post deliver --styled type=bool
+FLAG mailpiece post deliver --token type=string
+FLAG mailpiece post deliver --verbose type=bool
+FLAG mailpiece post help --agent type=bool
+FLAG mailpiece post help --api-url type=string
+FLAG mailpiece post help --count type=bool
+FLAG mailpiece post help --help type=bool
+FLAG mailpiece post help --ids-only type=bool
+FLAG mailpiece post help --jq type=string
+FLAG mailpiece post help --json type=bool
+FLAG mailpiece post help --limit type=int
+FLAG mailpiece post help --markdown type=bool
+FLAG mailpiece post help --profile type=string
+FLAG mailpiece post help --quiet type=bool
+FLAG mailpiece post help --styled type=bool
+FLAG mailpiece post help --token type=string
+FLAG mailpiece post help --verbose type=bool
+FLAG mailpiece post history --agent type=bool
+FLAG mailpiece post history --api-url type=string
+FLAG mailpiece post history --count type=bool
+FLAG mailpiece post history --help type=bool
+FLAG mailpiece post history --ids-only type=bool
+FLAG mailpiece post history --jq type=string
+FLAG mailpiece post history --json type=bool
+FLAG mailpiece post history --limit type=int
+FLAG mailpiece post history --markdown type=bool
+FLAG mailpiece post history --profile type=string
+FLAG mailpiece post history --quiet type=bool
+FLAG mailpiece post history --styled type=bool
+FLAG mailpiece post history --token type=string
+FLAG mailpiece post history --verbose type=bool
+FLAG mailpiece post history help --agent type=bool
+FLAG mailpiece post history help --api-url type=string
+FLAG mailpiece post history help --count type=bool
+FLAG mailpiece post history help --help type=bool
+FLAG mailpiece post history help --ids-only type=bool
+FLAG mailpiece post history help --jq type=string
+FLAG mailpiece post history help --json type=bool
+FLAG mailpiece post history help --limit type=int
+FLAG mailpiece post history help --markdown type=bool
+FLAG mailpiece post history help --profile type=string
+FLAG mailpiece post history help --quiet type=bool
+FLAG mailpiece post history help --styled type=bool
+FLAG mailpiece post history help --token type=string
+FLAG mailpiece post history help --verbose type=bool
+FLAG mailpiece post history list --agent type=bool
+FLAG mailpiece post history list --api-url type=string
+FLAG mailpiece post history list --count type=bool
+FLAG mailpiece post history list --help type=bool
+FLAG mailpiece post history list --ids-only type=bool
+FLAG mailpiece post history list --jq type=string
+FLAG mailpiece post history list --json type=bool
+FLAG mailpiece post history list --limit type=int
+FLAG mailpiece post history list --markdown type=bool
+FLAG mailpiece post history list --profile type=string
+FLAG mailpiece post history list --quiet type=bool
+FLAG mailpiece post history list --styled type=bool
+FLAG mailpiece post history list --token type=string
+FLAG mailpiece post history list --verbose type=bool
+FLAG mailpiece post history ls --agent type=bool
+FLAG mailpiece post history ls --api-url type=string
+FLAG mailpiece post history ls --count type=bool
+FLAG mailpiece post history ls --help type=bool
+FLAG mailpiece post history ls --ids-only type=bool
+FLAG mailpiece post history ls --jq type=string
+FLAG mailpiece post history ls --json type=bool
+FLAG mailpiece post history ls --limit type=int
+FLAG mailpiece post history ls --markdown type=bool
+FLAG mailpiece post history ls --profile type=string
+FLAG mailpiece post history ls --quiet type=bool
+FLAG mailpiece post history ls --styled type=bool
+FLAG mailpiece post history ls --token type=string
+FLAG mailpiece post history ls --verbose type=bool
+FLAG mailpiece post history show --agent type=bool
+FLAG mailpiece post history show --api-url type=string
+FLAG mailpiece post history show --count type=bool
+FLAG mailpiece post history show --help type=bool
+FLAG mailpiece post history show --ids-only type=bool
+FLAG mailpiece post history show --jq type=string
+FLAG mailpiece post history show --json type=bool
+FLAG mailpiece post history show --limit type=int
+FLAG mailpiece post history show --markdown type=bool
+FLAG mailpiece post history show --profile type=string
+FLAG mailpiece post history show --quiet type=bool
+FLAG mailpiece post history show --styled type=bool
+FLAG mailpiece post history show --token type=string
+FLAG mailpiece post history show --verbose type=bool
+FLAG mailpiece post history view --agent type=bool
+FLAG mailpiece post history view --api-url type=string
+FLAG mailpiece post history view --count type=bool
+FLAG mailpiece post history view --help type=bool
+FLAG mailpiece post history view --ids-only type=bool
+FLAG mailpiece post history view --jq type=string
+FLAG mailpiece post history view --json type=bool
+FLAG mailpiece post history view --limit type=int
+FLAG mailpiece post history view --markdown type=bool
+FLAG mailpiece post history view --profile type=string
+FLAG mailpiece post history view --quiet type=bool
+FLAG mailpiece post history view --styled type=bool
+FLAG mailpiece post history view --token type=string
+FLAG mailpiece post history view --verbose type=bool
+FLAG mailpiece post link --agent type=bool
+FLAG mailpiece post link --api-url type=string
+FLAG mailpiece post link --count type=bool
+FLAG mailpiece post link --help type=bool
+FLAG mailpiece post link --ids-only type=bool
+FLAG mailpiece post link --jq type=string
+FLAG mailpiece post link --json type=bool
+FLAG mailpiece post link --limit type=int
+FLAG mailpiece post link --markdown type=bool
+FLAG mailpiece post link --profile type=string
+FLAG mailpiece post link --quiet type=bool
+FLAG mailpiece post link --styled type=bool
+FLAG mailpiece post link --token type=string
+FLAG mailpiece post link --verbose type=bool
+FLAG mailpiece post link help --agent type=bool
+FLAG mailpiece post link help --api-url type=string
+FLAG mailpiece post link help --count type=bool
+FLAG mailpiece post link help --help type=bool
+FLAG mailpiece post link help --ids-only type=bool
+FLAG mailpiece post link help --jq type=string
+FLAG mailpiece post link help --json type=bool
+FLAG mailpiece post link help --limit type=int
+FLAG mailpiece post link help --markdown type=bool
+FLAG mailpiece post link help --profile type=string
+FLAG mailpiece post link help --quiet type=bool
+FLAG mailpiece post link help --styled type=bool
+FLAG mailpiece post link help --token type=string
+FLAG mailpiece post link help --verbose type=bool
+FLAG mailpiece post link list --agent type=bool
+FLAG mailpiece post link list --api-url type=string
+FLAG mailpiece post link list --count type=bool
+FLAG mailpiece post link list --help type=bool
+FLAG mailpiece post link list --ids-only type=bool
+FLAG mailpiece post link list --jq type=string
+FLAG mailpiece post link list --json type=bool
+FLAG mailpiece post link list --limit type=int
+FLAG mailpiece post link list --markdown type=bool
+FLAG mailpiece post link list --profile type=string
+FLAG mailpiece post link list --quiet type=bool
+FLAG mailpiece post link list --styled type=bool
+FLAG mailpiece post link list --token type=string
+FLAG mailpiece post link list --verbose type=bool
+FLAG mailpiece post link ls --agent type=bool
+FLAG mailpiece post link ls --api-url type=string
+FLAG mailpiece post link ls --count type=bool
+FLAG mailpiece post link ls --help type=bool
+FLAG mailpiece post link ls --ids-only type=bool
+FLAG mailpiece post link ls --jq type=string
+FLAG mailpiece post link ls --json type=bool
+FLAG mailpiece post link ls --limit type=int
+FLAG mailpiece post link ls --markdown type=bool
+FLAG mailpiece post link ls --profile type=string
+FLAG mailpiece post link ls --quiet type=bool
+FLAG mailpiece post link ls --styled type=bool
+FLAG mailpiece post link ls --token type=string
+FLAG mailpiece post link ls --verbose type=bool
+FLAG mailpiece post link update --agent type=bool
+FLAG mailpiece post link update --api-url type=string
+FLAG mailpiece post link update --count type=bool
+FLAG mailpiece post link update --help type=bool
+FLAG mailpiece post link update --ids-only type=bool
+FLAG mailpiece post link update --jq type=string
+FLAG mailpiece post link update --json type=bool
+FLAG mailpiece post link update --limit type=int
+FLAG mailpiece post link update --markdown type=bool
+FLAG mailpiece post link update --profile type=string
+FLAG mailpiece post link update --quiet type=bool
+FLAG mailpiece post link update --styled type=bool
+FLAG mailpiece post link update --token type=string
+FLAG mailpiece post link update --url type=string
+FLAG mailpiece post link update --verbose type=bool
+FLAG mailpiece post list --agent type=bool
+FLAG mailpiece post list --all type=bool
+FLAG mailpiece post list --api-url type=string
+FLAG mailpiece post list --count type=bool
+FLAG mailpiece post list --help type=bool
+FLAG mailpiece post list --ids-only type=bool
+FLAG mailpiece post list --jq type=string
+FLAG mailpiece post list --json type=bool
+FLAG mailpiece post list --limit type=int
+FLAG mailpiece post list --markdown type=bool
+FLAG mailpiece post list --page type=int
+FLAG mailpiece post list --profile type=string
+FLAG mailpiece post list --published type=bool
+FLAG mailpiece post list --quiet type=bool
+FLAG mailpiece post list --sent type=bool
+FLAG mailpiece post list --styled type=bool
+FLAG mailpiece post list --token type=string
+FLAG mailpiece post list --verbose type=bool
+FLAG mailpiece post ls --agent type=bool
+FLAG mailpiece post ls --all type=bool
+FLAG mailpiece post ls --api-url type=string
+FLAG mailpiece post ls --count type=bool
+FLAG mailpiece post ls --help type=bool
+FLAG mailpiece post ls --ids-only type=bool
+FLAG mailpiece post ls --jq type=string
+FLAG mailpiece post ls --json type=bool
+FLAG mailpiece post ls --limit type=int
+FLAG mailpiece post ls --markdown type=bool
+FLAG mailpiece post ls --page type=int
+FLAG mailpiece post ls --profile type=string
+FLAG mailpiece post ls --published type=bool
+FLAG mailpiece post ls --quiet type=bool
+FLAG mailpiece post ls --sent type=bool
+FLAG mailpiece post ls --styled type=bool
+FLAG mailpiece post ls --token type=string
+FLAG mailpiece post ls --verbose type=bool
+FLAG mailpiece post publish --agent type=bool
+FLAG mailpiece post publish --api-url type=string
+FLAG mailpiece post publish --count type=bool
+FLAG mailpiece post publish --day type=string
+FLAG mailpiece post publish --destination type=string
+FLAG mailpiece post publish --help type=bool
+FLAG mailpiece post publish --hour type=int
+FLAG mailpiece post publish --ids-only type=bool
+FLAG mailpiece post publish --jq type=string
+FLAG mailpiece post publish --json type=bool
+FLAG mailpiece post publish --limit type=int
+FLAG mailpiece post publish --markdown type=bool
+FLAG mailpiece post publish --profile type=string
+FLAG mailpiece post publish --published-at type=string
+FLAG mailpiece post publish --quiet type=bool
+FLAG mailpiece post publish --styled type=bool
+FLAG mailpiece post publish --token type=string
+FLAG mailpiece post publish --verbose type=bool
+FLAG mailpiece post relist --agent type=bool
+FLAG mailpiece post relist --api-url type=string
+FLAG mailpiece post relist --count type=bool
+FLAG mailpiece post relist --help type=bool
+FLAG mailpiece post relist --ids-only type=bool
+FLAG mailpiece post relist --jq type=string
+FLAG mailpiece post relist --json type=bool
+FLAG mailpiece post relist --limit type=int
+FLAG mailpiece post relist --markdown type=bool
+FLAG mailpiece post relist --profile type=string
+FLAG mailpiece post relist --quiet type=bool
+FLAG mailpiece post relist --styled type=bool
+FLAG mailpiece post relist --token type=string
+FLAG mailpiece post relist --verbose type=bool
+FLAG mailpiece post rm --agent type=bool
+FLAG mailpiece post rm --api-url type=string
+FLAG mailpiece post rm --count type=bool
+FLAG mailpiece post rm --help type=bool
+FLAG mailpiece post rm --ids-only type=bool
+FLAG mailpiece post rm --jq type=string
+FLAG mailpiece post rm --json type=bool
+FLAG mailpiece post rm --limit type=int
+FLAG mailpiece post rm --markdown type=bool
+FLAG mailpiece post rm --profile type=string
+FLAG mailpiece post rm --quiet type=bool
+FLAG mailpiece post rm --styled type=bool
+FLAG mailpiece post rm --token type=string
+FLAG mailpiece post rm --verbose type=bool
+FLAG mailpiece post schedule --agent type=bool
+FLAG mailpiece post schedule --api-url type=string
+FLAG mailpiece post schedule --at type=string
+FLAG mailpiece post schedule --count type=bool
+FLAG mailpiece post schedule --day type=string
+FLAG mailpiece post schedule --deliver type=bool
+FLAG mailpiece post schedule --destination type=string
+FLAG mailpiece post schedule --help type=bool
+FLAG mailpiece post schedule --hour type=int
+FLAG mailpiece post schedule --ids-only type=bool
+FLAG mailpiece post schedule --jq type=string
+FLAG mailpiece post schedule --json type=bool
+FLAG mailpiece post schedule --limit type=int
+FLAG mailpiece post schedule --markdown type=bool
+FLAG mailpiece post schedule --profile type=string
+FLAG mailpiece post schedule --quiet type=bool
+FLAG mailpiece post schedule --styled type=bool
+FLAG mailpiece post schedule --token type=string
+FLAG mailpiece post schedule --verbose type=bool
+FLAG mailpiece post show --agent type=bool
+FLAG mailpiece post show --api-url type=string
+FLAG mailpiece post show --count type=bool
+FLAG mailpiece post show --help type=bool
+FLAG mailpiece post show --ids-only type=bool
+FLAG mailpiece post show --jq type=string
+FLAG mailpiece post show --json type=bool
+FLAG mailpiece post show --limit type=int
+FLAG mailpiece post show --markdown type=bool
+FLAG mailpiece post show --profile type=string
+FLAG mailpiece post show --quiet type=bool
+FLAG mailpiece post show --styled type=bool
+FLAG mailpiece post show --token type=string
+FLAG mailpiece post show --verbose type=bool
+FLAG mailpiece post test --agent type=bool
+FLAG mailpiece post test --api-url type=string
+FLAG mailpiece post test --count type=bool
+FLAG mailpiece post test --help type=bool
+FLAG mailpiece post test --ids-only type=bool
+FLAG mailpiece post test --jq type=string
+FLAG mailpiece post test --json type=bool
+FLAG mailpiece post test --limit type=int
+FLAG mailpiece post test --markdown type=bool
+FLAG mailpiece post test --profile type=string
+FLAG mailpiece post test --quiet type=bool
+FLAG mailpiece post test --styled type=bool
+FLAG mailpiece post test --to type=string
+FLAG mailpiece post test --token type=string
+FLAG mailpiece post test --verbose type=bool
+FLAG mailpiece post unlist --agent type=bool
+FLAG mailpiece post unlist --api-url type=string
+FLAG mailpiece post unlist --count type=bool
+FLAG mailpiece post unlist --help type=bool
+FLAG mailpiece post unlist --ids-only type=bool
+FLAG mailpiece post unlist --jq type=string
+FLAG mailpiece post unlist --json type=bool
+FLAG mailpiece post unlist --limit type=int
+FLAG mailpiece post unlist --markdown type=bool
+FLAG mailpiece post unlist --profile type=string
+FLAG mailpiece post unlist --quiet type=bool
+FLAG mailpiece post unlist --styled type=bool
+FLAG mailpiece post unlist --token type=string
+FLAG mailpiece post unlist --verbose type=bool
+FLAG mailpiece post unpublish --agent type=bool
+FLAG mailpiece post unpublish --api-url type=string
+FLAG mailpiece post unpublish --count type=bool
+FLAG mailpiece post unpublish --help type=bool
+FLAG mailpiece post unpublish --ids-only type=bool
+FLAG mailpiece post unpublish --jq type=string
+FLAG mailpiece post unpublish --json type=bool
+FLAG mailpiece post unpublish --limit type=int
+FLAG mailpiece post unpublish --markdown type=bool
+FLAG mailpiece post unpublish --profile type=string
+FLAG mailpiece post unpublish --quiet type=bool
+FLAG mailpiece post unpublish --styled type=bool
+FLAG mailpiece post unpublish --token type=string
+FLAG mailpiece post unpublish --verbose type=bool
+FLAG mailpiece post unschedule --agent type=bool
+FLAG mailpiece post unschedule --api-url type=string
+FLAG mailpiece post unschedule --count type=bool
+FLAG mailpiece post unschedule --help type=bool
+FLAG mailpiece post unschedule --ids-only type=bool
+FLAG mailpiece post unschedule --jq type=string
+FLAG mailpiece post unschedule --json type=bool
+FLAG mailpiece post unschedule --limit type=int
+FLAG mailpiece post unschedule --markdown type=bool
+FLAG mailpiece post unschedule --profile type=string
+FLAG mailpiece post unschedule --quiet type=bool
+FLAG mailpiece post unschedule --styled type=bool
+FLAG mailpiece post unschedule --token type=string
+FLAG mailpiece post unschedule --verbose type=bool
+FLAG mailpiece post update --agent type=bool
+FLAG mailpiece post update --api-url type=string
+FLAG mailpiece post update --attach type=stringArray
+FLAG mailpiece post update --body type=string
+FLAG mailpiece post update --body-file type=string
+FLAG mailpiece post update --count type=bool
+FLAG mailpiece post update --help type=bool
+FLAG mailpiece post update --ids-only type=bool
+FLAG mailpiece post update --jq type=string
+FLAG mailpiece post update --json type=bool
+FLAG mailpiece post update --limit type=int
+FLAG mailpiece post update --markdown type=bool
+FLAG mailpiece post update --profile type=string
+FLAG mailpiece post update --published-at type=string
+FLAG mailpiece post update --quiet type=bool
+FLAG mailpiece post update --styled type=bool
+FLAG mailpiece post update --summary type=string
+FLAG mailpiece post update --title type=string
+FLAG mailpiece post update --token type=string
+FLAG mailpiece post update --verbose type=bool
+FLAG mailpiece post update --visibility type=string
+FLAG mailpiece post view --agent type=bool
+FLAG mailpiece post view --api-url type=string
+FLAG mailpiece post view --count type=bool
+FLAG mailpiece post view --help type=bool
+FLAG mailpiece post view --ids-only type=bool
+FLAG mailpiece post view --jq type=string
+FLAG mailpiece post view --json type=bool
+FLAG mailpiece post view --limit type=int
+FLAG mailpiece post view --markdown type=bool
+FLAG mailpiece post view --profile type=string
+FLAG mailpiece post view --quiet type=bool
+FLAG mailpiece post view --styled type=bool
+FLAG mailpiece post view --token type=string
+FLAG mailpiece post view --verbose type=bool
+FLAG mailpiece search --agent type=bool
+FLAG mailpiece search --api-url type=string
+FLAG mailpiece search --count type=bool
+FLAG mailpiece search --help type=bool
+FLAG mailpiece search --ids-only type=bool
+FLAG mailpiece search --jq type=string
+FLAG mailpiece search --json type=bool
+FLAG mailpiece search --limit type=int
+FLAG mailpiece search --markdown type=bool
+FLAG mailpiece search --profile type=string
+FLAG mailpiece search --quiet type=bool
+FLAG mailpiece search --styled type=bool
+FLAG mailpiece search --token type=string
+FLAG mailpiece search --verbose type=bool
+FLAG mailpiece settings --agent type=bool
+FLAG mailpiece settings --api-url type=string
+FLAG mailpiece settings --count type=bool
+FLAG mailpiece settings --help type=bool
+FLAG mailpiece settings --ids-only type=bool
+FLAG mailpiece settings --jq type=string
+FLAG mailpiece settings --json type=bool
+FLAG mailpiece settings --limit type=int
+FLAG mailpiece settings --markdown type=bool
+FLAG mailpiece settings --profile type=string
+FLAG mailpiece settings --quiet type=bool
+FLAG mailpiece settings --styled type=bool
+FLAG mailpiece settings --token type=string
+FLAG mailpiece settings --verbose type=bool
+FLAG mailpiece settings handle --agent type=bool
+FLAG mailpiece settings handle --api-url type=string
+FLAG mailpiece settings handle --count type=bool
+FLAG mailpiece settings handle --help type=bool
+FLAG mailpiece settings handle --ids-only type=bool
+FLAG mailpiece settings handle --jq type=string
+FLAG mailpiece settings handle --json type=bool
+FLAG mailpiece settings handle --limit type=int
+FLAG mailpiece settings handle --markdown type=bool
+FLAG mailpiece settings handle --profile type=string
+FLAG mailpiece settings handle --quiet type=bool
+FLAG mailpiece settings handle --styled type=bool
+FLAG mailpiece settings handle --token type=string
+FLAG mailpiece settings handle --verbose type=bool
+FLAG mailpiece settings handle help --agent type=bool
+FLAG mailpiece settings handle help --api-url type=string
+FLAG mailpiece settings handle help --count type=bool
+FLAG mailpiece settings handle help --help type=bool
+FLAG mailpiece settings handle help --ids-only type=bool
+FLAG mailpiece settings handle help --jq type=string
+FLAG mailpiece settings handle help --json type=bool
+FLAG mailpiece settings handle help --limit type=int
+FLAG mailpiece settings handle help --markdown type=bool
+FLAG mailpiece settings handle help --profile type=string
+FLAG mailpiece settings handle help --quiet type=bool
+FLAG mailpiece settings handle help --styled type=bool
+FLAG mailpiece settings handle help --token type=string
+FLAG mailpiece settings handle help --verbose type=bool
+FLAG mailpiece settings handle show --agent type=bool
+FLAG mailpiece settings handle show --api-url type=string
+FLAG mailpiece settings handle show --count type=bool
+FLAG mailpiece settings handle show --help type=bool
+FLAG mailpiece settings handle show --ids-only type=bool
+FLAG mailpiece settings handle show --jq type=string
+FLAG mailpiece settings handle show --json type=bool
+FLAG mailpiece settings handle show --limit type=int
+FLAG mailpiece settings handle show --markdown type=bool
+FLAG mailpiece settings handle show --profile type=string
+FLAG mailpiece settings handle show --quiet type=bool
+FLAG mailpiece settings handle show --styled type=bool
+FLAG mailpiece settings handle show --token type=string
+FLAG mailpiece settings handle show --verbose type=bool
+FLAG mailpiece settings handle update --agent type=bool
+FLAG mailpiece settings handle update --api-url type=string
+FLAG mailpiece settings handle update --count type=bool
+FLAG mailpiece settings handle update --handle type=string
+FLAG mailpiece settings handle update --help type=bool
+FLAG mailpiece settings handle update --ids-only type=bool
+FLAG mailpiece settings handle update --jq type=string
+FLAG mailpiece settings handle update --json type=bool
+FLAG mailpiece settings handle update --limit type=int
+FLAG mailpiece settings handle update --markdown type=bool
+FLAG mailpiece settings handle update --profile type=string
+FLAG mailpiece settings handle update --quiet type=bool
+FLAG mailpiece settings handle update --styled type=bool
+FLAG mailpiece settings handle update --token type=string
+FLAG mailpiece settings handle update --verbose type=bool
+FLAG mailpiece settings handle view --agent type=bool
+FLAG mailpiece settings handle view --api-url type=string
+FLAG mailpiece settings handle view --count type=bool
+FLAG mailpiece settings handle view --help type=bool
+FLAG mailpiece settings handle view --ids-only type=bool
+FLAG mailpiece settings handle view --jq type=string
+FLAG mailpiece settings handle view --json type=bool
+FLAG mailpiece settings handle view --limit type=int
+FLAG mailpiece settings handle view --markdown type=bool
+FLAG mailpiece settings handle view --profile type=string
+FLAG mailpiece settings handle view --quiet type=bool
+FLAG mailpiece settings handle view --styled type=bool
+FLAG mailpiece settings handle view --token type=string
+FLAG mailpiece settings handle view --verbose type=bool
+FLAG mailpiece settings help --agent type=bool
+FLAG mailpiece settings help --api-url type=string
+FLAG mailpiece settings help --count type=bool
+FLAG mailpiece settings help --help type=bool
+FLAG mailpiece settings help --ids-only type=bool
+FLAG mailpiece settings help --jq type=string
+FLAG mailpiece settings help --json type=bool
+FLAG mailpiece settings help --limit type=int
+FLAG mailpiece settings help --markdown type=bool
+FLAG mailpiece settings help --profile type=string
+FLAG mailpiece settings help --quiet type=bool
+FLAG mailpiece settings help --styled type=bool
+FLAG mailpiece settings help --token type=string
+FLAG mailpiece settings help --verbose type=bool
+FLAG mailpiece settings join-code --agent type=bool
+FLAG mailpiece settings join-code --api-url type=string
+FLAG mailpiece settings join-code --count type=bool
+FLAG mailpiece settings join-code --help type=bool
+FLAG mailpiece settings join-code --ids-only type=bool
+FLAG mailpiece settings join-code --jq type=string
+FLAG mailpiece settings join-code --json type=bool
+FLAG mailpiece settings join-code --limit type=int
+FLAG mailpiece settings join-code --markdown type=bool
+FLAG mailpiece settings join-code --profile type=string
+FLAG mailpiece settings join-code --quiet type=bool
+FLAG mailpiece settings join-code --styled type=bool
+FLAG mailpiece settings join-code --token type=string
+FLAG mailpiece settings join-code --verbose type=bool
+FLAG mailpiece settings join-code help --agent type=bool
+FLAG mailpiece settings join-code help --api-url type=string
+FLAG mailpiece settings join-code help --count type=bool
+FLAG mailpiece settings join-code help --help type=bool
+FLAG mailpiece settings join-code help --ids-only type=bool
+FLAG mailpiece settings join-code help --jq type=string
+FLAG mailpiece settings join-code help --json type=bool
+FLAG mailpiece settings join-code help --limit type=int
+FLAG mailpiece settings join-code help --markdown type=bool
+FLAG mailpiece settings join-code help --profile type=string
+FLAG mailpiece settings join-code help --quiet type=bool
+FLAG mailpiece settings join-code help --styled type=bool
+FLAG mailpiece settings join-code help --token type=string
+FLAG mailpiece settings join-code help --verbose type=bool
+FLAG mailpiece settings join-code reset --agent type=bool
+FLAG mailpiece settings join-code reset --api-url type=string
+FLAG mailpiece settings join-code reset --count type=bool
+FLAG mailpiece settings join-code reset --help type=bool
+FLAG mailpiece settings join-code reset --ids-only type=bool
+FLAG mailpiece settings join-code reset --jq type=string
+FLAG mailpiece settings join-code reset --json type=bool
+FLAG mailpiece settings join-code reset --limit type=int
+FLAG mailpiece settings join-code reset --markdown type=bool
+FLAG mailpiece settings join-code reset --profile type=string
+FLAG mailpiece settings join-code reset --quiet type=bool
+FLAG mailpiece settings join-code reset --styled type=bool
+FLAG mailpiece settings join-code reset --token type=string
+FLAG mailpiece settings join-code reset --verbose type=bool
+FLAG mailpiece settings join-code show --agent type=bool
+FLAG mailpiece settings join-code show --api-url type=string
+FLAG mailpiece settings join-code show --count type=bool
+FLAG mailpiece settings join-code show --help type=bool
+FLAG mailpiece settings join-code show --ids-only type=bool
+FLAG mailpiece settings join-code show --jq type=string
+FLAG mailpiece settings join-code show --json type=bool
+FLAG mailpiece settings join-code show --limit type=int
+FLAG mailpiece settings join-code show --markdown type=bool
+FLAG mailpiece settings join-code show --profile type=string
+FLAG mailpiece settings join-code show --quiet type=bool
+FLAG mailpiece settings join-code show --styled type=bool
+FLAG mailpiece settings join-code show --token type=string
+FLAG mailpiece settings join-code show --verbose type=bool
+FLAG mailpiece settings join-code update --agent type=bool
+FLAG mailpiece settings join-code update --api-url type=string
+FLAG mailpiece settings join-code update --count type=bool
+FLAG mailpiece settings join-code update --help type=bool
+FLAG mailpiece settings join-code update --ids-only type=bool
+FLAG mailpiece settings join-code update --jq type=string
+FLAG mailpiece settings join-code update --json type=bool
+FLAG mailpiece settings join-code update --limit type=int
+FLAG mailpiece settings join-code update --markdown type=bool
+FLAG mailpiece settings join-code update --profile type=string
+FLAG mailpiece settings join-code update --quiet type=bool
+FLAG mailpiece settings join-code update --styled type=bool
+FLAG mailpiece settings join-code update --token type=string
+FLAG mailpiece settings join-code update --usage-limit type=int64
+FLAG mailpiece settings join-code update --verbose type=bool
+FLAG mailpiece settings join-code view --agent type=bool
+FLAG mailpiece settings join-code view --api-url type=string
+FLAG mailpiece settings join-code view --count type=bool
+FLAG mailpiece settings join-code view --help type=bool
+FLAG mailpiece settings join-code view --ids-only type=bool
+FLAG mailpiece settings join-code view --jq type=string
+FLAG mailpiece settings join-code view --json type=bool
+FLAG mailpiece settings join-code view --limit type=int
+FLAG mailpiece settings join-code view --markdown type=bool
+FLAG mailpiece settings join-code view --profile type=string
+FLAG mailpiece settings join-code view --quiet type=bool
+FLAG mailpiece settings join-code view --styled type=bool
+FLAG mailpiece settings join-code view --token type=string
+FLAG mailpiece settings join-code view --verbose type=bool
+FLAG mailpiece settings newsletter --agent type=bool
+FLAG mailpiece settings newsletter --api-url type=string
+FLAG mailpiece settings newsletter --count type=bool
+FLAG mailpiece settings newsletter --help type=bool
+FLAG mailpiece settings newsletter --ids-only type=bool
+FLAG mailpiece settings newsletter --jq type=string
+FLAG mailpiece settings newsletter --json type=bool
+FLAG mailpiece settings newsletter --limit type=int
+FLAG mailpiece settings newsletter --markdown type=bool
+FLAG mailpiece settings newsletter --profile type=string
+FLAG mailpiece settings newsletter --quiet type=bool
+FLAG mailpiece settings newsletter --styled type=bool
+FLAG mailpiece settings newsletter --token type=string
+FLAG mailpiece settings newsletter --verbose type=bool
+FLAG mailpiece settings newsletter help --agent type=bool
+FLAG mailpiece settings newsletter help --api-url type=string
+FLAG mailpiece settings newsletter help --count type=bool
+FLAG mailpiece settings newsletter help --help type=bool
+FLAG mailpiece settings newsletter help --ids-only type=bool
+FLAG mailpiece settings newsletter help --jq type=string
+FLAG mailpiece settings newsletter help --json type=bool
+FLAG mailpiece settings newsletter help --limit type=int
+FLAG mailpiece settings newsletter help --markdown type=bool
+FLAG mailpiece settings newsletter help --profile type=string
+FLAG mailpiece settings newsletter help --quiet type=bool
+FLAG mailpiece settings newsletter help --styled type=bool
+FLAG mailpiece settings newsletter help --token type=string
+FLAG mailpiece settings newsletter help --verbose type=bool
+FLAG mailpiece settings newsletter show --agent type=bool
+FLAG mailpiece settings newsletter show --api-url type=string
+FLAG mailpiece settings newsletter show --count type=bool
+FLAG mailpiece settings newsletter show --help type=bool
+FLAG mailpiece settings newsletter show --ids-only type=bool
+FLAG mailpiece settings newsletter show --jq type=string
+FLAG mailpiece settings newsletter show --json type=bool
+FLAG mailpiece settings newsletter show --limit type=int
+FLAG mailpiece settings newsletter show --markdown type=bool
+FLAG mailpiece settings newsletter show --profile type=string
+FLAG mailpiece settings newsletter show --quiet type=bool
+FLAG mailpiece settings newsletter show --styled type=bool
+FLAG mailpiece settings newsletter show --token type=string
+FLAG mailpiece settings newsletter show --verbose type=bool
+FLAG mailpiece settings newsletter update --agent type=bool
+FLAG mailpiece settings newsletter update --api-url type=string
+FLAG mailpiece settings newsletter update --count type=bool
+FLAG mailpiece settings newsletter update --description type=string
+FLAG mailpiece settings newsletter update --description-file type=string
+FLAG mailpiece settings newsletter update --help type=bool
+FLAG mailpiece settings newsletter update --ids-only type=bool
+FLAG mailpiece settings newsletter update --jq type=string
+FLAG mailpiece settings newsletter update --json type=bool
+FLAG mailpiece settings newsletter update --limit type=int
+FLAG mailpiece settings newsletter update --locale type=string
+FLAG mailpiece settings newsletter update --markdown type=bool
+FLAG mailpiece settings newsletter update --name type=string
+FLAG mailpiece settings newsletter update --profile type=string
+FLAG mailpiece settings newsletter update --quiet type=bool
+FLAG mailpiece settings newsletter update --styled type=bool
+FLAG mailpiece settings newsletter update --token type=string
+FLAG mailpiece settings newsletter update --verbose type=bool
+FLAG mailpiece settings newsletter view --agent type=bool
+FLAG mailpiece settings newsletter view --api-url type=string
+FLAG mailpiece settings newsletter view --count type=bool
+FLAG mailpiece settings newsletter view --help type=bool
+FLAG mailpiece settings newsletter view --ids-only type=bool
+FLAG mailpiece settings newsletter view --jq type=string
+FLAG mailpiece settings newsletter view --json type=bool
+FLAG mailpiece settings newsletter view --limit type=int
+FLAG mailpiece settings newsletter view --markdown type=bool
+FLAG mailpiece settings newsletter view --profile type=string
+FLAG mailpiece settings newsletter view --quiet type=bool
+FLAG mailpiece settings newsletter view --styled type=bool
+FLAG mailpiece settings newsletter view --token type=string
+FLAG mailpiece settings newsletter view --verbose type=bool
+FLAG mailpiece settings notifications --agent type=bool
+FLAG mailpiece settings notifications --api-url type=string
+FLAG mailpiece settings notifications --count type=bool
+FLAG mailpiece settings notifications --help type=bool
+FLAG mailpiece settings notifications --ids-only type=bool
+FLAG mailpiece settings notifications --jq type=string
+FLAG mailpiece settings notifications --json type=bool
+FLAG mailpiece settings notifications --limit type=int
+FLAG mailpiece settings notifications --markdown type=bool
+FLAG mailpiece settings notifications --profile type=string
+FLAG mailpiece settings notifications --quiet type=bool
+FLAG mailpiece settings notifications --styled type=bool
+FLAG mailpiece settings notifications --token type=string
+FLAG mailpiece settings notifications --verbose type=bool
+FLAG mailpiece settings notifications help --agent type=bool
+FLAG mailpiece settings notifications help --api-url type=string
+FLAG mailpiece settings notifications help --count type=bool
+FLAG mailpiece settings notifications help --help type=bool
+FLAG mailpiece settings notifications help --ids-only type=bool
+FLAG mailpiece settings notifications help --jq type=string
+FLAG mailpiece settings notifications help --json type=bool
+FLAG mailpiece settings notifications help --limit type=int
+FLAG mailpiece settings notifications help --markdown type=bool
+FLAG mailpiece settings notifications help --profile type=string
+FLAG mailpiece settings notifications help --quiet type=bool
+FLAG mailpiece settings notifications help --styled type=bool
+FLAG mailpiece settings notifications help --token type=string
+FLAG mailpiece settings notifications help --verbose type=bool
+FLAG mailpiece settings notifications show --agent type=bool
+FLAG mailpiece settings notifications show --api-url type=string
+FLAG mailpiece settings notifications show --count type=bool
+FLAG mailpiece settings notifications show --help type=bool
+FLAG mailpiece settings notifications show --ids-only type=bool
+FLAG mailpiece settings notifications show --jq type=string
+FLAG mailpiece settings notifications show --json type=bool
+FLAG mailpiece settings notifications show --limit type=int
+FLAG mailpiece settings notifications show --markdown type=bool
+FLAG mailpiece settings notifications show --profile type=string
+FLAG mailpiece settings notifications show --quiet type=bool
+FLAG mailpiece settings notifications show --styled type=bool
+FLAG mailpiece settings notifications show --token type=string
+FLAG mailpiece settings notifications show --verbose type=bool
+FLAG mailpiece settings notifications update --agent type=bool
+FLAG mailpiece settings notifications update --api-url type=string
+FLAG mailpiece settings notifications update --count type=bool
+FLAG mailpiece settings notifications update --help type=bool
+FLAG mailpiece settings notifications update --ids-only type=bool
+FLAG mailpiece settings notifications update --jq type=string
+FLAG mailpiece settings notifications update --json type=bool
+FLAG mailpiece settings notifications update --limit type=int
+FLAG mailpiece settings notifications update --markdown type=bool
+FLAG mailpiece settings notifications update --new-subscriber type=bool
+FLAG mailpiece settings notifications update --profile type=string
+FLAG mailpiece settings notifications update --quiet type=bool
+FLAG mailpiece settings notifications update --styled type=bool
+FLAG mailpiece settings notifications update --token type=string
+FLAG mailpiece settings notifications update --verbose type=bool
+FLAG mailpiece settings notifications view --agent type=bool
+FLAG mailpiece settings notifications view --api-url type=string
+FLAG mailpiece settings notifications view --count type=bool
+FLAG mailpiece settings notifications view --help type=bool
+FLAG mailpiece settings notifications view --ids-only type=bool
+FLAG mailpiece settings notifications view --jq type=string
+FLAG mailpiece settings notifications view --json type=bool
+FLAG mailpiece settings notifications view --limit type=int
+FLAG mailpiece settings notifications view --markdown type=bool
+FLAG mailpiece settings notifications view --profile type=string
+FLAG mailpiece settings notifications view --quiet type=bool
+FLAG mailpiece settings notifications view --styled type=bool
+FLAG mailpiece settings notifications view --token type=string
+FLAG mailpiece settings notifications view --verbose type=bool
+FLAG mailpiece settings sending --agent type=bool
+FLAG mailpiece settings sending --api-url type=string
+FLAG mailpiece settings sending --count type=bool
+FLAG mailpiece settings sending --help type=bool
+FLAG mailpiece settings sending --ids-only type=bool
+FLAG mailpiece settings sending --jq type=string
+FLAG mailpiece settings sending --json type=bool
+FLAG mailpiece settings sending --limit type=int
+FLAG mailpiece settings sending --markdown type=bool
+FLAG mailpiece settings sending --profile type=string
+FLAG mailpiece settings sending --quiet type=bool
+FLAG mailpiece settings sending --styled type=bool
+FLAG mailpiece settings sending --token type=string
+FLAG mailpiece settings sending --verbose type=bool
+FLAG mailpiece settings sending help --agent type=bool
+FLAG mailpiece settings sending help --api-url type=string
+FLAG mailpiece settings sending help --count type=bool
+FLAG mailpiece settings sending help --help type=bool
+FLAG mailpiece settings sending help --ids-only type=bool
+FLAG mailpiece settings sending help --jq type=string
+FLAG mailpiece settings sending help --json type=bool
+FLAG mailpiece settings sending help --limit type=int
+FLAG mailpiece settings sending help --markdown type=bool
+FLAG mailpiece settings sending help --profile type=string
+FLAG mailpiece settings sending help --quiet type=bool
+FLAG mailpiece settings sending help --styled type=bool
+FLAG mailpiece settings sending help --token type=string
+FLAG mailpiece settings sending help --verbose type=bool
+FLAG mailpiece settings sending relay --agent type=bool
+FLAG mailpiece settings sending relay --api-url type=string
+FLAG mailpiece settings sending relay --count type=bool
+FLAG mailpiece settings sending relay --help type=bool
+FLAG mailpiece settings sending relay --ids-only type=bool
+FLAG mailpiece settings sending relay --jq type=string
+FLAG mailpiece settings sending relay --json type=bool
+FLAG mailpiece settings sending relay --limit type=int
+FLAG mailpiece settings sending relay --markdown type=bool
+FLAG mailpiece settings sending relay --profile type=string
+FLAG mailpiece settings sending relay --quiet type=bool
+FLAG mailpiece settings sending relay --styled type=bool
+FLAG mailpiece settings sending relay --token type=string
+FLAG mailpiece settings sending relay --verbose type=bool
+FLAG mailpiece settings sending relay help --agent type=bool
+FLAG mailpiece settings sending relay help --api-url type=string
+FLAG mailpiece settings sending relay help --count type=bool
+FLAG mailpiece settings sending relay help --help type=bool
+FLAG mailpiece settings sending relay help --ids-only type=bool
+FLAG mailpiece settings sending relay help --jq type=string
+FLAG mailpiece settings sending relay help --json type=bool
+FLAG mailpiece settings sending relay help --limit type=int
+FLAG mailpiece settings sending relay help --markdown type=bool
+FLAG mailpiece settings sending relay help --profile type=string
+FLAG mailpiece settings sending relay help --quiet type=bool
+FLAG mailpiece settings sending relay help --styled type=bool
+FLAG mailpiece settings sending relay help --token type=string
+FLAG mailpiece settings sending relay help --verbose type=bool
+FLAG mailpiece settings sending relay remove --agent type=bool
+FLAG mailpiece settings sending relay remove --api-url type=string
+FLAG mailpiece settings sending relay remove --count type=bool
+FLAG mailpiece settings sending relay remove --help type=bool
+FLAG mailpiece settings sending relay remove --ids-only type=bool
+FLAG mailpiece settings sending relay remove --jq type=string
+FLAG mailpiece settings sending relay remove --json type=bool
+FLAG mailpiece settings sending relay remove --limit type=int
+FLAG mailpiece settings sending relay remove --markdown type=bool
+FLAG mailpiece settings sending relay remove --profile type=string
+FLAG mailpiece settings sending relay remove --quiet type=bool
+FLAG mailpiece settings sending relay remove --styled type=bool
+FLAG mailpiece settings sending relay remove --token type=string
+FLAG mailpiece settings sending relay remove --verbose type=bool
+FLAG mailpiece settings sending relay update --agent type=bool
+FLAG mailpiece settings sending relay update --api-url type=string
+FLAG mailpiece settings sending relay update --count type=bool
+FLAG mailpiece settings sending relay update --help type=bool
+FLAG mailpiece settings sending relay update --ids-only type=bool
+FLAG mailpiece settings sending relay update --jq type=string
+FLAG mailpiece settings sending relay update --json type=bool
+FLAG mailpiece settings sending relay update --limit type=int
+FLAG mailpiece settings sending relay update --markdown type=bool
+FLAG mailpiece settings sending relay update --profile type=string
+FLAG mailpiece settings sending relay update --quiet type=bool
+FLAG mailpiece settings sending relay update --styled type=bool
+FLAG mailpiece settings sending relay update --token type=string
+FLAG mailpiece settings sending relay update --url type=string
+FLAG mailpiece settings sending relay update --verbose type=bool
+FLAG mailpiece settings sending show --agent type=bool
+FLAG mailpiece settings sending show --api-url type=string
+FLAG mailpiece settings sending show --count type=bool
+FLAG mailpiece settings sending show --help type=bool
+FLAG mailpiece settings sending show --ids-only type=bool
+FLAG mailpiece settings sending show --jq type=string
+FLAG mailpiece settings sending show --json type=bool
+FLAG mailpiece settings sending show --limit type=int
+FLAG mailpiece settings sending show --markdown type=bool
+FLAG mailpiece settings sending show --profile type=string
+FLAG mailpiece settings sending show --quiet type=bool
+FLAG mailpiece settings sending show --styled type=bool
+FLAG mailpiece settings sending show --token type=string
+FLAG mailpiece settings sending show --verbose type=bool
+FLAG mailpiece settings sending smtp --agent type=bool
+FLAG mailpiece settings sending smtp --api-url type=string
+FLAG mailpiece settings sending smtp --count type=bool
+FLAG mailpiece settings sending smtp --help type=bool
+FLAG mailpiece settings sending smtp --ids-only type=bool
+FLAG mailpiece settings sending smtp --jq type=string
+FLAG mailpiece settings sending smtp --json type=bool
+FLAG mailpiece settings sending smtp --limit type=int
+FLAG mailpiece settings sending smtp --markdown type=bool
+FLAG mailpiece settings sending smtp --profile type=string
+FLAG mailpiece settings sending smtp --quiet type=bool
+FLAG mailpiece settings sending smtp --styled type=bool
+FLAG mailpiece settings sending smtp --token type=string
+FLAG mailpiece settings sending smtp --verbose type=bool
+FLAG mailpiece settings sending smtp help --agent type=bool
+FLAG mailpiece settings sending smtp help --api-url type=string
+FLAG mailpiece settings sending smtp help --count type=bool
+FLAG mailpiece settings sending smtp help --help type=bool
+FLAG mailpiece settings sending smtp help --ids-only type=bool
+FLAG mailpiece settings sending smtp help --jq type=string
+FLAG mailpiece settings sending smtp help --json type=bool
+FLAG mailpiece settings sending smtp help --limit type=int
+FLAG mailpiece settings sending smtp help --markdown type=bool
+FLAG mailpiece settings sending smtp help --profile type=string
+FLAG mailpiece settings sending smtp help --quiet type=bool
+FLAG mailpiece settings sending smtp help --styled type=bool
+FLAG mailpiece settings sending smtp help --token type=string
+FLAG mailpiece settings sending smtp help --verbose type=bool
+FLAG mailpiece settings sending smtp remove --agent type=bool
+FLAG mailpiece settings sending smtp remove --api-url type=string
+FLAG mailpiece settings sending smtp remove --count type=bool
+FLAG mailpiece settings sending smtp remove --help type=bool
+FLAG mailpiece settings sending smtp remove --ids-only type=bool
+FLAG mailpiece settings sending smtp remove --jq type=string
+FLAG mailpiece settings sending smtp remove --json type=bool
+FLAG mailpiece settings sending smtp remove --limit type=int
+FLAG mailpiece settings sending smtp remove --markdown type=bool
+FLAG mailpiece settings sending smtp remove --profile type=string
+FLAG mailpiece settings sending smtp remove --quiet type=bool
+FLAG mailpiece settings sending smtp remove --styled type=bool
+FLAG mailpiece settings sending smtp remove --token type=string
+FLAG mailpiece settings sending smtp remove --verbose type=bool
+FLAG mailpiece settings sending smtp update --address type=string
+FLAG mailpiece settings sending smtp update --agent type=bool
+FLAG mailpiece settings sending smtp update --api-url type=string
+FLAG mailpiece settings sending smtp update --count type=bool
+FLAG mailpiece settings sending smtp update --help type=bool
+FLAG mailpiece settings sending smtp update --ids-only type=bool
+FLAG mailpiece settings sending smtp update --jq type=string
+FLAG mailpiece settings sending smtp update --json type=bool
+FLAG mailpiece settings sending smtp update --limit type=int
+FLAG mailpiece settings sending smtp update --markdown type=bool
+FLAG mailpiece settings sending smtp update --password type=string
+FLAG mailpiece settings sending smtp update --port type=int
+FLAG mailpiece settings sending smtp update --profile type=string
+FLAG mailpiece settings sending smtp update --quiet type=bool
+FLAG mailpiece settings sending smtp update --styled type=bool
+FLAG mailpiece settings sending smtp update --token type=string
+FLAG mailpiece settings sending smtp update --username type=string
+FLAG mailpiece settings sending smtp update --verbose type=bool
+FLAG mailpiece settings sending update --agent type=bool
+FLAG mailpiece settings sending update --api-url type=string
+FLAG mailpiece settings sending update --count type=bool
+FLAG mailpiece settings sending update --from-address type=string
+FLAG mailpiece settings sending update --from-name type=string
+FLAG mailpiece settings sending update --help type=bool
+FLAG mailpiece settings sending update --ids-only type=bool
+FLAG mailpiece settings sending update --jq type=string
+FLAG mailpiece settings sending update --json type=bool
+FLAG mailpiece settings sending update --limit type=int
+FLAG mailpiece settings sending update --markdown type=bool
+FLAG mailpiece settings sending update --profile type=string
+FLAG mailpiece settings sending update --quiet type=bool
+FLAG mailpiece settings sending update --reply-to-address type=string
+FLAG mailpiece settings sending update --styled type=bool
+FLAG mailpiece settings sending update --token type=string
+FLAG mailpiece settings sending update --verbose type=bool
+FLAG mailpiece settings sending view --agent type=bool
+FLAG mailpiece settings sending view --api-url type=string
+FLAG mailpiece settings sending view --count type=bool
+FLAG mailpiece settings sending view --help type=bool
+FLAG mailpiece settings sending view --ids-only type=bool
+FLAG mailpiece settings sending view --jq type=string
+FLAG mailpiece settings sending view --json type=bool
+FLAG mailpiece settings sending view --limit type=int
+FLAG mailpiece settings sending view --markdown type=bool
+FLAG mailpiece settings sending view --profile type=string
+FLAG mailpiece settings sending view --quiet type=bool
+FLAG mailpiece settings sending view --styled type=bool
+FLAG mailpiece settings sending view --token type=string
+FLAG mailpiece settings sending view --verbose type=bool
+FLAG mailpiece settings subscribe-form --agent type=bool
+FLAG mailpiece settings subscribe-form --api-url type=string
+FLAG mailpiece settings subscribe-form --count type=bool
+FLAG mailpiece settings subscribe-form --help type=bool
+FLAG mailpiece settings subscribe-form --ids-only type=bool
+FLAG mailpiece settings subscribe-form --jq type=string
+FLAG mailpiece settings subscribe-form --json type=bool
+FLAG mailpiece settings subscribe-form --limit type=int
+FLAG mailpiece settings subscribe-form --markdown type=bool
+FLAG mailpiece settings subscribe-form --profile type=string
+FLAG mailpiece settings subscribe-form --quiet type=bool
+FLAG mailpiece settings subscribe-form --styled type=bool
+FLAG mailpiece settings subscribe-form --token type=string
+FLAG mailpiece settings subscribe-form --verbose type=bool
+FLAG mailpiece settings subscribe-form help --agent type=bool
+FLAG mailpiece settings subscribe-form help --api-url type=string
+FLAG mailpiece settings subscribe-form help --count type=bool
+FLAG mailpiece settings subscribe-form help --help type=bool
+FLAG mailpiece settings subscribe-form help --ids-only type=bool
+FLAG mailpiece settings subscribe-form help --jq type=string
+FLAG mailpiece settings subscribe-form help --json type=bool
+FLAG mailpiece settings subscribe-form help --limit type=int
+FLAG mailpiece settings subscribe-form help --markdown type=bool
+FLAG mailpiece settings subscribe-form help --profile type=string
+FLAG mailpiece settings subscribe-form help --quiet type=bool
+FLAG mailpiece settings subscribe-form help --styled type=bool
+FLAG mailpiece settings subscribe-form help --token type=string
+FLAG mailpiece settings subscribe-form help --verbose type=bool
+FLAG mailpiece settings subscribe-form show --agent type=bool
+FLAG mailpiece settings subscribe-form show --api-url type=string
+FLAG mailpiece settings subscribe-form show --count type=bool
+FLAG mailpiece settings subscribe-form show --help type=bool
+FLAG mailpiece settings subscribe-form show --ids-only type=bool
+FLAG mailpiece settings subscribe-form show --jq type=string
+FLAG mailpiece settings subscribe-form show --json type=bool
+FLAG mailpiece settings subscribe-form show --limit type=int
+FLAG mailpiece settings subscribe-form show --markdown type=bool
+FLAG mailpiece settings subscribe-form show --profile type=string
+FLAG mailpiece settings subscribe-form show --quiet type=bool
+FLAG mailpiece settings subscribe-form show --styled type=bool
+FLAG mailpiece settings subscribe-form show --token type=string
+FLAG mailpiece settings subscribe-form show --verbose type=bool
+FLAG mailpiece settings subscribe-form update --agent type=bool
+FLAG mailpiece settings subscribe-form update --api-url type=string
+FLAG mailpiece settings subscribe-form update --count type=bool
+FLAG mailpiece settings subscribe-form update --help type=bool
+FLAG mailpiece settings subscribe-form update --ids-only type=bool
+FLAG mailpiece settings subscribe-form update --jq type=string
+FLAG mailpiece settings subscribe-form update --json type=bool
+FLAG mailpiece settings subscribe-form update --limit type=int
+FLAG mailpiece settings subscribe-form update --markdown type=bool
+FLAG mailpiece settings subscribe-form update --profile type=string
+FLAG mailpiece settings subscribe-form update --quiet type=bool
+FLAG mailpiece settings subscribe-form update --return-url type=string
+FLAG mailpiece settings subscribe-form update --styled type=bool
+FLAG mailpiece settings subscribe-form update --token type=string
+FLAG mailpiece settings subscribe-form update --verbose type=bool
+FLAG mailpiece settings subscribe-form view --agent type=bool
+FLAG mailpiece settings subscribe-form view --api-url type=string
+FLAG mailpiece settings subscribe-form view --count type=bool
+FLAG mailpiece settings subscribe-form view --help type=bool
+FLAG mailpiece settings subscribe-form view --ids-only type=bool
+FLAG mailpiece settings subscribe-form view --jq type=string
+FLAG mailpiece settings subscribe-form view --json type=bool
+FLAG mailpiece settings subscribe-form view --limit type=int
+FLAG mailpiece settings subscribe-form view --markdown type=bool
+FLAG mailpiece settings subscribe-form view --profile type=string
+FLAG mailpiece settings subscribe-form view --quiet type=bool
+FLAG mailpiece settings subscribe-form view --styled type=bool
+FLAG mailpiece settings subscribe-form view --token type=string
+FLAG mailpiece settings subscribe-form view --verbose type=bool
+FLAG mailpiece setup --agent type=bool
+FLAG mailpiece setup --api-url type=string
+FLAG mailpiece setup --count type=bool
+FLAG mailpiece setup --help type=bool
+FLAG mailpiece setup --ids-only type=bool
+FLAG mailpiece setup --jq type=string
+FLAG mailpiece setup --json type=bool
+FLAG mailpiece setup --limit type=int
+FLAG mailpiece setup --markdown type=bool
+FLAG mailpiece setup --profile type=string
+FLAG mailpiece setup --quiet type=bool
+FLAG mailpiece setup --styled type=bool
+FLAG mailpiece setup --token type=string
+FLAG mailpiece setup --verbose type=bool
+FLAG mailpiece setup claude --agent type=bool
+FLAG mailpiece setup claude --api-url type=string
+FLAG mailpiece setup claude --count type=bool
+FLAG mailpiece setup claude --help type=bool
+FLAG mailpiece setup claude --ids-only type=bool
+FLAG mailpiece setup claude --jq type=string
+FLAG mailpiece setup claude --json type=bool
+FLAG mailpiece setup claude --limit type=int
+FLAG mailpiece setup claude --markdown type=bool
+FLAG mailpiece setup claude --profile type=string
+FLAG mailpiece setup claude --quiet type=bool
+FLAG mailpiece setup claude --styled type=bool
+FLAG mailpiece setup claude --token type=string
+FLAG mailpiece setup claude --verbose type=bool
+FLAG mailpiece setup help --agent type=bool
+FLAG mailpiece setup help --api-url type=string
+FLAG mailpiece setup help --count type=bool
+FLAG mailpiece setup help --help type=bool
+FLAG mailpiece setup help --ids-only type=bool
+FLAG mailpiece setup help --jq type=string
+FLAG mailpiece setup help --json type=bool
+FLAG mailpiece setup help --limit type=int
+FLAG mailpiece setup help --markdown type=bool
+FLAG mailpiece setup help --profile type=string
+FLAG mailpiece setup help --quiet type=bool
+FLAG mailpiece setup help --styled type=bool
+FLAG mailpiece setup help --token type=string
+FLAG mailpiece setup help --verbose type=bool
+FLAG mailpiece show --agent type=bool
+FLAG mailpiece show --api-url type=string
+FLAG mailpiece show --count type=bool
+FLAG mailpiece show --help type=bool
+FLAG mailpiece show --ids-only type=bool
+FLAG mailpiece show --jq type=string
+FLAG mailpiece show --json type=bool
+FLAG mailpiece show --limit type=int
+FLAG mailpiece show --markdown type=bool
+FLAG mailpiece show --profile type=string
+FLAG mailpiece show --quiet type=bool
+FLAG mailpiece show --styled type=bool
+FLAG mailpiece show --token type=string
+FLAG mailpiece show --verbose type=bool
+FLAG mailpiece signup --agent type=bool
+FLAG mailpiece signup --api-url type=string
+FLAG mailpiece signup --count type=bool
+FLAG mailpiece signup --help type=bool
+FLAG mailpiece signup --ids-only type=bool
+FLAG mailpiece signup --jq type=string
+FLAG mailpiece signup --json type=bool
+FLAG mailpiece signup --limit type=int
+FLAG mailpiece signup --markdown type=bool
+FLAG mailpiece signup --profile type=string
+FLAG mailpiece signup --quiet type=bool
+FLAG mailpiece signup --styled type=bool
+FLAG mailpiece signup --token type=string
+FLAG mailpiece signup --verbose type=bool
+FLAG mailpiece signup --write type=bool
+FLAG mailpiece signup complete --account type=string
+FLAG mailpiece signup complete --agent type=bool
+FLAG mailpiece signup complete --api-url type=string
+FLAG mailpiece signup complete --count type=bool
+FLAG mailpiece signup complete --help type=bool
+FLAG mailpiece signup complete --ids-only type=bool
+FLAG mailpiece signup complete --jq type=string
+FLAG mailpiece signup complete --json type=bool
+FLAG mailpiece signup complete --limit type=int
+FLAG mailpiece signup complete --markdown type=bool
+FLAG mailpiece signup complete --name type=string
+FLAG mailpiece signup complete --profile type=string
+FLAG mailpiece signup complete --quiet type=bool
+FLAG mailpiece signup complete --styled type=bool
+FLAG mailpiece signup complete --token type=string
+FLAG mailpiece signup complete --verbose type=bool
+FLAG mailpiece signup complete --write type=bool
+FLAG mailpiece signup help --agent type=bool
+FLAG mailpiece signup help --api-url type=string
+FLAG mailpiece signup help --count type=bool
+FLAG mailpiece signup help --help type=bool
+FLAG mailpiece signup help --ids-only type=bool
+FLAG mailpiece signup help --jq type=string
+FLAG mailpiece signup help --json type=bool
+FLAG mailpiece signup help --limit type=int
+FLAG mailpiece signup help --markdown type=bool
+FLAG mailpiece signup help --profile type=string
+FLAG mailpiece signup help --quiet type=bool
+FLAG mailpiece signup help --styled type=bool
+FLAG mailpiece signup help --token type=string
+FLAG mailpiece signup help --verbose type=bool
+FLAG mailpiece signup start --agent type=bool
+FLAG mailpiece signup start --api-url type=string
+FLAG mailpiece signup start --count type=bool
+FLAG mailpiece signup start --email type=string
+FLAG mailpiece signup start --help type=bool
+FLAG mailpiece signup start --ids-only type=bool
+FLAG mailpiece signup start --jq type=string
+FLAG mailpiece signup start --json type=bool
+FLAG mailpiece signup start --limit type=int
+FLAG mailpiece signup start --markdown type=bool
+FLAG mailpiece signup start --profile type=string
+FLAG mailpiece signup start --quiet type=bool
+FLAG mailpiece signup start --styled type=bool
+FLAG mailpiece signup start --token type=string
+FLAG mailpiece signup start --verbose type=bool
+FLAG mailpiece signup verify --agent type=bool
+FLAG mailpiece signup verify --api-url type=string
+FLAG mailpiece signup verify --code type=string
+FLAG mailpiece signup verify --count type=bool
+FLAG mailpiece signup verify --help type=bool
+FLAG mailpiece signup verify --ids-only type=bool
+FLAG mailpiece signup verify --jq type=string
+FLAG mailpiece signup verify --json type=bool
+FLAG mailpiece signup verify --limit type=int
+FLAG mailpiece signup verify --markdown type=bool
+FLAG mailpiece signup verify --pending-token type=string
+FLAG mailpiece signup verify --profile type=string
+FLAG mailpiece signup verify --quiet type=bool
+FLAG mailpiece signup verify --styled type=bool
+FLAG mailpiece signup verify --token type=string
+FLAG mailpiece signup verify --verbose type=bool
+FLAG mailpiece skill --agent type=bool
+FLAG mailpiece skill --api-url type=string
+FLAG mailpiece skill --count type=bool
+FLAG mailpiece skill --help type=bool
+FLAG mailpiece skill --ids-only type=bool
+FLAG mailpiece skill --jq type=string
+FLAG mailpiece skill --json type=bool
+FLAG mailpiece skill --limit type=int
+FLAG mailpiece skill --markdown type=bool
+FLAG mailpiece skill --profile type=string
+FLAG mailpiece skill --quiet type=bool
+FLAG mailpiece skill --styled type=bool
+FLAG mailpiece skill --token type=string
+FLAG mailpiece skill --verbose type=bool
+FLAG mailpiece skill help --agent type=bool
+FLAG mailpiece skill help --api-url type=string
+FLAG mailpiece skill help --count type=bool
+FLAG mailpiece skill help --help type=bool
+FLAG mailpiece skill help --ids-only type=bool
+FLAG mailpiece skill help --jq type=string
+FLAG mailpiece skill help --json type=bool
+FLAG mailpiece skill help --limit type=int
+FLAG mailpiece skill help --markdown type=bool
+FLAG mailpiece skill help --profile type=string
+FLAG mailpiece skill help --quiet type=bool
+FLAG mailpiece skill help --styled type=bool
+FLAG mailpiece skill help --token type=string
+FLAG mailpiece skill help --verbose type=bool
+FLAG mailpiece skill install --agent type=bool
+FLAG mailpiece skill install --api-url type=string
+FLAG mailpiece skill install --count type=bool
+FLAG mailpiece skill install --help type=bool
+FLAG mailpiece skill install --ids-only type=bool
+FLAG mailpiece skill install --jq type=string
+FLAG mailpiece skill install --json type=bool
+FLAG mailpiece skill install --limit type=int
+FLAG mailpiece skill install --markdown type=bool
+FLAG mailpiece skill install --profile type=string
+FLAG mailpiece skill install --quiet type=bool
+FLAG mailpiece skill install --styled type=bool
+FLAG mailpiece skill install --token type=string
+FLAG mailpiece skill install --verbose type=bool
+FLAG mailpiece snippet --agent type=bool
+FLAG mailpiece snippet --api-url type=string
+FLAG mailpiece snippet --count type=bool
+FLAG mailpiece snippet --help type=bool
+FLAG mailpiece snippet --ids-only type=bool
+FLAG mailpiece snippet --jq type=string
+FLAG mailpiece snippet --json type=bool
+FLAG mailpiece snippet --limit type=int
+FLAG mailpiece snippet --markdown type=bool
+FLAG mailpiece snippet --profile type=string
+FLAG mailpiece snippet --quiet type=bool
+FLAG mailpiece snippet --styled type=bool
+FLAG mailpiece snippet --token type=string
+FLAG mailpiece snippet --verbose type=bool
+FLAG mailpiece snippet create --agent type=bool
+FLAG mailpiece snippet create --api-url type=string
+FLAG mailpiece snippet create --content type=string
+FLAG mailpiece snippet create --content-file type=string
+FLAG mailpiece snippet create --count type=bool
+FLAG mailpiece snippet create --help type=bool
+FLAG mailpiece snippet create --ids-only type=bool
+FLAG mailpiece snippet create --jq type=string
+FLAG mailpiece snippet create --json type=bool
+FLAG mailpiece snippet create --limit type=int
+FLAG mailpiece snippet create --markdown type=bool
+FLAG mailpiece snippet create --name type=string
+FLAG mailpiece snippet create --profile type=string
+FLAG mailpiece snippet create --quiet type=bool
+FLAG mailpiece snippet create --styled type=bool
+FLAG mailpiece snippet create --token type=string
+FLAG mailpiece snippet create --verbose type=bool
+FLAG mailpiece snippet delete --agent type=bool
+FLAG mailpiece snippet delete --api-url type=string
+FLAG mailpiece snippet delete --count type=bool
+FLAG mailpiece snippet delete --help type=bool
+FLAG mailpiece snippet delete --ids-only type=bool
+FLAG mailpiece snippet delete --jq type=string
+FLAG mailpiece snippet delete --json type=bool
+FLAG mailpiece snippet delete --limit type=int
+FLAG mailpiece snippet delete --markdown type=bool
+FLAG mailpiece snippet delete --profile type=string
+FLAG mailpiece snippet delete --quiet type=bool
+FLAG mailpiece snippet delete --styled type=bool
+FLAG mailpiece snippet delete --token type=string
+FLAG mailpiece snippet delete --verbose type=bool
+FLAG mailpiece snippet help --agent type=bool
+FLAG mailpiece snippet help --api-url type=string
+FLAG mailpiece snippet help --count type=bool
+FLAG mailpiece snippet help --help type=bool
+FLAG mailpiece snippet help --ids-only type=bool
+FLAG mailpiece snippet help --jq type=string
+FLAG mailpiece snippet help --json type=bool
+FLAG mailpiece snippet help --limit type=int
+FLAG mailpiece snippet help --markdown type=bool
+FLAG mailpiece snippet help --profile type=string
+FLAG mailpiece snippet help --quiet type=bool
+FLAG mailpiece snippet help --styled type=bool
+FLAG mailpiece snippet help --token type=string
+FLAG mailpiece snippet help --verbose type=bool
+FLAG mailpiece snippet list --agent type=bool
+FLAG mailpiece snippet list --api-url type=string
+FLAG mailpiece snippet list --count type=bool
+FLAG mailpiece snippet list --help type=bool
+FLAG mailpiece snippet list --ids-only type=bool
+FLAG mailpiece snippet list --jq type=string
+FLAG mailpiece snippet list --json type=bool
+FLAG mailpiece snippet list --limit type=int
+FLAG mailpiece snippet list --markdown type=bool
+FLAG mailpiece snippet list --profile type=string
+FLAG mailpiece snippet list --quiet type=bool
+FLAG mailpiece snippet list --styled type=bool
+FLAG mailpiece snippet list --token type=string
+FLAG mailpiece snippet list --verbose type=bool
+FLAG mailpiece snippet ls --agent type=bool
+FLAG mailpiece snippet ls --api-url type=string
+FLAG mailpiece snippet ls --count type=bool
+FLAG mailpiece snippet ls --help type=bool
+FLAG mailpiece snippet ls --ids-only type=bool
+FLAG mailpiece snippet ls --jq type=string
+FLAG mailpiece snippet ls --json type=bool
+FLAG mailpiece snippet ls --limit type=int
+FLAG mailpiece snippet ls --markdown type=bool
+FLAG mailpiece snippet ls --profile type=string
+FLAG mailpiece snippet ls --quiet type=bool
+FLAG mailpiece snippet ls --styled type=bool
+FLAG mailpiece snippet ls --token type=string
+FLAG mailpiece snippet ls --verbose type=bool
+FLAG mailpiece snippet rm --agent type=bool
+FLAG mailpiece snippet rm --api-url type=string
+FLAG mailpiece snippet rm --count type=bool
+FLAG mailpiece snippet rm --help type=bool
+FLAG mailpiece snippet rm --ids-only type=bool
+FLAG mailpiece snippet rm --jq type=string
+FLAG mailpiece snippet rm --json type=bool
+FLAG mailpiece snippet rm --limit type=int
+FLAG mailpiece snippet rm --markdown type=bool
+FLAG mailpiece snippet rm --profile type=string
+FLAG mailpiece snippet rm --quiet type=bool
+FLAG mailpiece snippet rm --styled type=bool
+FLAG mailpiece snippet rm --token type=string
+FLAG mailpiece snippet rm --verbose type=bool
+FLAG mailpiece snippet show --agent type=bool
+FLAG mailpiece snippet show --api-url type=string
+FLAG mailpiece snippet show --count type=bool
+FLAG mailpiece snippet show --help type=bool
+FLAG mailpiece snippet show --ids-only type=bool
+FLAG mailpiece snippet show --jq type=string
+FLAG mailpiece snippet show --json type=bool
+FLAG mailpiece snippet show --limit type=int
+FLAG mailpiece snippet show --markdown type=bool
+FLAG mailpiece snippet show --profile type=string
+FLAG mailpiece snippet show --quiet type=bool
+FLAG mailpiece snippet show --styled type=bool
+FLAG mailpiece snippet show --token type=string
+FLAG mailpiece snippet show --verbose type=bool
+FLAG mailpiece snippet update --agent type=bool
+FLAG mailpiece snippet update --api-url type=string
+FLAG mailpiece snippet update --content type=string
+FLAG mailpiece snippet update --content-file type=string
+FLAG mailpiece snippet update --count type=bool
+FLAG mailpiece snippet update --help type=bool
+FLAG mailpiece snippet update --ids-only type=bool
+FLAG mailpiece snippet update --jq type=string
+FLAG mailpiece snippet update --json type=bool
+FLAG mailpiece snippet update --limit type=int
+FLAG mailpiece snippet update --markdown type=bool
+FLAG mailpiece snippet update --name type=string
+FLAG mailpiece snippet update --profile type=string
+FLAG mailpiece snippet update --quiet type=bool
+FLAG mailpiece snippet update --styled type=bool
+FLAG mailpiece snippet update --token type=string
+FLAG mailpiece snippet update --verbose type=bool
+FLAG mailpiece snippet view --agent type=bool
+FLAG mailpiece snippet view --api-url type=string
+FLAG mailpiece snippet view --count type=bool
+FLAG mailpiece snippet view --help type=bool
+FLAG mailpiece snippet view --ids-only type=bool
+FLAG mailpiece snippet view --jq type=string
+FLAG mailpiece snippet view --json type=bool
+FLAG mailpiece snippet view --limit type=int
+FLAG mailpiece snippet view --markdown type=bool
+FLAG mailpiece snippet view --profile type=string
+FLAG mailpiece snippet view --quiet type=bool
+FLAG mailpiece snippet view --styled type=bool
+FLAG mailpiece snippet view --token type=string
+FLAG mailpiece snippet view --verbose type=bool
+FLAG mailpiece subscriber --agent type=bool
+FLAG mailpiece subscriber --api-url type=string
+FLAG mailpiece subscriber --count type=bool
+FLAG mailpiece subscriber --help type=bool
+FLAG mailpiece subscriber --ids-only type=bool
+FLAG mailpiece subscriber --jq type=string
+FLAG mailpiece subscriber --json type=bool
+FLAG mailpiece subscriber --limit type=int
+FLAG mailpiece subscriber --markdown type=bool
+FLAG mailpiece subscriber --profile type=string
+FLAG mailpiece subscriber --quiet type=bool
+FLAG mailpiece subscriber --styled type=bool
+FLAG mailpiece subscriber --token type=string
+FLAG mailpiece subscriber --verbose type=bool
+FLAG mailpiece subscriber activate --agent type=bool
+FLAG mailpiece subscriber activate --api-url type=string
+FLAG mailpiece subscriber activate --count type=bool
+FLAG mailpiece subscriber activate --help type=bool
+FLAG mailpiece subscriber activate --ids-only type=bool
+FLAG mailpiece subscriber activate --jq type=string
+FLAG mailpiece subscriber activate --json type=bool
+FLAG mailpiece subscriber activate --limit type=int
+FLAG mailpiece subscriber activate --markdown type=bool
+FLAG mailpiece subscriber activate --profile type=string
+FLAG mailpiece subscriber activate --quiet type=bool
+FLAG mailpiece subscriber activate --styled type=bool
+FLAG mailpiece subscriber activate --token type=string
+FLAG mailpiece subscriber activate --verbose type=bool
+FLAG mailpiece subscriber bounce --agent type=bool
+FLAG mailpiece subscriber bounce --api-url type=string
+FLAG mailpiece subscriber bounce --count type=bool
+FLAG mailpiece subscriber bounce --email type=string
+FLAG mailpiece subscriber bounce --help type=bool
+FLAG mailpiece subscriber bounce --ids-only type=bool
+FLAG mailpiece subscriber bounce --jq type=string
+FLAG mailpiece subscriber bounce --json type=bool
+FLAG mailpiece subscriber bounce --limit type=int
+FLAG mailpiece subscriber bounce --markdown type=bool
+FLAG mailpiece subscriber bounce --profile type=string
+FLAG mailpiece subscriber bounce --quiet type=bool
+FLAG mailpiece subscriber bounce --styled type=bool
+FLAG mailpiece subscriber bounce --token type=string
+FLAG mailpiece subscriber bounce --verbose type=bool
+FLAG mailpiece subscriber create --agent type=bool
+FLAG mailpiece subscriber create --api-url type=string
+FLAG mailpiece subscriber create --count type=bool
+FLAG mailpiece subscriber create --email type=string
+FLAG mailpiece subscriber create --help type=bool
+FLAG mailpiece subscriber create --ids-only type=bool
+FLAG mailpiece subscriber create --jq type=string
+FLAG mailpiece subscriber create --json type=bool
+FLAG mailpiece subscriber create --limit type=int
+FLAG mailpiece subscriber create --markdown type=bool
+FLAG mailpiece subscriber create --profile type=string
+FLAG mailpiece subscriber create --quiet type=bool
+FLAG mailpiece subscriber create --styled type=bool
+FLAG mailpiece subscriber create --token type=string
+FLAG mailpiece subscriber create --verbose type=bool
+FLAG mailpiece subscriber deactivate --agent type=bool
+FLAG mailpiece subscriber deactivate --api-url type=string
+FLAG mailpiece subscriber deactivate --count type=bool
+FLAG mailpiece subscriber deactivate --help type=bool
+FLAG mailpiece subscriber deactivate --ids-only type=bool
+FLAG mailpiece subscriber deactivate --jq type=string
+FLAG mailpiece subscriber deactivate --json type=bool
+FLAG mailpiece subscriber deactivate --limit type=int
+FLAG mailpiece subscriber deactivate --markdown type=bool
+FLAG mailpiece subscriber deactivate --profile type=string
+FLAG mailpiece subscriber deactivate --quiet type=bool
+FLAG mailpiece subscriber deactivate --styled type=bool
+FLAG mailpiece subscriber deactivate --token type=string
+FLAG mailpiece subscriber deactivate --verbose type=bool
+FLAG mailpiece subscriber delete --agent type=bool
+FLAG mailpiece subscriber delete --api-url type=string
+FLAG mailpiece subscriber delete --count type=bool
+FLAG mailpiece subscriber delete --help type=bool
+FLAG mailpiece subscriber delete --ids-only type=bool
+FLAG mailpiece subscriber delete --jq type=string
+FLAG mailpiece subscriber delete --json type=bool
+FLAG mailpiece subscriber delete --limit type=int
+FLAG mailpiece subscriber delete --markdown type=bool
+FLAG mailpiece subscriber delete --profile type=string
+FLAG mailpiece subscriber delete --quiet type=bool
+FLAG mailpiece subscriber delete --styled type=bool
+FLAG mailpiece subscriber delete --token type=string
+FLAG mailpiece subscriber delete --verbose type=bool
+FLAG mailpiece subscriber help --agent type=bool
+FLAG mailpiece subscriber help --api-url type=string
+FLAG mailpiece subscriber help --count type=bool
+FLAG mailpiece subscriber help --help type=bool
+FLAG mailpiece subscriber help --ids-only type=bool
+FLAG mailpiece subscriber help --jq type=string
+FLAG mailpiece subscriber help --json type=bool
+FLAG mailpiece subscriber help --limit type=int
+FLAG mailpiece subscriber help --markdown type=bool
+FLAG mailpiece subscriber help --profile type=string
+FLAG mailpiece subscriber help --quiet type=bool
+FLAG mailpiece subscriber help --styled type=bool
+FLAG mailpiece subscriber help --token type=string
+FLAG mailpiece subscriber help --verbose type=bool
+FLAG mailpiece subscriber list --agent type=bool
+FLAG mailpiece subscriber list --all type=bool
+FLAG mailpiece subscriber list --api-url type=string
+FLAG mailpiece subscriber list --count type=bool
+FLAG mailpiece subscriber list --help type=bool
+FLAG mailpiece subscriber list --ids-only type=bool
+FLAG mailpiece subscriber list --jq type=string
+FLAG mailpiece subscriber list --json type=bool
+FLAG mailpiece subscriber list --limit type=int
+FLAG mailpiece subscriber list --markdown type=bool
+FLAG mailpiece subscriber list --page type=int
+FLAG mailpiece subscriber list --profile type=string
+FLAG mailpiece subscriber list --quiet type=bool
+FLAG mailpiece subscriber list --status type=string
+FLAG mailpiece subscriber list --styled type=bool
+FLAG mailpiece subscriber list --token type=string
+FLAG mailpiece subscriber list --verbose type=bool
+FLAG mailpiece subscriber ls --agent type=bool
+FLAG mailpiece subscriber ls --all type=bool
+FLAG mailpiece subscriber ls --api-url type=string
+FLAG mailpiece subscriber ls --count type=bool
+FLAG mailpiece subscriber ls --help type=bool
+FLAG mailpiece subscriber ls --ids-only type=bool
+FLAG mailpiece subscriber ls --jq type=string
+FLAG mailpiece subscriber ls --json type=bool
+FLAG mailpiece subscriber ls --limit type=int
+FLAG mailpiece subscriber ls --markdown type=bool
+FLAG mailpiece subscriber ls --page type=int
+FLAG mailpiece subscriber ls --profile type=string
+FLAG mailpiece subscriber ls --quiet type=bool
+FLAG mailpiece subscriber ls --status type=string
+FLAG mailpiece subscriber ls --styled type=bool
+FLAG mailpiece subscriber ls --token type=string
+FLAG mailpiece subscriber ls --verbose type=bool
+FLAG mailpiece subscriber rm --agent type=bool
+FLAG mailpiece subscriber rm --api-url type=string
+FLAG mailpiece subscriber rm --count type=bool
+FLAG mailpiece subscriber rm --help type=bool
+FLAG mailpiece subscriber rm --ids-only type=bool
+FLAG mailpiece subscriber rm --jq type=string
+FLAG mailpiece subscriber rm --json type=bool
+FLAG mailpiece subscriber rm --limit type=int
+FLAG mailpiece subscriber rm --markdown type=bool
+FLAG mailpiece subscriber rm --profile type=string
+FLAG mailpiece subscriber rm --quiet type=bool
+FLAG mailpiece subscriber rm --styled type=bool
+FLAG mailpiece subscriber rm --token type=string
+FLAG mailpiece subscriber rm --verbose type=bool
+FLAG mailpiece subscriber show --agent type=bool
+FLAG mailpiece subscriber show --api-url type=string
+FLAG mailpiece subscriber show --count type=bool
+FLAG mailpiece subscriber show --help type=bool
+FLAG mailpiece subscriber show --ids-only type=bool
+FLAG mailpiece subscriber show --jq type=string
+FLAG mailpiece subscriber show --json type=bool
+FLAG mailpiece subscriber show --limit type=int
+FLAG mailpiece subscriber show --markdown type=bool
+FLAG mailpiece subscriber show --page type=int
+FLAG mailpiece subscriber show --profile type=string
+FLAG mailpiece subscriber show --quiet type=bool
+FLAG mailpiece subscriber show --styled type=bool
+FLAG mailpiece subscriber show --token type=string
+FLAG mailpiece subscriber show --verbose type=bool
+FLAG mailpiece subscriber view --agent type=bool
+FLAG mailpiece subscriber view --api-url type=string
+FLAG mailpiece subscriber view --count type=bool
+FLAG mailpiece subscriber view --help type=bool
+FLAG mailpiece subscriber view --ids-only type=bool
+FLAG mailpiece subscriber view --jq type=string
+FLAG mailpiece subscriber view --json type=bool
+FLAG mailpiece subscriber view --limit type=int
+FLAG mailpiece subscriber view --markdown type=bool
+FLAG mailpiece subscriber view --page type=int
+FLAG mailpiece subscriber view --profile type=string
+FLAG mailpiece subscriber view --quiet type=bool
+FLAG mailpiece subscriber view --styled type=bool
+FLAG mailpiece subscriber view --token type=string
+FLAG mailpiece subscriber view --verbose type=bool
+FLAG mailpiece token --agent type=bool
+FLAG mailpiece token --api-url type=string
+FLAG mailpiece token --count type=bool
+FLAG mailpiece token --help type=bool
+FLAG mailpiece token --ids-only type=bool
+FLAG mailpiece token --jq type=string
+FLAG mailpiece token --json type=bool
+FLAG mailpiece token --limit type=int
+FLAG mailpiece token --markdown type=bool
+FLAG mailpiece token --profile type=string
+FLAG mailpiece token --quiet type=bool
+FLAG mailpiece token --styled type=bool
+FLAG mailpiece token --token type=string
+FLAG mailpiece token --verbose type=bool
+FLAG mailpiece token create --agent type=bool
+FLAG mailpiece token create --api-url type=string
+FLAG mailpiece token create --count type=bool
+FLAG mailpiece token create --description type=string
+FLAG mailpiece token create --help type=bool
+FLAG mailpiece token create --ids-only type=bool
+FLAG mailpiece token create --jq type=string
+FLAG mailpiece token create --json type=bool
+FLAG mailpiece token create --limit type=int
+FLAG mailpiece token create --markdown type=bool
+FLAG mailpiece token create --permission type=string
+FLAG mailpiece token create --profile type=string
+FLAG mailpiece token create --quiet type=bool
+FLAG mailpiece token create --styled type=bool
+FLAG mailpiece token create --token type=string
+FLAG mailpiece token create --verbose type=bool
+FLAG mailpiece token delete --agent type=bool
+FLAG mailpiece token delete --api-url type=string
+FLAG mailpiece token delete --count type=bool
+FLAG mailpiece token delete --help type=bool
+FLAG mailpiece token delete --ids-only type=bool
+FLAG mailpiece token delete --jq type=string
+FLAG mailpiece token delete --json type=bool
+FLAG mailpiece token delete --limit type=int
+FLAG mailpiece token delete --markdown type=bool
+FLAG mailpiece token delete --profile type=string
+FLAG mailpiece token delete --quiet type=bool
+FLAG mailpiece token delete --styled type=bool
+FLAG mailpiece token delete --token type=string
+FLAG mailpiece token delete --verbose type=bool
+FLAG mailpiece token help --agent type=bool
+FLAG mailpiece token help --api-url type=string
+FLAG mailpiece token help --count type=bool
+FLAG mailpiece token help --help type=bool
+FLAG mailpiece token help --ids-only type=bool
+FLAG mailpiece token help --jq type=string
+FLAG mailpiece token help --json type=bool
+FLAG mailpiece token help --limit type=int
+FLAG mailpiece token help --markdown type=bool
+FLAG mailpiece token help --profile type=string
+FLAG mailpiece token help --quiet type=bool
+FLAG mailpiece token help --styled type=bool
+FLAG mailpiece token help --token type=string
+FLAG mailpiece token help --verbose type=bool
+FLAG mailpiece token list --agent type=bool
+FLAG mailpiece token list --api-url type=string
+FLAG mailpiece token list --count type=bool
+FLAG mailpiece token list --help type=bool
+FLAG mailpiece token list --ids-only type=bool
+FLAG mailpiece token list --jq type=string
+FLAG mailpiece token list --json type=bool
+FLAG mailpiece token list --limit type=int
+FLAG mailpiece token list --markdown type=bool
+FLAG mailpiece token list --profile type=string
+FLAG mailpiece token list --quiet type=bool
+FLAG mailpiece token list --styled type=bool
+FLAG mailpiece token list --token type=string
+FLAG mailpiece token list --verbose type=bool
+FLAG mailpiece token ls --agent type=bool
+FLAG mailpiece token ls --api-url type=string
+FLAG mailpiece token ls --count type=bool
+FLAG mailpiece token ls --help type=bool
+FLAG mailpiece token ls --ids-only type=bool
+FLAG mailpiece token ls --jq type=string
+FLAG mailpiece token ls --json type=bool
+FLAG mailpiece token ls --limit type=int
+FLAG mailpiece token ls --markdown type=bool
+FLAG mailpiece token ls --profile type=string
+FLAG mailpiece token ls --quiet type=bool
+FLAG mailpiece token ls --styled type=bool
+FLAG mailpiece token ls --token type=string
+FLAG mailpiece token ls --verbose type=bool
+FLAG mailpiece token rm --agent type=bool
+FLAG mailpiece token rm --api-url type=string
+FLAG mailpiece token rm --count type=bool
+FLAG mailpiece token rm --help type=bool
+FLAG mailpiece token rm --ids-only type=bool
+FLAG mailpiece token rm --jq type=string
+FLAG mailpiece token rm --json type=bool
+FLAG mailpiece token rm --limit type=int
+FLAG mailpiece token rm --markdown type=bool
+FLAG mailpiece token rm --profile type=string
+FLAG mailpiece token rm --quiet type=bool
+FLAG mailpiece token rm --styled type=bool
+FLAG mailpiece token rm --token type=string
+FLAG mailpiece token rm --verbose type=bool
+FLAG mailpiece user --agent type=bool
+FLAG mailpiece user --api-url type=string
+FLAG mailpiece user --count type=bool
+FLAG mailpiece user --help type=bool
+FLAG mailpiece user --ids-only type=bool
+FLAG mailpiece user --jq type=string
+FLAG mailpiece user --json type=bool
+FLAG mailpiece user --limit type=int
+FLAG mailpiece user --markdown type=bool
+FLAG mailpiece user --profile type=string
+FLAG mailpiece user --quiet type=bool
+FLAG mailpiece user --styled type=bool
+FLAG mailpiece user --token type=string
+FLAG mailpiece user --verbose type=bool
+FLAG mailpiece user help --agent type=bool
+FLAG mailpiece user help --api-url type=string
+FLAG mailpiece user help --count type=bool
+FLAG mailpiece user help --help type=bool
+FLAG mailpiece user help --ids-only type=bool
+FLAG mailpiece user help --jq type=string
+FLAG mailpiece user help --json type=bool
+FLAG mailpiece user help --limit type=int
+FLAG mailpiece user help --markdown type=bool
+FLAG mailpiece user help --profile type=string
+FLAG mailpiece user help --quiet type=bool
+FLAG mailpiece user help --styled type=bool
+FLAG mailpiece user help --token type=string
+FLAG mailpiece user help --verbose type=bool
+FLAG mailpiece user show --agent type=bool
+FLAG mailpiece user show --api-url type=string
+FLAG mailpiece user show --count type=bool
+FLAG mailpiece user show --help type=bool
+FLAG mailpiece user show --ids-only type=bool
+FLAG mailpiece user show --jq type=string
+FLAG mailpiece user show --json type=bool
+FLAG mailpiece user show --limit type=int
+FLAG mailpiece user show --markdown type=bool
+FLAG mailpiece user show --profile type=string
+FLAG mailpiece user show --quiet type=bool
+FLAG mailpiece user show --styled type=bool
+FLAG mailpiece user show --token type=string
+FLAG mailpiece user show --verbose type=bool
+FLAG mailpiece user update --agent type=bool
+FLAG mailpiece user update --api-url type=string
+FLAG mailpiece user update --count type=bool
+FLAG mailpiece user update --help type=bool
+FLAG mailpiece user update --ids-only type=bool
+FLAG mailpiece user update --jq type=string
+FLAG mailpiece user update --json type=bool
+FLAG mailpiece user update --limit type=int
+FLAG mailpiece user update --markdown type=bool
+FLAG mailpiece user update --name type=string
+FLAG mailpiece user update --profile type=string
+FLAG mailpiece user update --quiet type=bool
+FLAG mailpiece user update --styled type=bool
+FLAG mailpiece user update --token type=string
+FLAG mailpiece user update --verbose type=bool
+FLAG mailpiece user view --agent type=bool
+FLAG mailpiece user view --api-url type=string
+FLAG mailpiece user view --count type=bool
+FLAG mailpiece user view --help type=bool
+FLAG mailpiece user view --ids-only type=bool
+FLAG mailpiece user view --jq type=string
+FLAG mailpiece user view --json type=bool
+FLAG mailpiece user view --limit type=int
+FLAG mailpiece user view --markdown type=bool
+FLAG mailpiece user view --profile type=string
+FLAG mailpiece user view --quiet type=bool
+FLAG mailpiece user view --styled type=bool
+FLAG mailpiece user view --token type=string
+FLAG mailpiece user view --verbose type=bool
+FLAG mailpiece version --agent type=bool
+FLAG mailpiece version --api-url type=string
+FLAG mailpiece version --count type=bool
+FLAG mailpiece version --help type=bool
+FLAG mailpiece version --ids-only type=bool
+FLAG mailpiece version --jq type=string
+FLAG mailpiece version --json type=bool
+FLAG mailpiece version --limit type=int
+FLAG mailpiece version --markdown type=bool
+FLAG mailpiece version --profile type=string
+FLAG mailpiece version --quiet type=bool
+FLAG mailpiece version --styled type=bool
+FLAG mailpiece version --token type=string
+FLAG mailpiece version --verbose type=bool
+FLAG mailpiece view --agent type=bool
+FLAG mailpiece view --api-url type=string
+FLAG mailpiece view --count type=bool
+FLAG mailpiece view --help type=bool
+FLAG mailpiece view --ids-only type=bool
+FLAG mailpiece view --jq type=string
+FLAG mailpiece view --json type=bool
+FLAG mailpiece view --limit type=int
+FLAG mailpiece view --markdown type=bool
+FLAG mailpiece view --profile type=string
+FLAG mailpiece view --quiet type=bool
+FLAG mailpiece view --styled type=bool
+FLAG mailpiece view --token type=string
+FLAG mailpiece view --verbose type=bool
+SUB mailpiece api
+SUB mailpiece api delete
+SUB mailpiece api get
+SUB mailpiece api help
+SUB mailpiece api post
+SUB mailpiece api put
+SUB mailpiece api rm
+SUB mailpiece auth
+SUB mailpiece auth email
+SUB mailpiece auth email complete
+SUB mailpiece auth email help
+SUB mailpiece auth email start
+SUB mailpiece auth email verify
+SUB mailpiece auth help
+SUB mailpiece auth list
+SUB mailpiece auth login
+SUB mailpiece auth logout
+SUB mailpiece auth ls
+SUB mailpiece auth status
+SUB mailpiece auth switch
+SUB mailpiece cmds
+SUB mailpiece commands
+SUB mailpiece completion
+SUB mailpiece config
+SUB mailpiece config explain
+SUB mailpiece config help
+SUB mailpiece config show
+SUB mailpiece config view
+SUB mailpiece doctor
+SUB mailpiece help
+SUB mailpiece identity
+SUB mailpiece identity help
+SUB mailpiece identity show
+SUB mailpiece identity view
+SUB mailpiece journey
+SUB mailpiece journey email
+SUB mailpiece journey email activate
+SUB mailpiece journey email create
+SUB mailpiece journey email deactivate
+SUB mailpiece journey email delete
+SUB mailpiece journey email help
+SUB mailpiece journey email rm
+SUB mailpiece journey email show
+SUB mailpiece journey email test
+SUB mailpiece journey email update
+SUB mailpiece journey email view
+SUB mailpiece journey help
+SUB mailpiece journey list
+SUB mailpiece journey ls
+SUB mailpiece journey show
+SUB mailpiece journey view
+SUB mailpiece mcp
+SUB mailpiece post
+SUB mailpiece post create
+SUB mailpiece post delete
+SUB mailpiece post deliver
+SUB mailpiece post help
+SUB mailpiece post history
+SUB mailpiece post history help
+SUB mailpiece post history list
+SUB mailpiece post history ls
+SUB mailpiece post history show
+SUB mailpiece post history view
+SUB mailpiece post link
+SUB mailpiece post link help
+SUB mailpiece post link list
+SUB mailpiece post link ls
+SUB mailpiece post link update
+SUB mailpiece post list
+SUB mailpiece post ls
+SUB mailpiece post publish
+SUB mailpiece post relist
+SUB mailpiece post rm
+SUB mailpiece post schedule
+SUB mailpiece post show
+SUB mailpiece post test
+SUB mailpiece post unlist
+SUB mailpiece post unpublish
+SUB mailpiece post unschedule
+SUB mailpiece post update
+SUB mailpiece post view
+SUB mailpiece search
+SUB mailpiece settings
+SUB mailpiece settings handle
+SUB mailpiece settings handle help
+SUB mailpiece settings handle show
+SUB mailpiece settings handle update
+SUB mailpiece settings handle view
+SUB mailpiece settings help
+SUB mailpiece settings join-code
+SUB mailpiece settings join-code help
+SUB mailpiece settings join-code reset
+SUB mailpiece settings join-code show
+SUB mailpiece settings join-code update
+SUB mailpiece settings join-code view
+SUB mailpiece settings newsletter
+SUB mailpiece settings newsletter help
+SUB mailpiece settings newsletter show
+SUB mailpiece settings newsletter update
+SUB mailpiece settings newsletter view
+SUB mailpiece settings notifications
+SUB mailpiece settings notifications help
+SUB mailpiece settings notifications show
+SUB mailpiece settings notifications update
+SUB mailpiece settings notifications view
+SUB mailpiece settings sending
+SUB mailpiece settings sending help
+SUB mailpiece settings sending relay
+SUB mailpiece settings sending relay help
+SUB mailpiece settings sending relay remove
+SUB mailpiece settings sending relay update
+SUB mailpiece settings sending show
+SUB mailpiece settings sending smtp
+SUB mailpiece settings sending smtp help
+SUB mailpiece settings sending smtp remove
+SUB mailpiece settings sending smtp update
+SUB mailpiece settings sending update
+SUB mailpiece settings sending view
+SUB mailpiece settings subscribe-form
+SUB mailpiece settings subscribe-form help
+SUB mailpiece settings subscribe-form show
+SUB mailpiece settings subscribe-form update
+SUB mailpiece settings subscribe-form view
+SUB mailpiece setup
+SUB mailpiece setup claude
+SUB mailpiece setup help
+SUB mailpiece show
+SUB mailpiece signup
+SUB mailpiece signup complete
+SUB mailpiece signup help
+SUB mailpiece signup start
+SUB mailpiece signup verify
+SUB mailpiece skill
+SUB mailpiece skill help
+SUB mailpiece skill install
+SUB mailpiece snippet
+SUB mailpiece snippet create
+SUB mailpiece snippet delete
+SUB mailpiece snippet help
+SUB mailpiece snippet list
+SUB mailpiece snippet ls
+SUB mailpiece snippet rm
+SUB mailpiece snippet show
+SUB mailpiece snippet update
+SUB mailpiece snippet view
+SUB mailpiece subscriber
+SUB mailpiece subscriber activate
+SUB mailpiece subscriber bounce
+SUB mailpiece subscriber create
+SUB mailpiece subscriber deactivate
+SUB mailpiece subscriber delete
+SUB mailpiece subscriber help
+SUB mailpiece subscriber list
+SUB mailpiece subscriber ls
+SUB mailpiece subscriber rm
+SUB mailpiece subscriber show
+SUB mailpiece subscriber view
+SUB mailpiece token
+SUB mailpiece token create
+SUB mailpiece token delete
+SUB mailpiece token help
+SUB mailpiece token list
+SUB mailpiece token ls
+SUB mailpiece token rm
+SUB mailpiece user
+SUB mailpiece user help
+SUB mailpiece user show
+SUB mailpiece user update
+SUB mailpiece user view
+SUB mailpiece version
+SUB mailpiece view

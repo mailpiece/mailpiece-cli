@@ -1,0 +1,88 @@
+version: 2
+
+project_name: mailpiece
+
+before:
+  hooks:
+    - go mod tidy
+    - rm -rf completions
+    - mkdir completions
+    - sh -c "go run ./cmd/mailpiece completion bash > completions/mailpiece.bash"
+    - sh -c "go run ./cmd/mailpiece completion zsh > completions/mailpiece.zsh"
+    - sh -c "go run ./cmd/mailpiece completion fish > completions/mailpiece.fish"
+
+builds:
+  - id: mailpiece
+    main: ./cmd/mailpiece
+    binary: mailpiece
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+      - freebsd
+      - openbsd
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+
+archives:
+  - id: default
+    ids: [mailpiece]
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - MIT-LICENSE
+      - README.md
+      - completions/*
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: checksums.txt
+  algorithm: sha256
+
+signs:
+  - cmd: cosign
+    artifacts: checksum
+    output: true
+    signature: "${artifact}.bundle"
+    args:
+      - sign-blob
+      - --yes
+      - --new-bundle-format=true
+      - --bundle=${signature}
+      - ${artifact}
+
+changelog:
+  use: github-native
+
+release:
+  prerelease: auto
+  # Keep prerelease tags out of GitHub's latest release, which install.sh reads.
+  make_latest: "{{ if .Prerelease }}false{{ else }}auto{{ end }}"
+
+homebrew_casks:
+  - name: mailpiece
+    ids: [default]
+    # Do not update the tap for prerelease tags.
+    skip_upload: auto
+    repository:
+      owner: mailpiece
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    directory: Casks
+    homepage: "https://github.com/mailpiece/mailpiece-cli"
+    description: "Write, publish and mail a Mailpiece newsletter from the command line"
+    license: "MIT"
+    completions:
+      bash: "completions/mailpiece.bash"
+      zsh: "completions/mailpiece.zsh"
+      fish: "completions/mailpiece.fish"
