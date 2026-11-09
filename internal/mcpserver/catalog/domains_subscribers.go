@@ -2,15 +2,6 @@ package catalog
 
 var subscriberID = pathParam("subscriber_id", "The subscriber's ID (from a subscribers list)")
 
-// subscriberList is the list of the subscribers in one state.
-func subscriberList(action, path, summary string) *Operation {
-	return &Operation{
-		Action: action, Method: "GET", Path: path, ReadOnly: true, Paginated: true,
-		Summary: summary,
-		Params:  []Param{pageParam()},
-	}
-}
-
 // The subscribers domain: the people on the newsletter's list.
 func init() {
 	Register(&Domain{
@@ -70,11 +61,15 @@ func init() {
 				Doc:     "deliveries holds one page of the posts mailed to the subscriber, each with its id, created_at and status: sent, refused, unverified (handed over and never answered, so never sent again) or pending. page pages the deliveries.",
 				Params:  []Param{subscriberID, pageParam()},
 			},
-			subscriberList("list_bounced_subscribers", "/subscribers/bounced", "List the subscribers the mail server stopped delivering to, most recently bounced first"),
-			subscriberList("list_deactivated_subscribers", "/subscribers/deactivated", "List the subscribers an admin stopped, most recently stopped first"),
-			subscriberList("list_subscribers", "/subscribers", "List the confirmed subscribers, the people an issue is mailed to, newest first"),
-			subscriberList("list_unconfirmed_subscribers", "/subscribers/unconfirmed", "List the subscribers that have not answered their confirmation yet, newest first"),
-			subscriberList("list_unsubscribed_subscribers", "/subscribers/unsubscribed", "List the subscribers that left, most recently unsubscribed first"),
+			{
+				Action: "list_subscribers", Method: "GET", Path: "/subscribers", ReadOnly: true, Paginated: true,
+				Summary: "List the subscribers in one state: by default the confirmed ones, the people an issue is mailed to",
+				Doc:     "confirmed, the default, and unconfirmed are newest first; unsubscribed, bounced and deactivated put the most recently left, bounced or stopped first.",
+				Params: []Param{
+					pageParam(),
+					queryParam("status", "Filter by state", strEnum("Subscriber state", "confirmed", "unconfirmed", "unsubscribed", "bounced", "deactivated")),
+				},
+			},
 		},
 	})
 }

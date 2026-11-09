@@ -58,10 +58,7 @@ var subscriberListCmd = &cobra.Command{
 		if err := checkFlagValue("status", subscriberListStatus, mailpiece.SubscriberStatuses); err != nil {
 			return err
 		}
-		path, err := mailpiece.SubscribersPath(subscriberListStatus)
-		if err != nil {
-			return convertSDKError(err)
-		}
+		path := mailpiece.SubscribersPath(subscriberListStatus)
 		again, noun := "mailpiece subscriber list", "subscribers"
 		if subscriberListStatus != "" {
 			again += " --status " + subscriberListStatus

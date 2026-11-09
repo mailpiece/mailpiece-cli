@@ -1,7 +1,9 @@
 package commands
 
 import (
+	"context"
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
 
@@ -39,51 +41,47 @@ var postColumns = render.Columns{
 const postBodyUsage = "The post's text, as Markdown or HTML. An <aside data-audience=\"web\"> or \"email\" box is kept as written"
 
 var (
-	postListPages     pageFlags
-	postListPublished bool
-	postListSent      bool
+	postListPages  pageFlags
+	postListStatus string
 )
 
 var postListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "List posts: what is ahead, what is published, or what was sent",
+	Short: "List posts: what is ahead, or the posts in one status",
 	Long: "Lists the drafts, newest first, then the scheduled posts, soonest first, all on one page.\n" +
-		"With --published, the posts published and not mailed; with --sent, the posts mailed to the\n" +
-		"list. Those two are paged, newest first.",
+		"With --status, the posts in one status, paged: draft, scheduled, published (published\n" +
+		"and not mailed) or sent (mailed to the list). all is the default.",
 	Args: cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if err := requireAuthAndAccount(); err != nil {
 			return err
 		}
-		if postListPublished && postListSent {
-			return errors.NewInvalidArgsError("--published and --sent cannot be used together")
+		if err := checkFlagValue("status", postListStatus, mailpiece.PostStatuses); err != nil {
+			return err
 		}
 		posts := getSDK().Posts()
 		breadcrumbs := make([]Breadcrumb, 0, 3)
 		breadcrumbs = append(breadcrumbs, breadcrumb("show", "mailpiece post show POST_ID", "View a post"))
 
-		switch {
-		case postListPublished:
+		if postListStatus != "" && postListStatus != "all" {
 			return pagedList[mailpiece.Post]{
-				cols: postColumns, noun: "published posts", again: "mailpiece post list --published", breadcrumbs: breadcrumbs,
-			}.run(cmd, &postListPages, "/posts/published.json", posts.Published)
-		case postListSent:
-			return pagedList[mailpiece.Post]{
-				cols: postColumns, noun: "sent posts", again: "mailpiece post list --sent", breadcrumbs: breadcrumbs,
-			}.run(cmd, &postListPages, "/posts/sent.json", posts.Sent)
+				cols: postColumns, noun: postListStatus + " posts", again: "mailpiece post list --status " + postListStatus, breadcrumbs: breadcrumbs,
+			}.run(cmd, &postListPages, mailpiece.PostsPath(postListStatus), func(ctx context.Context, path string) ([]mailpiece.Post, *mailpiece.Response, error) {
+				return posts.List(ctx, postListStatus, path)
+			})
 		}
 
 		if postListPages.page != 0 {
-			return errors.NewInvalidArgsError("--page goes with --published or --sent: drafts and scheduled posts come on one page")
+			return errors.NewInvalidArgsError("--page goes with --status: drafts and scheduled posts come on one page")
 		}
-		data, _, err := posts.List(cmd.Context())
+		data, _, err := posts.List(cmd.Context(), "", "")
 		if err != nil {
 			return convertSDKError(err)
 		}
 		items := normalizeAny(data)
 		breadcrumbs = append(breadcrumbs,
-			breadcrumb("published", "mailpiece post list --published", "List the published posts"),
-			breadcrumb("sent", "mailpiece post list --sent", "List the sent posts"),
+			breadcrumb("published", "mailpiece post list --status published", "List the published posts"),
+			breadcrumb("sent", "mailpiece post list --status sent", "List the sent posts"),
 		)
 		printList(items, postColumns, fmt.Sprintf("%d drafts and scheduled posts", dataCount(items)), breadcrumbs)
 		return nil
@@ -297,8 +295,7 @@ func init() {
 	rootCmd.AddCommand(postCmd)
 
 	postListPages.register(postListCmd)
-	postListCmd.Flags().BoolVar(&postListPublished, "published", false, "List the posts published and not mailed")
-	postListCmd.Flags().BoolVar(&postListSent, "sent", false, "List the posts mailed to the list")
+	postListCmd.Flags().StringVar(&postListStatus, "status", "", "Status to list: "+strings.Join(mailpiece.PostStatuses, ", ")+" (default all)")
 	postCmd.AddCommand(postListCmd)
 
 	postCmd.AddCommand(postShowCmd)

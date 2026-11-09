@@ -30,7 +30,7 @@ func TestSubscriberList(t *testing.T) {
 		mock, result := mockTest(t)
 		mock.GetWithPaginationResponse = &APIResponse{
 			StatusCode: 200,
-			LinkNext:   "/acme/subscribers/bounced.json?page=3",
+			LinkNext:   "/acme/subscribers.json?status=bounced&page=3",
 			Data:       []any{map[string]any{"id": "s1", "email": "ana@example.com", "status": "bounced"}},
 		}
 
@@ -41,7 +41,7 @@ func TestSubscriberList(t *testing.T) {
 		subscriberListPages.page = 0
 
 		assertExitCode(t, err, 0)
-		if got := mock.GetWithPaginationCalls[0].Path; got != "/subscribers/bounced.json?page=2" {
+		if got := mock.GetWithPaginationCalls[0].Path; got != "/subscribers.json?status=bounced&page=2" {
 			t.Errorf("expected the bounced list's second page, got '%s'", got)
 		}
 		if result.Response.Summary != "1 bounced subscribers (page 2)" {

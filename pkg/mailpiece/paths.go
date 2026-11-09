@@ -15,9 +15,6 @@ func ValidateNumber(number int64) error {
 	return nil
 }
 
-// segment is a path segment the SDK supplies itself, such as a kind's plural.
-type segment string
-
 // Path builds an API path from format and args: a string is an id, escaped; an
 // int64 is a number. It is how a list's own path is built to ask for another of
 // its pages.
@@ -26,7 +23,7 @@ func Path(format string, args ...any) (string, error) {
 }
 
 // buildPath fills format's verbs with args, each held to its form: a string is an
-// id, escaped; an int64 is a number; a segment is escaped as it is.
+// id, escaped; an int64 is a number.
 func buildPath(format string, args ...any) (string, error) {
 	filled := make([]any, len(args))
 	for i, arg := range args {
@@ -38,10 +35,8 @@ func buildPath(format string, args ...any) (string, error) {
 				return "", err
 			}
 			filled[i] = v
-		case segment:
-			filled[i] = url.PathEscape(string(v))
 		default:
-			panic(fmt.Sprintf("mailpiece: buildPath takes ids, numbers and segments, got %T", arg))
+			panic(fmt.Sprintf("mailpiece: buildPath takes ids and numbers, got %T", arg))
 		}
 	}
 	return fmt.Sprintf(format, filled...), nil

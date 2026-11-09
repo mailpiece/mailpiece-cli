@@ -164,7 +164,7 @@ when anything here is unclear. **Never invent a credential, a domain or an addre
 
 | Resource | List | Show | Create | Other |
 |----------|------|------|--------|-------|
-| post | `post list`, `post list --published`, `post list --sent` | `post show POST_ID` | `post create` | `post update POST_ID`, `post delete POST_ID` |
+| post | `post list [--status STATUS]` | `post show POST_ID` | `post create` | `post update POST_ID`, `post delete POST_ID` |
 | post release | - | - | - | `post publish`, `post unpublish`, `post schedule`, `post unschedule`, `post deliver`, `post test`, `post relist`, `post unlist` (each takes `POST_ID`) |
 | post link | `post link list POST_ID` | - | - | `post link update POST_ID LINK_ID --url URL` |
 | post history | `post history list POST_ID` | `post history show POST_ID REVISION_ID\|latest` | - | - |
@@ -436,7 +436,8 @@ the person asked for exactly that.** The mail leaves for the whole list and cann
 ### Reading
 
 - `post list` is what is ahead: every draft, newest first, then every scheduled post, soonest first,
-  on one page. `--published` (published, not mailed) and `--sent` (mailed) are paged: `--page N`, `--all`.
+  on one page. `--status` lists one status instead, paged (`--page N`, `--all`): `draft`, `scheduled`,
+  `published` (published, not mailed) or `sent` (mailed). `all` is the default.
 - A post's state is read from its fields: `published` and `published_at`, `sent_at`,
   `scheduled_posting_at` with `scheduled_delivery`, and `visibility` (`listed`, `unlisted`: reached by
   its link only, `email_only`: no page). `public_url` is there only while the post has a page.
@@ -691,9 +692,9 @@ the writes, paired with a write token. `--domains posts,subscribers` narrows the
 
 | Tool | Actions |
 |------|---------|
-| `mailpiece_posts` | `list_posts`, `list_published_posts`, `list_sent_posts`, `get_post`, `create_post`, `update_post`, `delete_post`, `publish_post`, `unpublish_post`, `schedule_post`, `unschedule_post`, `deliver_post`, `test_post`, `relist_post`, `unlist_post`, `list_post_links`, `update_post_link`, `list_post_revisions`, `get_post_revision` |
+| `mailpiece_posts` | `list_posts`, `get_post`, `create_post`, `update_post`, `delete_post`, `publish_post`, `unpublish_post`, `schedule_post`, `unschedule_post`, `deliver_post`, `test_post`, `relist_post`, `unlist_post`, `list_post_links`, `update_post_link`, `list_post_revisions`, `get_post_revision` |
 | `mailpiece_search` | `search` |
-| `mailpiece_subscribers` | `list_subscribers`, `list_unconfirmed_subscribers`, `list_unsubscribed_subscribers`, `list_bounced_subscribers`, `list_deactivated_subscribers`, `get_subscriber`, `create_subscriber`, `deactivate_subscriber`, `activate_subscriber`, `bounce_subscriber`, `bounce_subscriber_address`, `delete_subscriber` |
+| `mailpiece_subscribers` | `list_subscribers`, `get_subscriber`, `create_subscriber`, `deactivate_subscriber`, `activate_subscriber`, `bounce_subscriber`, `bounce_subscriber_address`, `delete_subscriber` |
 | `mailpiece_snippets` | `list_snippets`, `get_snippet`, `create_snippet`, `update_snippet`, `delete_snippet` |
 | `mailpiece_journeys` | `list_journeys`, `get_journey`, `get_journey_email`, `create_journey_email`, `update_journey_email`, `delete_journey_email`, `activate_journey_email`, `deactivate_journey_email`, `test_journey_email` |
 | `mailpiece_settings` | `get_newsletter`, `get_handle`, `get_sending`, `get_subscribe_form`, `get_join_code`, `get_notifications`, and `update_` each, `reset_join_code` |

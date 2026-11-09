@@ -32,36 +32,48 @@ func TestPostList(t *testing.T) {
 		if result.Response.Summary != "2 drafts and scheduled posts" {
 			t.Errorf("summary = %q", result.Response.Summary)
 		}
-		if got := registerBreadcrumb(result, "sent"); got != "mailpiece post list --sent" {
+		if got := registerBreadcrumb(result, "sent"); got != "mailpiece post list --status sent" {
 			t.Errorf("sent breadcrumb = %q", got)
 		}
 	})
 
-	t.Run("--published and --sent read their own paged lists", func(t *testing.T) {
-		for flag, want := range map[string]string{"published": "/posts/published.json?page=2", "sent": "/posts/sent.json?page=2"} {
+	t.Run("--status all lists what is ahead, on one page", func(t *testing.T) {
+		mock, _ := mockTest(t)
+		mock.WithListData([]any{map[string]any{"id": "p1", "title": "Draft"}})
+		registerSetFlags(t, postListCmd, "status", "all")
+
+		assertExitCode(t, postListCmd.RunE(postListCmd, nil), 0)
+
+		if got := mock.GetWithPaginationCalls[0].Path; got != "/posts.json" {
+			t.Errorf("path = %q", got)
+		}
+	})
+
+	t.Run("--status reads a paged list", func(t *testing.T) {
+		for _, status := range []string{"draft", "scheduled", "published", "sent"} {
 			mock, result := mockTest(t)
-			mock.GetWithPaginationResponse = &APIResponse{StatusCode: 200, Data: []any{map[string]any{"id": "p1"}}, LinkNext: "/acme/posts/" + flag + ".json?page=3"}
-			registerSetFlags(t, postListCmd, flag, "true", "page", "2")
+			mock.GetWithPaginationResponse = &APIResponse{StatusCode: 200, Data: []any{map[string]any{"id": "p1"}}, LinkNext: "/acme/posts.json?status=" + status + "&page=3"}
+			registerSetFlags(t, postListCmd, "status", status, "page", "2")
 
 			assertExitCode(t, postListCmd.RunE(postListCmd, nil), 0)
 
-			if got := mock.GetWithPaginationCalls[0].Path; got != want {
-				t.Errorf("--%s path = %q, want %q", flag, got, want)
+			if got, want := mock.GetWithPaginationCalls[0].Path, "/posts.json?status="+status+"&page=2"; got != want {
+				t.Errorf("--status %s path = %q, want %q", status, got, want)
 			}
-			if got := registerBreadcrumb(result, "next"); got != "mailpiece post list --"+flag+" --page 3" {
-				t.Errorf("--%s next breadcrumb = %q", flag, got)
+			if got := registerBreadcrumb(result, "next"); got != "mailpiece post list --status "+status+" --page 3" {
+				t.Errorf("--status %s next breadcrumb = %q", status, got)
 			}
 			registerResetFlags(postListCmd)
 			resetTest()
 		}
 	})
 
-	t.Run("refuses --page on the one-page list, and both lists at once", func(t *testing.T) {
+	t.Run("refuses --page on the one-page list, and a status the app has no list for", func(t *testing.T) {
 		mock, _ := mockTest(t)
 		registerSetFlags(t, postListCmd, "page", "2")
 		assertExitCode(t, postListCmd.RunE(postListCmd, nil), errors.ExitInvalidArgs)
 
-		registerSetFlags(t, postListCmd, "page", "0", "published", "true", "sent", "true")
+		registerSetFlags(t, postListCmd, "page", "0", "status", "archived")
 		assertExitCode(t, postListCmd.RunE(postListCmd, nil), errors.ExitInvalidArgs)
 
 		if len(mock.GetWithPaginationCalls) != 0 {

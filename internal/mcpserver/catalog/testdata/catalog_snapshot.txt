@@ -1117,9 +1117,7 @@ ACTIONS (RO = read-only):
 - get_post_revision (RO): Get one earlier version of a post, with its title and text
 - list_post_links (RO): List the links a post's issue was mailed with
 - list_post_revisions (RO): List a post's earlier versions, oldest first, without their text
-- list_posts (RO): List what is ahead: the drafts, newest first, then the scheduled posts, soonest first
-- list_published_posts (RO, paginated): List the posts published and not mailed, newest first
-- list_sent_posts (RO, paginated): List the posts mailed to the list, newest first
+- list_posts (RO, paginated): List what is ahead, the drafts then the scheduled posts, or the posts in one status
 - publish_post: Give a post its page, mailing nobody
 - relist_post: Show a published post that is on the web in the archive and the feed (visibility listed)
 - schedule_post: Set when a draft is released by itself; scheduling again moves the time. A scheduled delivery mails every active subscriber when it runs, and that mail cannot be taken back; unschedule_post stops it before then.
@@ -1143,8 +1141,6 @@ ACTIONS (RO = read-only):
         "list_post_links",
         "list_post_revisions",
         "list_posts",
-        "list_published_posts",
-        "list_sent_posts",
         "publish_post",
         "relist_post",
         "schedule_post",
@@ -1356,18 +1352,8 @@ ACTIONS (RO = read-only):
   "action": "list_posts",
   "method": "GET",
   "path": "/posts",
-  "summary": "List what is ahead: the drafts, newest first, then the scheduled posts, soonest first",
-  "doc": "All of them on one page. Published and sent posts have lists of their own.",
-  "readonly": true,
-  "idempotent": false,
-  "destructive": false
-}
----- describe list_published_posts ----
-{
-  "action": "list_published_posts",
-  "method": "GET",
-  "path": "/posts/published",
-  "summary": "List the posts published and not mailed, newest first",
+  "summary": "List what is ahead, the drafts then the scheduled posts, or the posts in one status",
+  "doc": "With no status, or all, every draft, newest first, then every scheduled post, soonest first, in one list, never paged. Any other status is paged: draft newest first, scheduled latest first, published (published and not mailed) and sent most recently published first.",
   "readonly": true,
   "idempotent": false,
   "destructive": false,
@@ -1381,27 +1367,21 @@ ACTIONS (RO = read-only):
         "description": "Page number",
         "type": "integer"
       }
-    }
-  ]
-}
----- describe list_sent_posts ----
-{
-  "action": "list_sent_posts",
-  "method": "GET",
-  "path": "/posts/sent",
-  "summary": "List the posts mailed to the list, newest first",
-  "readonly": true,
-  "idempotent": false,
-  "destructive": false,
-  "paginated": true,
-  "params": [
+    },
     {
-      "name": "page",
+      "name": "status",
       "in": "query",
-      "description": "Page number; responses include next_page when more results exist.",
+      "description": "Filter by status",
       "schema": {
-        "description": "Page number",
-        "type": "integer"
+        "description": "Post status",
+        "enum": [
+          "all",
+          "draft",
+          "scheduled",
+          "published",
+          "sent"
+        ],
+        "type": "string"
       }
     }
   ]
@@ -1810,11 +1790,7 @@ ACTIONS (RO = read-only):
 - deactivate_subscriber: Stop mailing a subscriber, keeping it and its history; activate_subscriber resumes it.
 - delete_subscriber (destructive): Delete a subscriber for good, with its deliveries and journey history. This cannot be undone.
 - get_subscriber (RO, paginated): Show a subscriber with the issues mailed to it, newest first
-- list_bounced_subscribers (RO, paginated): List the subscribers the mail server stopped delivering to, most recently bounced first
-- list_deactivated_subscribers (RO, paginated): List the subscribers an admin stopped, most recently stopped first
-- list_subscribers (RO, paginated): List the confirmed subscribers, the people an issue is mailed to, newest first
-- list_unconfirmed_subscribers (RO, paginated): List the subscribers that have not answered their confirmation yet, newest first
-- list_unsubscribed_subscribers (RO, paginated): List the subscribers that left, most recently unsubscribed first
+- list_subscribers (RO, paginated): List the subscribers in one state: by default the confirmed ones, the people an issue is mailed to
 ---- input schema ----
 {
   "additionalProperties": false,
@@ -1828,11 +1804,7 @@ ACTIONS (RO = read-only):
         "deactivate_subscriber",
         "delete_subscriber",
         "get_subscriber",
-        "list_bounced_subscribers",
-        "list_deactivated_subscribers",
         "list_subscribers",
-        "list_unconfirmed_subscribers",
-        "list_unsubscribed_subscribers",
         "describe"
       ],
       "type": "string"
@@ -2019,56 +1991,13 @@ ACTIONS (RO = read-only):
     }
   ]
 }
----- describe list_bounced_subscribers ----
-{
-  "action": "list_bounced_subscribers",
-  "method": "GET",
-  "path": "/subscribers/bounced",
-  "summary": "List the subscribers the mail server stopped delivering to, most recently bounced first",
-  "readonly": true,
-  "idempotent": false,
-  "destructive": false,
-  "paginated": true,
-  "params": [
-    {
-      "name": "page",
-      "in": "query",
-      "description": "Page number; responses include next_page when more results exist.",
-      "schema": {
-        "description": "Page number",
-        "type": "integer"
-      }
-    }
-  ]
-}
----- describe list_deactivated_subscribers ----
-{
-  "action": "list_deactivated_subscribers",
-  "method": "GET",
-  "path": "/subscribers/deactivated",
-  "summary": "List the subscribers an admin stopped, most recently stopped first",
-  "readonly": true,
-  "idempotent": false,
-  "destructive": false,
-  "paginated": true,
-  "params": [
-    {
-      "name": "page",
-      "in": "query",
-      "description": "Page number; responses include next_page when more results exist.",
-      "schema": {
-        "description": "Page number",
-        "type": "integer"
-      }
-    }
-  ]
-}
 ---- describe list_subscribers ----
 {
   "action": "list_subscribers",
   "method": "GET",
   "path": "/subscribers",
-  "summary": "List the confirmed subscribers, the people an issue is mailed to, newest first",
+  "summary": "List the subscribers in one state: by default the confirmed ones, the people an issue is mailed to",
+  "doc": "confirmed, the default, and unconfirmed are newest first; unsubscribed, bounced and deactivated put the most recently left, bounced or stopped first.",
   "readonly": true,
   "idempotent": false,
   "destructive": false,
@@ -2082,49 +2011,21 @@ ACTIONS (RO = read-only):
         "description": "Page number",
         "type": "integer"
       }
-    }
-  ]
-}
----- describe list_unconfirmed_subscribers ----
-{
-  "action": "list_unconfirmed_subscribers",
-  "method": "GET",
-  "path": "/subscribers/unconfirmed",
-  "summary": "List the subscribers that have not answered their confirmation yet, newest first",
-  "readonly": true,
-  "idempotent": false,
-  "destructive": false,
-  "paginated": true,
-  "params": [
+    },
     {
-      "name": "page",
+      "name": "status",
       "in": "query",
-      "description": "Page number; responses include next_page when more results exist.",
+      "description": "Filter by state",
       "schema": {
-        "description": "Page number",
-        "type": "integer"
-      }
-    }
-  ]
-}
----- describe list_unsubscribed_subscribers ----
-{
-  "action": "list_unsubscribed_subscribers",
-  "method": "GET",
-  "path": "/subscribers/unsubscribed",
-  "summary": "List the subscribers that left, most recently unsubscribed first",
-  "readonly": true,
-  "idempotent": false,
-  "destructive": false,
-  "paginated": true,
-  "params": [
-    {
-      "name": "page",
-      "in": "query",
-      "description": "Page number; responses include next_page when more results exist.",
-      "schema": {
-        "description": "Page number",
-        "type": "integer"
+        "description": "Subscriber state",
+        "enum": [
+          "confirmed",
+          "unconfirmed",
+          "unsubscribed",
+          "bounced",
+          "deactivated"
+        ],
+        "type": "string"
       }
     }
   ]

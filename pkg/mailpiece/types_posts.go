@@ -1,5 +1,10 @@
 package mailpiece
 
+// PostStatuses are the lists of posts the app keeps (Post::STATUSES): "all", the
+// default, is what is ahead, every draft then every scheduled post, unpaged; the
+// others are paged.
+var PostStatuses = []string{"all", "draft", "scheduled", "published", "sent"}
+
 // PostVisibilities are the values a post's visibility takes (Post::Publishable::VISIBILITIES):
 // listed in the archive and the feed, reached by its link only, or with no page at all.
 var PostVisibilities = []string{"listed", "unlisted", "email_only"}
