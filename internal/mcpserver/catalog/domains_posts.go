@@ -74,19 +74,13 @@ func init() {
 				Params:  []Param{postIDParam()},
 			},
 			{
-				Action: "list_posts", Method: "GET", Path: "/posts", ReadOnly: true,
-				Summary: "List what is ahead: the drafts, newest first, then the scheduled posts, soonest first",
-				Doc:     "All of them on one page. Published and sent posts have lists of their own.",
-			},
-			{
-				Action: "list_published_posts", Method: "GET", Path: "/posts/published", ReadOnly: true, Paginated: true,
-				Summary: "List the posts published and not mailed, newest first",
-				Params:  []Param{pageParam()},
-			},
-			{
-				Action: "list_sent_posts", Method: "GET", Path: "/posts/sent", ReadOnly: true, Paginated: true,
-				Summary: "List the posts mailed to the list, newest first",
-				Params:  []Param{pageParam()},
+				Action: "list_posts", Method: "GET", Path: "/posts", ReadOnly: true, Paginated: true,
+				Summary: "List what is ahead, the drafts then the scheduled posts, or the posts in one status",
+				Doc:     "With no status, or all, every draft, newest first, then every scheduled post, soonest first, in one list, never paged. Any other status is paged: draft newest first, scheduled latest first, published (published and not mailed) and sent most recently published first.",
+				Params: []Param{
+					pageParam(),
+					queryParam("status", "Filter by status", strEnum("Post status", "all", "draft", "scheduled", "published", "sent")),
+				},
 			},
 			{
 				Action: "publish_post", Method: "POST", Path: "/posts/{post_id}/publication",

@@ -2,6 +2,7 @@ package mailpiece
 
 import (
 	"context"
+	"net/url"
 	"strconv"
 )
 
@@ -13,23 +14,19 @@ func NewSubscribersService(c *AccountClient) *SubscribersService {
 	return &SubscribersService{client: c}
 }
 
-// SubscribersPath is the list of the subscribers in a state: the ones mailed
-// ("confirmed", or "") at /subscribers.json, every other state on a list of
-// its own.
-func SubscribersPath(status string) (string, error) {
-	if status == "" || status == "confirmed" {
-		return "/subscribers.json", nil
+// SubscribersPath is the list of the subscribers in a state, named by its status
+// parameter; with none, the app lists the ones mailed, the confirmed ones.
+func SubscribersPath(status string) string {
+	if status == "" {
+		return "/subscribers.json"
 	}
-	return buildPath("/subscribers/%s.json", segment(status))
+	return "/subscribers.json?status=" + url.QueryEscape(status)
 }
 
 // List returns one page of the subscribers in a state, "" being the ones mailed.
 func (s *SubscribersService) List(ctx context.Context, status, path string) ([]Subscriber, *Response, error) {
 	if path == "" {
-		var err error
-		if path, err = SubscribersPath(status); err != nil {
-			return nil, nil, err
-		}
+		path = SubscribersPath(status)
 	}
 	return decodeList[Subscriber](s.client.Get(ctx, path))
 }

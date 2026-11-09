@@ -1,6 +1,9 @@
 package mailpiece
 
-import "context"
+import (
+	"context"
+	"net/url"
+)
 
 // PostsService handles a newsletter's posts: writing them, releasing them, and the links
 // and revisions they keep. Admins only.
@@ -11,20 +14,23 @@ func NewPostsService(c *AccountClient) *PostsService {
 	return &PostsService{client: c}
 }
 
-// List returns what is ahead: every draft, newest first, then every scheduled post,
-// soonest first. The app sends them all, unpaged.
-func (s *PostsService) List(ctx context.Context) ([]Post, *Response, error) {
-	return listAt[Post](ctx, s.client, "", "/posts.json")
+// PostsPath is the list of the posts in a status: what is ahead ("all", or "")
+// at /posts.json, every other status named by its status parameter.
+func PostsPath(status string) string {
+	if status == "" || status == "all" {
+		return "/posts.json"
+	}
+	return "/posts.json?status=" + url.QueryEscape(status)
 }
 
-// Published returns one page of the posts published and not mailed, newest first.
-func (s *PostsService) Published(ctx context.Context, path string) ([]Post, *Response, error) {
-	return listAt[Post](ctx, s.client, path, "/posts/published.json")
-}
-
-// Sent returns one page of the posts mailed to the list, newest first.
-func (s *PostsService) Sent(ctx context.Context, path string) ([]Post, *Response, error) {
-	return listAt[Post](ctx, s.client, path, "/posts/sent.json")
+// List returns the posts in a status. What is ahead comes whole and unpaged: every
+// draft, newest first, then every scheduled post, soonest first. Every other status
+// comes one page at a time, path being a list's own path with its page.
+func (s *PostsService) List(ctx context.Context, status, path string) ([]Post, *Response, error) {
+	if path == "" {
+		path = PostsPath(status)
+	}
+	return decodeList[Post](s.client.Get(ctx, path))
 }
 
 // Get returns a post by id.

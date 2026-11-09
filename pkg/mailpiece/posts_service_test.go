@@ -11,17 +11,22 @@ func TestPostsService(t *testing.T) {
 	sdkRunCases(t, []sdkCase{
 		{name: "list", method: "GET", uri: "/acme/posts.json", reply: "[]",
 			call: func(ctx context.Context, ac *AccountClient) error {
-				_, _, err := NewPostsService(ac).List(ctx)
+				_, _, err := NewPostsService(ac).List(ctx, "", "")
 				return err
 			}},
-		{name: "published", method: "GET", uri: "/acme/posts/published.json", reply: "[]",
+		{name: "list all is the same list", method: "GET", uri: "/acme/posts.json", reply: "[]",
 			call: func(ctx context.Context, ac *AccountClient) error {
-				_, _, err := NewPostsService(ac).Published(ctx, "")
+				_, _, err := NewPostsService(ac).List(ctx, "all", "")
 				return err
 			}},
-		{name: "sent, another page", method: "GET", uri: "/acme/posts/sent.json?page=2", reply: "[]",
+		{name: "list a status", method: "GET", uri: "/acme/posts.json?status=published", reply: "[]",
 			call: func(ctx context.Context, ac *AccountClient) error {
-				_, _, err := NewPostsService(ac).Sent(ctx, "/posts/sent.json?page=2")
+				_, _, err := NewPostsService(ac).List(ctx, "published", "")
+				return err
+			}},
+		{name: "list a page", method: "GET", uri: "/acme/posts.json?status=sent&page=2", reply: "[]",
+			call: func(ctx context.Context, ac *AccountClient) error {
+				_, _, err := NewPostsService(ac).List(ctx, "sent", "/posts.json?status=sent&page=2")
 				return err
 			}},
 		{name: "get", method: "GET", uri: "/acme/posts/p1.json",

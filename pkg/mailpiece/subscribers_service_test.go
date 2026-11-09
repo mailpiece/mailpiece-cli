@@ -12,19 +12,19 @@ func TestSubscribersService(t *testing.T) {
 				_, _, err := NewSubscribersService(ac).List(ctx, "", "")
 				return err
 			}},
-		{name: "list confirmed is the same list", method: "GET", uri: "/acme/subscribers.json", reply: "[]",
+		{name: "list confirmed", method: "GET", uri: "/acme/subscribers.json?status=confirmed", reply: "[]",
 			call: func(ctx context.Context, ac *AccountClient) error {
 				_, _, err := NewSubscribersService(ac).List(ctx, "confirmed", "")
 				return err
 			}},
-		{name: "list a state", method: "GET", uri: "/acme/subscribers/bounced.json", reply: "[]",
+		{name: "list a state", method: "GET", uri: "/acme/subscribers.json?status=bounced", reply: "[]",
 			call: func(ctx context.Context, ac *AccountClient) error {
 				_, _, err := NewSubscribersService(ac).List(ctx, "bounced", "")
 				return err
 			}},
-		{name: "list a page", method: "GET", uri: "/acme/subscribers/unsubscribed.json?page=2", reply: "[]",
+		{name: "list a page", method: "GET", uri: "/acme/subscribers.json?status=unsubscribed&page=2", reply: "[]",
 			call: func(ctx context.Context, ac *AccountClient) error {
-				_, _, err := NewSubscribersService(ac).List(ctx, "unsubscribed", "/subscribers/unsubscribed.json?page=2")
+				_, _, err := NewSubscribersService(ac).List(ctx, "unsubscribed", "/subscribers.json?status=unsubscribed&page=2")
 				return err
 			}},
 		{name: "get", method: "GET", uri: "/acme/subscribers/s1.json",

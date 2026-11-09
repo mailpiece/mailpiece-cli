@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/spf13/cobra"
 
@@ -46,7 +47,7 @@ func (l pagedList[T]) run(cmd *cobra.Command, p *pageFlags, path string, fetch f
 		return errors.NewInvalidArgsError("--all and --page cannot be used together")
 	}
 	if p.page > 0 {
-		path += "?page=" + strconv.Itoa(p.page)
+		path = withPage(path, p.page)
 	}
 
 	var items any
@@ -85,6 +86,15 @@ func (l pagedList[T]) run(cmd *cobra.Command, p *pageFlags, path string, fetch f
 
 	printListPaginated(items, l.cols, hasNext, linkNext, p.all, summary, breadcrumbs)
 	return nil
+}
+
+// withPage asks path for a page, after any query the path already carries.
+func withPage(path string, page int) string {
+	separator := "?"
+	if strings.Contains(path, "?") {
+		separator = "&"
+	}
+	return path + separator + "page=" + strconv.Itoa(page)
 }
 
 // jsonAnySlice turns the raw pages GetAll collects into maps for the output layer.

@@ -341,6 +341,17 @@ func TestListPath(t *testing.T) {
 	})
 }
 
+func TestWithPage(t *testing.T) {
+	for path, want := range map[string]string{
+		"/fixtures.json":              "/fixtures.json?page=2",
+		"/fixtures.json?status=ready": "/fixtures.json?status=ready&page=2",
+	} {
+		if got := withPage(path, 2); got != want {
+			t.Errorf("withPage(%q, 2) = %q, want %q", path, got, want)
+		}
+	}
+}
+
 func TestJSONAnySlice(t *testing.T) {
 	got := jsonAnySlice(nil)
 	maps, ok := got.([]map[string]any)
