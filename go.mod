@@ -7,7 +7,7 @@ require (
 	github.com/basecamp/mcp v0.0.0-20260910231116-bbf690fc1b14
 	github.com/charmbracelet/huh v1.0.0
 	github.com/charmbracelet/lipgloss v1.1.0
-	github.com/charmbracelet/x/ansi v0.11.9
+	github.com/charmbracelet/x/ansi v0.11.10
 	github.com/charmbracelet/x/term v0.2.2
 	github.com/hashicorp/go-version v1.9.0
 	github.com/itchyny/gojq v0.12.20
